@@ -1,0 +1,154 @@
+﻿@model Galaxy.Entities.User
+@section styles{
+    <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/iCheck/all.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/datepicker/datepicker3.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/select2/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
+}
+@section scripts{
+    <script src="~/lib/AdminLTE/plugins/datepicker/bootstrap-datepicker.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/select2/select2.full.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/Users/Add.js" asp-append-version="true"></script>
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
+    <section class="content-header">
+        <h1>
+            <span>用户管理</span>
+            <small>新增</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">系统管理</a></li>
+            <li class="active">用户管理</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-info">
+                    <form id="user-form" name="user-form" class="form-horizontal bv-form" novalidate="novalidate">
+                        <input type="hidden" name="id">
+                        <input type="hidden" name="version">
+                        <input type="hidden" name="isSuperAdmin">
+                        <input type="hidden" name="createDateTime" data-flag="date" data-format="yyyy-mm-dd hh:ii:ss">
+                        <input type="hidden" name="deleted">
+                        <input type="hidden" value="da7cf6f3-88a1-47ba-9d09-e2e8c7522f5f" id="csrftoken">
+                        <input type="hidden" id="avatarId" name="avatarId">
+                        <div class="box-header">
+                            <div class="col-xs-12 text-center">
+                                <div class="avatar-container text-center">
+                                    <img src="~/images/avatar.jpg" id="avatarImg" class="avatar-img">
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-camera" data-btn-type="upload"><i class="fa fa-camera">&nbsp;上传/更改头像</i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <label for="name" class="col-sm-3 control-label">姓名</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="name" value="@Model.Name" name="name" placeholder="姓名" data-bv-field="name">
+                                        <i class="form-control-feedback" data-bv-icon-for="name" style="display: none;"></i>
+                                    </div>
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <label for="birthday" class="col-sm-3 control-label">出生日期</label>
+                                    <div class="input-group date col-sm-8" style="padding-left: 15px; padding-right: 15px;">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control" data-flag="datepicker" value="@Model.Birthday.ToString("yyyy-MM-dd")" data-format="yyyy-mm-dd" id="birthday" name="birthday" placeholder="出生日期" data-bv-field="birthday" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telphone" class="col-sm-3 control-label">部门</label>
+
+                                    <div class="col-sm-6">
+                                        <input type="hidden" name="deptId" id="deptId" />
+                                        <input type="text" class="form-control" id="deptName" value="" placeholder="所在部门" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-info" data-flag="org">
+                                            <i class="fa fa-sitemap"></i>&nbsp;选择
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telphone" class="col-sm-3 control-label">座机</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="telphone" name="telphone" value="@Model.Telephone" placeholder="座机">
+                                    </div>
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <label for="email" class="col-sm-3 control-label">Email</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="email" name="email" value="@Model.Email" placeholder="Email" data-bv-field="email" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    <label class="col-sm-3 control-label">性别</label>
+
+                                    <div class="col-sm-8">
+                                        <label class="control-label">
+                                            <div class="iradio_square-green" aria-checked="false" aria-disabled="false">
+                                                <input type="radio" name="sex" data-flag="icheck" class="square-green" value="1" data-bv-field="sex" style="position: absolute; opacity: 0;" />
+                                            </div>
+                                            男
+                                        </label> &nbsp;
+                                        <label class="control-label">
+                                            <div class="iradio_square-green" aria-checked="false" aria-disabled="false">
+                                                <input type="radio" name="sex" data-flag="icheck" class="square-green" value="0" data-bv-field="sex" style="position: absolute; opacity: 0;">
+                                            </div>
+                                            女
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <label for="loginName" class="col-sm-3 control-label">登录名</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="loginName" value="@Model.UserName" name="loginName" placeholder="登录名" data-bv-field="loginName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobile" class="col-sm-3 control-label">手机</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="mobile" value="@Model.Phone" name="mobile" placeholder="手机">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qq" class="col-sm-3 control-label">QQ</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="qq" value="@Model.QQ" name="qq" placeholder="QQ">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer text-right">
+                            <!--以下两种方式提交验证,根据所需选择-->
+                            <button type="button" class="btn btn-primary" data-btn-type="cancel">取消</button>
+                            <button type="submit" class="btn btn-primary" data-btn-type="save">提交</button>
+                        </div>
+                        <!-- /.box-footer -->
+                        <input type="hidden" value="">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->

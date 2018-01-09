@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" href="~/favicon.ico">
+
+    <title>Galaxy</title>
+
+    <!-- Bootstrap 3.3.6 -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" asp-append-version="true" />
+    <!-- Ionicons -->
+    @*<link href="~/lib/Ionicons/css/ionicons.min.css" rel="stylesheet" asp-append-version="true" />*@
+    <!-- Theme style -->
+    <link href="~/lib/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet" asp-append-version="true" />
+    <!-- iCheck -->
+    <link href="~/lib/AdminLTE/plugins/iCheck/square/red.css" rel="stylesheet" asp-append-version="true" />
+
+    <!-- View specific styles -->
+    @RenderSection("styles", required: false)
+
+    <script type="text/javascript">
+        //This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
+        var abp = abp || {};
+        abp.appPath = '@ApplicationPath';
+    </script>
+
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="javascript:void(0);">Galaxy</a>
+        </div>
+        
+        @RenderBody()
+        <div class="row">
+            <div class="col-xs-12 text-center" style="color: #e9e9e9">
+                <small>&copy; @DateTime.Now.Year Galaxy. <b>Version </b></small>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/json2/json2.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+
+    <!-- iCheck -->
+    <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
+    <!-- bootstrapvalidator-->
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
+
+    <!-- View specific scripts -->
+    @RenderSection("scripts", required: false)
+</body>
+</html>

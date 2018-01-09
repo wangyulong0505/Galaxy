@@ -1,0 +1,222 @@
+﻿@model IEnumerable<Galaxy.Entities.User>
+@section styles{
+    <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/iCheck/all.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/datepicker/datepicker3.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/select2/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <style type="text/css">
+        .trchange {
+            background-color: #08C;
+            color: white;
+        }
+    </style>
+}
+@section scripts {
+    <script src="~/view-resources/Views/Users/Index.js" asp-append-version="true"></script>
+}
+<div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            用户管理
+            <small>列表</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href='@Url.Content("~/Home/Index")'><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">系统管理</a></li>
+            <li class="active">用户管理</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="user_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="dataTables_length" id="user_table_length">
+                                        <label>
+                                            <select name="user_table_length" id="pageSize" aria-controls="user_table" class="form-control input-sm">
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="-1">全部</option>
+                                            </select> 记录/页
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="dataTables_filter" id="searchDiv">
+                                        <input placeholder="请输入姓名" name="name" class="form-control" type="search" likeoption="true">
+                                        <input placeholder="请输入登录名" name="loginName" class="form-control" type="search" likeoption="true">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary" data-btn-type="search">查询</button>
+                                            <button type="button" class="btn btn-default" data-btn-type="reset">重置</button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" data-btn-type="add">新增</button>
+                                            <button type="button" class="btn btn-default" data-btn-type="edit">编辑</button>
+                                            <button type="button" class="btn btn-default" data-btn-type="delete">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="user_table" class="table table-border table-hover dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="user_table_info">
+                                        <thead>
+                                            <tr role="row">
+                                            <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
+                                            <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="姓名: activate to sort column ascending">姓名</th>
+                                            <th class="sorting_disabled text-center" rowspan="1" colspan="1" aria-label="所在部门">所在部门</th>
+                                            <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="性别: activate to sort column ascending">性别</th>
+                                            <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="出生年月: activate to sort column ascending">出生年月</th>
+                                            <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending">登录名</th>
+                                            <th class="sorting_disabled text-center" rowspan="1" colspan="1" aria-label="邮箱">邮箱</th><th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="手机">手机</th>
+                                            <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="QQ">QQ</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="402880e456223e8f015625231d8e0003" role="row" class="odd">
+                                                <td class="text-center sorting_1">1</td>
+                                                <td class=" text-center">billJiang-test</td>
+                                                <td class=" text-left">计算所部-&gt;综合应用一室</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2016-07-22</td>
+                                                <td class=" text-center">test</td>
+                                                <td class=" text-left">test@163.com</td>
+                                                <td class=" text-center">13813888888</td>
+                                                <td class=" text-center">475572229</td>
+                                            </tr>
+                                            <tr id="402880e95d0da971015d0dafd70f0000" role="row" class="even">
+                                                <td class="text-center sorting_1">2</td>
+                                                <td class=" text-center">推敲</td>
+                                                <td class=" text-left">计算所部-&gt;综合应用一室</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2017-07-04</td>
+                                                <td class=" text-center">jrn1012</td>
+                                                <td class=" text-left">475572229@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="402880e95d0da971015d0db12e3f0002" role="row" class="odd">
+                                                <td class="text-center sorting_1">3</td>
+                                                <td class=" text-center">室主任A</td>
+                                                <td class=" text-left">计算所部-&gt;综合应用一室</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2017-07-04</td>
+                                                <td class=" text-center">zrA</td>
+                                                <td class=" text-left">475572229@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="402880e95d0da971015d0db2ba2c0004" role="row" class="even">
+                                                <td class="text-center sorting_1">4</td>
+                                                <td class=" text-center">室主任B</td>
+                                                <td class=" text-left">计算所部-&gt;综合应用一室</td>
+                                                <td class=" text-center">女</td>
+                                                <td class=" text-center">2017-07-04</td>
+                                                <td class=" text-center">zrB</td>
+                                                <td class=" text-left">475572229@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="402880e95d0da971015d0db871450006" role="row" class="odd">
+                                                <td class="text-center sorting_1">5</td>
+                                                <td class=" text-center">正职领导A</td>
+                                                <td class=" text-left">计算所部</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2017-07-04</td>
+                                                <td class=" text-center">zzleaderA</td>
+                                                <td class=" text-left">475572229@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="402880e95d0da971015d0dbb93e10009" role="row" class="even">
+                                                <td class="text-center sorting_1">6</td>
+                                                <td class=" text-center">正职领导B</td>
+                                                <td class=" text-left">软件部</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2017-07-04</td>
+                                                <td class=" text-center">zzleaderB</td>
+                                                <td class=" text-left">475572229@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="402880e95d0da971015d0dbd12da000b" role="row" class="odd">
+                                                <td class="text-center sorting_1">7</td>
+                                                <td class=" text-center">C领导</td>
+                                                <td class=" text-left">软件部</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2017-07-04</td>
+                                                <td class=" text-center">leaderC</td>
+                                                <td class=" text-left">475572229@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="402880eb5c4f111a015c4f1c1ffd0002" role="row" class="even">
+                                                <td class="text-center sorting_1">8</td>
+                                                <td class=" text-center">java测试</td>
+                                                <td class=" text-left">培训部</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2017-07-04</td>
+                                                <td class=" text-center">test-java</td>
+                                                <td class=" text-left">test@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="8a8a80f05cc32020015cc32895240001" role="row" class="odd">
+                                                <td class="text-center sorting_1">9</td>
+                                                <td class=" text-center">申请人A</td>
+                                                <td class=" text-left">计算所部-&gt;综合应用一室</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2017-06-01</td>
+                                                <td class=" text-center">userA</td>
+                                                <td class=" text-left">test@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="8a8a80f05cc32020015cc32a0dea0002" role="row" class="even">
+                                                <td class="text-center sorting_1">10</td>
+                                                <td class=" text-center">申请人B</td>
+                                                <td class=" text-left">计算所部-&gt;综合应用二室</td>
+                                                <td class=" text-center">男</td>
+                                                <td class=" text-center">2017-06-20</td>
+                                                <td class=" text-center">userB</td>
+                                                <td class=" text-left">test@qq.com</td>
+                                                <td class=" text-center"></td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div id="user_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" id="user_table_info" role="status" aria-live="polite">第 1 至 10 项记录，共 22 项</div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_full_numbers" id="user_table_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button first disabled" id="user_table_first"><a href="#" aria-controls="user_table" data-dt-idx="0" tabindex="0">首页</a></li>
+                                            <li class="paginate_button previous disabled" id="user_table_previous"><a href="#" aria-controls="user_table" data-dt-idx="1" tabindex="0">上页</a></li>
+                                            <li class="paginate_button active"><a href="#" aria-controls="user_table" data-dt-idx="2" tabindex="0">1</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="user_table" data-dt-idx="3" tabindex="0">2</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="user_table" data-dt-idx="4" tabindex="0">3</a></li>
+                                            <li class="paginate_button next" id="user_table_next"><a href="#" aria-controls="user_table" data-dt-idx="5" tabindex="0">下页</a></li>
+                                            <li class="paginate_button last" id="user_table_last"><a href="#" aria-controls="user_table" data-dt-idx="6" tabindex="0">末页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

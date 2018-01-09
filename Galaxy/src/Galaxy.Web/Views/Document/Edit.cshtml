@@ -1,0 +1,550 @@
+﻿@section styles{
+    <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/iCheck/all.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/datepicker/datepicker3.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/select2/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
+    <!--editor.md-->
+    <link href="~/lib/editor.md/css/editormd.min.css" rel="stylesheet" asp-append-version="true" />
+    <!--bootstrap-tagsinput-->
+    <link href="~/lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-tagsinput/examples/assets/app.css" rel="stylesheet" />
+    <link href="~/lib/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/lib/AdminLTE/plugins/datepicker/bootstrap-datepicker.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/select2/select2.full.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
+    <script src="~/js/base.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/Document/Edit.js" asp-append-version="true"></script>
+    <!--editor.md-->
+    <script src="~/lib/editor.md/editormd.min.js" asp-append-version="true"></script>
+    <!--bootstrap-tagsinput-->
+    <script src="~/lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js" asp-append-version="true"></script>
+}
+
+<div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
+
+    <section class="content-header">
+        <h1>
+            <span>MarkDown编辑</span>
+            <small id="title_sm">编辑</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">系统管理</a></li>
+            <li class="active">Markdown编辑器</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row form-horizontal">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header bg-info" style="padding-bottom: 0">
+                        <div class="row" style="padding-bottom:5px;">
+                            <div class="col-sm-7">
+                                <div clas="form-group">
+                                    <input class="form-control" type="text" id="title" placeholder="请输入文章标题……">
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div clas="form-group">
+                                    <div class="bootstrap-tagsinput">
+                                        <span class="tag label label-info">null<span data-role="remove"></span></span> 
+                                        @*<span class="tag label label-info">quartz<span data-role="remove"></span></span> 
+                                        <span class="tag label label-info">自动任务<span data-role="remove"></span></span> 
+                                        <span class="tag label label-info">支持集群<span data-role="remove"></span></span> 
+                                        <span class="tag label label-info">代码生成器<span data-role="remove"></span></span> 
+                                        <span class="tag label label-info">AdminEAP<span data-role="remove"></span></span> 
+                                        <span class="tag label label-info">AdminLTE<span data-role="remove"></span></span> 
+                                        <span class="tag label label-info">freemarker<span data-role="remove"></span></span>*@ 
+                                        <input type="text" />
+                                    </div>
+                                    @*<input type="text" id="keywords" data-role="tagsinput" placeholder="关键字" style="display: none;" />*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-7">
+                                <div class="col-sm-4">
+                                    <select id="editormd-theme-select" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" style="width: 100%;">
+                                        <option selected="selected" value="">工具栏样式</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select id="editor-area-theme-select" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" style="width: 100%;">
+                                        <option selected="selected" value="">编辑区样式</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select id="preview-area-theme-select" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" style="width: 100%;">
+                                        <option selected="selected" value="">预览区样式</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-5 pull-right">
+                                <div class="col-sm-6">
+                                    <label class="control-label">
+                                        <div class="icheckbox_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                            <input type="checkbox" name="autoHeight" data-flag="icheck" class="square-green" id="autoHeight" style="position: absolute; opacity: 0;" />
+                                        </div> 自适应高度
+                                    </label>
+                                    <input type="hidden" name="code" id="code" value="" />
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <div class="btn-group ">
+                                        <button class="btn btn-default" id="backMD"><i class="fa fa-reply">&nbsp;&nbsp;返回</i></button>
+                                        <button class="btn btn-primary" id="submitMD"><i class="fa fa-save">&nbsp;&nbsp;保存</i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div clas="box-body">
+                        <div id="editormd" class="editormd editormd-vertical editormd-theme-default" style="width: 100%; height: 984px;">
+                            <textarea style="display:none;" class="editormd-markdown-textarea" placeholder="Enjoy Markdown! coding now..." name="editormd-markdown-doc"># 欢迎使用Markdown编辑器写文章
+
+                                本Markdown编辑器使用**Editor.md**修改而来，用它写技术文章，将会带来全新的体验哦：
+
+                                - **Markdown和扩展Markdown简洁的语法**
+                                - **代码块高亮**
+                                - **图片链接和图片上传**
+                                - ***LaTex*数学公式**
+                                - **UML序列图和流程图**
+                                - **离线写文章**
+                                - **导入导出Markdown文件**
+                                - **丰富的快捷键**
+
+                                -------------------
+
+                                ## 快捷键
+
+                                 - 加粗    `Ctrl + B`
+                                 - 斜体    `Ctrl + I`
+                                 - 引用    `Ctrl + Q`
+                                 - 插入链接    `Ctrl + L`
+                                 - 插入代码    `Ctrl + K`
+                                 - 插入图片    `Ctrl + G`
+                                 - 提升标题    `Ctrl + H`
+                                 - 有序列表    `Ctrl + O`
+                                 - 无序列表    `Ctrl + U`
+                                 - 横线    `Ctrl + R`
+                                 - 撤销    `Ctrl + Z`
+                                 - 重做    `Ctrl + Y`
+
+                                ## Markdown及扩展
+
+                                &gt; Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— &lt;a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank"&gt; [ 维基百科 ]
+
+                                使用简单的符号标识不同的标题，将某些文字标记为**粗体**或者*斜体*，创建一个[链接](http://www.csdn.net)等，详细语法参考帮助？。
+
+                                本编辑器支持 **Markdown Extra** , 　扩展了很多好用的功能。具体请参考[Github][2].
+
+                                ### 表格
+
+                                **Markdown　Extra**　表格语法：
+
+                                项目     | 价格
+                                -------- | ---
+                                Computer | $1600
+                                Phone    | $12
+                                Pipe     | $1
+
+                                可以使用冒号来定义对齐方式：
+
+                                | 项目      |    价格 | 数量  |
+                                | :-------- | --------:| :--: |
+                                | Computer  | 1600 元 |  5   |
+                                | Phone     |   12 元 |  12  |
+                                | Pipe      |    1 元 | 234  |
+
+
+                                ### 代码块
+                                代码块语法遵循标准markdown代码，例如：
+                                ``` python
+                                def somefunc(param1='', param2=0):
+                                    '''A docstring'''
+                                    if param1 &gt; param2: # interesting
+                                        print 'Greater'
+                                    return (param2 - param1 + 1) or None
+                                class SomeClass:
+                                    pass
+                                &gt;&gt;&gt; message = '''interpreter
+                                ... prompt'''
+                                ```
+
+
+                                ### 目录
+                                用 `[TOC]`来生成目录：
+
+                                [TOC]
+
+                                ### 数学公式
+                                使用MathJax渲染*LaTex* 数学公式，详见[math.stackexchange.com][1].
+
+                                 - 行内公式，数学公式为：$\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$。
+                                 - 块级公式：
+
+                                $$	x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+
+                                更多LaTex语法请参考 [这儿][3].
+
+                                ### UML 图:
+
+                                可以渲染序列图：
+
+                                ```sequence
+                                张三-&gt;李四: 嘿，小四儿, 写博客了没?
+                                Note right of 李四: 李四愣了一下，说：
+                                李四--&gt;张三: 忙得吐血，哪有时间写。
+                                ```
+
+                                或者流程图：
+
+                                ```flow
+                                st=&gt;start: 开始
+                                e=&gt;end: 结束
+                                op=&gt;operation: 我的操作
+                                cond=&gt;condition: 确认？
+
+                                st-&gt;op-&gt;cond
+                                cond(yes)-&gt;e
+                                cond(no)-&gt;op
+                                ```
+
+                                - 关于 **序列图** 语法，参考 [这儿][4],
+                                - 关于 **流程图** 语法，参考 [这儿][5].
+
+                                ## 离线写博客
+
+                                即使用户在没有网络的情况下，也可以通过本编辑器离线写文章（直接在曾经使用过的浏览器中输入[write.blog.csdn.net/mdeditor](http://write.blog.csdn.net/mdeditor)即可。**Markdown编辑器**使用浏览器离线存储将内容保存在本地。
+
+                                用户写文章的过程中，内容实时保存在浏览器缓存中，在用户关闭浏览器或者其它异常情况下，内容不会丢失。用户再次打开浏览器时，会显示上次用户正在编辑的没有发表的内容。
+
+                                文章发表后，本地缓存将被删除。　
+
+                                用户可以选择 &lt;i class="icon-disk"&gt;&lt;/i&gt; 把正在写的文章保存到服务器草稿箱，即使换浏览器或者清除缓存，内容也不会丢失。
+
+                                &gt; **注意：**虽然浏览器存储大部分时候都比较可靠，但为了您的数据安全，在联网后，**请务必及时发表或者保存到服务器草稿箱**
+                            </textarea>
+                            <div class="CodeMirror cm-s-default CodeMirror-wrap" style="font-size: 13px; width: 693.5px; margin-top: 40px; height: 943px;">
+                                <div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 54px;">
+                                    <textarea autocorrect="off" autocapitalize="off" spellcheck="false" style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none;" tabindex="0"></textarea>
+                                </div>
+                                <div class="CodeMirror-vscrollbar" cm-not-content="true" style="display: block; bottom: 0px;">
+                                    <div style="min-width: 1px; height: 2967px;"></div>
+                                </div>
+                                <div class="CodeMirror-hscrollbar" cm-not-content="true">
+                                    <div style="height: 100%; min-height: 1px; width: 0px;"></div>
+                                </div>
+                                <div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div>
+                                <div class="CodeMirror-gutter-filler" cm-not-content="true"></div>
+                            </div>
+                            <a href="javascript:;" class="fa fa-close editormd-preview-close-btn"></a>
+                            <textarea class="editormd-html-textarea" name="editormd-html-code">&lt;h1 id="h1--markdown-"&gt;&lt;a name="欢迎使用Markdown编辑器写文章" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;欢迎使用Markdown编辑器写文章&lt;/h1&gt;&lt;p&gt;本Markdown编辑器使用&lt;strong&gt;Editor.md&lt;/strong&gt;修改而来，用它写技术文章，将会带来全新的体验哦：&lt;/p&gt;
+                            &lt;ul&gt;
+                            &lt;li&gt;&lt;strong&gt;Markdown和扩展Markdown简洁的语法&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;代码块高亮&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;图片链接和图片上传&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;&lt;em&gt;LaTex&lt;/em&gt;数学公式&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;UML序列图和流程图&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;离线写文章&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;导入导出Markdown文件&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;丰富的快捷键&lt;/strong&gt;&lt;/li&gt;&lt;/ul&gt;
+                            &lt;hr&gt;
+                            &lt;h2 id="h2-u5FEBu6377u952E"&gt;&lt;a name="快捷键" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;快捷键&lt;/h2&gt;&lt;ul&gt;
+                            &lt;li&gt;加粗    &lt;code&gt;Ctrl + B&lt;/code&gt;&lt;/li&gt;&lt;li&gt;斜体    &lt;code&gt;Ctrl + I&lt;/code&gt;&lt;/li&gt;&lt;li&gt;引用    &lt;code&gt;Ctrl + Q&lt;/code&gt;&lt;/li&gt;&lt;li&gt;插入链接    &lt;code&gt;Ctrl + L&lt;/code&gt;&lt;/li&gt;&lt;li&gt;插入代码    &lt;code&gt;Ctrl + K&lt;/code&gt;&lt;/li&gt;&lt;li&gt;插入图片    &lt;code&gt;Ctrl + G&lt;/code&gt;&lt;/li&gt;&lt;li&gt;提升标题    &lt;code&gt;Ctrl + H&lt;/code&gt;&lt;/li&gt;&lt;li&gt;有序列表    &lt;code&gt;Ctrl + O&lt;/code&gt;&lt;/li&gt;&lt;li&gt;无序列表    &lt;code&gt;Ctrl + U&lt;/code&gt;&lt;/li&gt;&lt;li&gt;横线    &lt;code&gt;Ctrl + R&lt;/code&gt;&lt;/li&gt;&lt;li&gt;撤销    &lt;code&gt;Ctrl + Z&lt;/code&gt;&lt;/li&gt;&lt;li&gt;重做    &lt;code&gt;Ctrl + Y&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;
+                            &lt;h2 id="h2-markdown-"&gt;&lt;a name="Markdown及扩展" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;Markdown及扩展&lt;/h2&gt;&lt;blockquote&gt;
+                            &lt;p&gt;Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— &lt;a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank"&gt; [ 维基百科 ]&lt;/p&gt;
+                            &lt;/blockquote&gt;
+                            &lt;p&gt;使用简单的符号标识不同的标题，将某些文字标记为&lt;strong&gt;粗体&lt;/strong&gt;或者&lt;em&gt;斜体&lt;/em&gt;，创建一个&lt;a href="http://www.csdn.net"&gt;链接&lt;/a&gt;等，详细语法参考帮助？。&lt;/p&gt;
+                            &lt;p&gt;本编辑器支持 &lt;strong&gt;Markdown Extra&lt;/strong&gt; , 　扩展了很多好用的功能。具体请参考[Github][2].&lt;/p&gt;
+                            &lt;h3 id="h3-u8868u683C"&gt;&lt;a name="表格" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;表格&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Markdown　Extra&lt;/strong&gt;　表格语法：&lt;/p&gt;
+                            &lt;table&gt;
+                            &lt;thead&gt;
+                            &lt;tr&gt;
+                            &lt;th&gt;项目&lt;/th&gt;
+                            &lt;th&gt;价格&lt;/th&gt;
+                            &lt;/tr&gt;
+                            &lt;/thead&gt;
+                            &lt;tbody&gt;
+                            &lt;tr&gt;
+                            &lt;td&gt;Computer&lt;/td&gt;
+                            &lt;td&gt;$1600&lt;/td&gt;
+                            &lt;/tr&gt;
+                            &lt;tr&gt;
+                            &lt;td&gt;Phone&lt;/td&gt;
+                            &lt;td&gt;$12&lt;/td&gt;
+                            &lt;/tr&gt;
+                            &lt;tr&gt;
+                            &lt;td&gt;Pipe&lt;/td&gt;
+                            &lt;td&gt;$1&lt;/td&gt;
+                            &lt;/tr&gt;
+                            &lt;/tbody&gt;
+                            &lt;/table&gt;
+                            &lt;p&gt;可以使用冒号来定义对齐方式：&lt;/p&gt;
+                            &lt;table&gt;
+                            &lt;thead&gt;
+                            &lt;tr&gt;
+                            &lt;th style="text-align:left"&gt;项目&lt;/th&gt;
+                            &lt;th style="text-align:right"&gt;价格&lt;/th&gt;
+                            &lt;th style="text-align:center"&gt;数量&lt;/th&gt;
+                            &lt;/tr&gt;
+                            &lt;/thead&gt;
+                            &lt;tbody&gt;
+                            &lt;tr&gt;
+                            &lt;td style="text-align:left"&gt;Computer&lt;/td&gt;
+                            &lt;td style="text-align:right"&gt;1600 元&lt;/td&gt;
+                            &lt;td style="text-align:center"&gt;5&lt;/td&gt;
+                            &lt;/tr&gt;
+                            &lt;tr&gt;
+                            &lt;td style="text-align:left"&gt;Phone&lt;/td&gt;
+                            &lt;td style="text-align:right"&gt;12 元&lt;/td&gt;
+                            &lt;td style="text-align:center"&gt;12&lt;/td&gt;
+                            &lt;/tr&gt;
+                            &lt;tr&gt;
+                            &lt;td style="text-align:left"&gt;Pipe&lt;/td&gt;
+                            &lt;td style="text-align:right"&gt;1 元&lt;/td&gt;
+                            &lt;td style="text-align:center"&gt;234&lt;/td&gt;
+                            &lt;/tr&gt;
+                            &lt;/tbody&gt;
+                            &lt;/table&gt;
+                            &lt;h3 id="h3-u4EE3u7801u5757"&gt;&lt;a name="代码块" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;代码块&lt;/h3&gt;&lt;p&gt;代码块语法遵循标准markdown代码，例如：&lt;/p&gt;
+                            &lt;pre&gt;&lt;code class="lang-python"&gt;
+                            def somefunc(param1=&amp;#39;&amp;#39;, param2=0):
+                                &amp;#39;&amp;#39;&amp;#39;A docstring&amp;#39;&amp;#39;&amp;#39;
+                                if param1 &amp;gt; param2: # interesting
+                                    print &amp;#39;Greater&amp;#39;
+                                return (param2 - param1 + 1) or None
+                            class SomeClass:
+                                pass
+                            &amp;gt;&amp;gt;&amp;gt; message = &amp;#39;&amp;#39;&amp;#39;interpreter
+                            ... prompt&amp;#39;&amp;#39;&amp;#39;
+                            &lt;/code&gt;&lt;/pre&gt;
+                            &lt;h3 id="h3-u76EEu5F55"&gt;&lt;a name="目录" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;目录&lt;/h3&gt;&lt;p&gt;用 &lt;code&gt;[TOC]&lt;/code&gt;来生成目录：&lt;/p&gt;
+                            &lt;div class="markdown-toc editormd-markdown-toc"&gt;[TOC]&lt;/div&gt;&lt;h3 id="h3-u6570u5B66u516Cu5F0F"&gt;&lt;a name="数学公式" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;数学公式&lt;/h3&gt;&lt;p&gt;使用MathJax渲染&lt;em&gt;LaTex&lt;/em&gt; 数学公式，详见[math.stackexchange.com][1].&lt;/p&gt;
+                            &lt;ul&gt;
+                            &lt;li&gt;行内公式，数学公式为：$\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$。&lt;/li&gt;&lt;li&gt;块级公式：&lt;/li&gt;&lt;/ul&gt;
+                            &lt;p class="editormd-tex"&gt;    x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} &lt;/p&gt;
+                            &lt;p&gt;更多LaTex语法请参考 [这儿][3].&lt;/p&gt;
+                            &lt;h3 id="h3-uml-"&gt;&lt;a name="UML 图:" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;UML 图:&lt;/h3&gt;&lt;p&gt;可以渲染序列图：&lt;/p&gt;
+                            &lt;div class="sequence-diagram"&gt;张三-&gt;李四: 嘿，小四儿, 写博客了没?
+                            Note right of 李四: 李四愣了一下，说：
+                            李四--&gt;张三: 忙得吐血，哪有时间写。&lt;/div&gt;&lt;p&gt;或者流程图：&lt;/p&gt;
+                            &lt;div class="flowchart"&gt;st=&gt;start: 开始
+                            e=&gt;end: 结束
+                            op=&gt;operation: 我的操作
+                            cond=&gt;condition: 确认？
+
+                            st-&gt;op-&gt;cond
+                            cond(yes)-&gt;e
+                            cond(no)-&gt;op&lt;/div&gt;&lt;ul&gt;
+                            &lt;li&gt;关于 &lt;strong&gt;序列图&lt;/strong&gt; 语法，参考 [这儿][4],&lt;/li&gt;&lt;li&gt;关于 &lt;strong&gt;流程图&lt;/strong&gt; 语法，参考 [这儿][5].&lt;/li&gt;&lt;/ul&gt;
+                            &lt;h2 id="h2-u79BBu7EBFu5199u535Au5BA2"&gt;&lt;a name="离线写博客" class="reference-link"&gt;&lt;/a&gt;&lt;span class="header-link octicon octicon-link"&gt;&lt;/span&gt;离线写博客&lt;/h2&gt;&lt;p&gt;即使用户在没有网络的情况下，也可以通过本编辑器离线写文章（直接在曾经使用过的浏览器中输入&lt;a href="http://write.blog.csdn.net/mdeditor"&gt;write.blog.csdn.net/mdeditor&lt;/a&gt;即可。&lt;strong&gt;Markdown编辑器&lt;/strong&gt;使用浏览器离线存储将内容保存在本地。&lt;/p&gt;
+                            &lt;p&gt;用户写文章的过程中，内容实时保存在浏览器缓存中，在用户关闭浏览器或者其它异常情况下，内容不会丢失。用户再次打开浏览器时，会显示上次用户正在编辑的没有发表的内容。&lt;/p&gt;
+                            &lt;p&gt;文章发表后，本地缓存将被删除。　&lt;/p&gt;
+                            &lt;p&gt;用户可以选择 &lt;i class="icon-disk"&gt;&lt;/i&gt; 把正在写的文章保存到服务器草稿箱，即使换浏览器或者清除缓存，内容也不会丢失。&lt;/p&gt;
+                            &lt;blockquote&gt;
+                            &lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;虽然浏览器存储大部分时候都比较可靠，但为了您的数据安全，在联网后，&lt;strong&gt;请务必及时发表或者保存到服务器草稿箱&lt;/strong&gt;&lt;/p&gt;
+                            &lt;/blockquote&gt;
+                            </textarea>
+                            <div class="editormd-preview editormd-preview-theme-default" style="display: block; width: 692.5px; top: 40px; height: 943px;">
+                                <div class="markdown-body editormd-preview-container" previewcontainer="true" style="padding: 20px;">
+                                    <h1 id="h1--markdown-"><a name="欢迎使用Markdown编辑器写文章" class="reference-link"></a><span class="header-link octicon octicon-link"></span>欢迎使用Markdown编辑器写文章</h1><p>本Markdown编辑器使用<strong>Editor.md</strong>修改而来，用它写技术文章，将会带来全新的体验哦：</p>
+                                    <ul>
+                                        <li><strong>Markdown和扩展Markdown简洁的语法</strong></li>
+                                        <li><strong>代码块高亮</strong></li>
+                                        <li><strong>图片链接和图片上传</strong></li>
+                                        <li><strong><em>LaTex</em>数学公式</strong></li>
+                                        <li><strong>UML序列图和流程图</strong></li>
+                                        <li><strong>离线写文章</strong></li>
+                                        <li><strong>导入导出Markdown文件</strong></li>
+                                        <li><strong>丰富的快捷键</strong></li>
+                                    </ul>
+                                    <hr>
+                                    <h2 id="h2-u5FEBu6377u952E"><a name="快捷键" class="reference-link"></a><span class="header-link octicon octicon-link"></span>快捷键</h2><ul>
+                                        <li>加粗    <code>Ctrl + B</code></li>
+                                        <li>斜体    <code>Ctrl + I</code></li>
+                                        <li>引用    <code>Ctrl + Q</code></li>
+                                        <li>插入链接    <code>Ctrl + L</code></li>
+                                        <li>插入代码    <code>Ctrl + K</code></li>
+                                        <li>插入图片    <code>Ctrl + G</code></li>
+                                        <li>提升标题    <code>Ctrl + H</code></li>
+                                        <li>有序列表    <code>Ctrl + O</code></li>
+                                        <li>无序列表    <code>Ctrl + U</code></li>
+                                        <li>横线    <code>Ctrl + R</code></li>
+                                        <li>撤销    <code>Ctrl + Z</code></li>
+                                        <li>重做    <code>Ctrl + Y</code></li>
+                                    </ul>
+                                    <h2 id="h2-markdown-"><a name="Markdown及扩展" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Markdown及扩展</h2><blockquote>
+                                        <p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— <a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank"> [ 维基百科 ]</a></p><a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank">
+                                        </a>
+                                    </blockquote><a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank">
+                                    </a><p><a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank">使用简单的符号标识不同的标题，将某些文字标记为<strong>粗体</strong>或者<em>斜体</em>，创建一个</a><a href="http://www.csdn.net">链接</a>等，详细语法参考帮助？。</p>
+                                    <p>本编辑器支持 <strong>Markdown Extra</strong> , 　扩展了很多好用的功能。具体请参考[Github][2].</p>
+                                    <h3 id="h3-u8868u683C"><a name="表格" class="reference-link"></a><span class="header-link octicon octicon-link"></span>表格</h3><p><strong>Markdown　Extra</strong>　表格语法：</p>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>项目</th>
+                                                <th>价格</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Computer</td>
+                                                <td>$1600</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone</td>
+                                                <td>$12</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pipe</td>
+                                                <td>$1</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>可以使用冒号来定义对齐方式：</p>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:left">项目</th>
+                                                <th style="text-align:right">价格</th>
+                                                <th style="text-align:center">数量</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:left">Computer</td>
+                                                <td style="text-align:right">1600 元</td>
+                                                <td style="text-align:center">5</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left">Phone</td>
+                                                <td style="text-align:right">12 元</td>
+                                                <td style="text-align:center">12</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left">Pipe</td>
+                                                <td style="text-align:right">1 元</td>
+                                                <td style="text-align:center">234</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <h3 id="h3-u4EE3u7801u5757">
+                                        <a name="代码块" class="reference-link"></a>
+                                        <span class="header-link octicon octicon-link"></span>代码块
+                                    </h3>
+                                    <p>代码块语法遵循标准markdown代码，例如：</p>
+                                    <h3 id="h3-u76EEu5F55">
+                                    <a name="目录" class="reference-link"></a>
+                                    <span class="header-link octicon octicon-link"></span>目录
+                                        </h3>
+                                    <p>用 <code>[TOC]</code>来生成目录：</p>
+                                    <div class="markdown-toc editormd-markdown-toc">
+                                        <ul class="markdown-toc-list">
+                                            <li>
+                                                <a class="toc-level-1" href="#欢迎使用Markdown编辑器写文章" level="1">欢迎使用Markdown编辑器写文章</a>
+                                                <ul>
+                                                    <li>
+                                                        <a class="toc-level-2" href="#快捷键" level="2">快捷键</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="toc-level-2" href="#Markdown及扩展" level="2">Markdown及扩展</a>
+                                                        <ul>
+                                                            <li><a class="toc-level-3" href="#表格" level="3">表格</a></li>
+                                                            <li><a class="toc-level-3" href="#代码块" level="3">代码块</a></li>
+                                                            <li><a class="toc-level-3" href="#目录" level="3">目录</a></li>
+                                                            <li><a class="toc-level-3" href="#数学公式" level="3">数学公式</a></li>
+                                                            <li><a class="toc-level-3" href="#UML 图:" level="3">UML 图:</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a class="toc-level-2" href="#离线写博客" level="2">离线写博客</a>
+                                                        <ul></ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <h3 id="h3-u6570u5B66u516Cu5F0F"><a name="数学公式" class="reference-link"></a><span class="header-link octicon octicon-link"></span>数学公式</h3>
+                                    <p>使用MathJax渲染<em>LaTex</em> 数学公式，详见[math.stackexchange.com][1].</p>
+                                    <ul>
+                                        <li>行内公式，数学公式为：$\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$。</li>
+                                        <li>块级公式：</li>
+                                    </ul>
+                                    <p>更多LaTex语法请参考 [这儿][3].</p>
+                                    <h3 id="h3-uml-"><a name="UML 图:" class="reference-link"></a><span class="header-link octicon octicon-link"></span>UML 图:</h3><p>可以渲染序列图：</p>
+                                    <div class="sequence-diagram">
+                                        张三-&gt;李四: 嘿，小四儿, 写博客了没?
+                                        Note right of 李四: 李四愣了一下，说：
+                                        李四--&gt;张三: 忙得吐血，哪有时间写。
+                                    </div><p>或者流程图：</p>
+                                    
+                                    <ul>
+                                        <li>关于 <strong>序列图</strong> 语法，参考 [这儿][4],</li>
+                                        <li>关于 <strong>流程图</strong> 语法，参考 [这儿][5].</li>
+                                    </ul>
+                                    <h2 id="h2-u79BBu7EBFu5199u535Au5BA2"><a name="离线写博客" class="reference-link"></a><span class="header-link octicon octicon-link"></span>离线写博客</h2><p>即使用户在没有网络的情况下，也可以通过本编辑器离线写文章（直接在曾经使用过的浏览器中输入<a href="http://write.blog.csdn.net/mdeditor">write.blog.csdn.net/mdeditor</a>即可。<strong>Markdown编辑器</strong>使用浏览器离线存储将内容保存在本地。</p>
+                                    <p>用户写文章的过程中，内容实时保存在浏览器缓存中，在用户关闭浏览器或者其它异常情况下，内容不会丢失。用户再次打开浏览器时，会显示上次用户正在编辑的没有发表的内容。</p>
+                                    <p>文章发表后，本地缓存将被删除。　</p>
+                                    <p>用户可以选择 <i class="icon-disk"></i> 把正在写的文章保存到服务器草稿箱，即使换浏览器或者清除缓存，内容也不会丢失。</p>
+                                    <blockquote>
+                                        <p><strong>注意：</strong>虽然浏览器存储大部分时候都比较可靠，但为了您的数据安全，在联网后，<strong>请务必及时发表或者保存到服务器草稿箱</strong></p>
+                                    </blockquote>
+                                </div>
+                            </div>
+                            <div class="editormd-container-mask" style="display: none;"></div>
+                            <div class="editormd-mask"></div>
+                            <div class="editormd-toolbar" style="display: block; position: absolute; width: 100%; left: 0px;">
+                                <div class="editormd-toolbar-container">
+                                    <ul class="editormd-menu">
+                                        <li><a href="javascript:;" title="撤销（Ctrl+Z）" unselectable="on"><i class="fa fa-undo" name="undo" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="重做（Ctrl+Y）" unselectable="on"><i class="fa fa-repeat" name="redo" unselectable="on"></i></a></li>
+                                        <li class="divider" unselectable="on">|</li>
+                                        <li><a href="javascript:;" title="粗体" unselectable="on"><i class="fa fa-bold" name="bold" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="删除线" unselectable="on"><i class="fa fa-strikethrough" name="del" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="斜体" unselectable="on"><i class="fa fa-italic" name="italic" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="引用" unselectable="on"><i class="fa fa-quote-left" name="quote" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="将每个单词首字母转成大写" unselectable="on"><i class="fa" name="ucwords" style="font-size:20px;margin-top: -3px;">Aa</i></a></li>
+                                        <li><a href="javascript:;" title="将所选转换成大写" unselectable="on"><i class="fa fa-font" name="uppercase" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="将所选转换成小写" unselectable="on"><i class="fa" name="lowercase" style="font-size:24px;margin-top: -10px;">a</i></a></li>
+                                        <li class="divider" unselectable="on">|</li><li><a href="javascript:;" title="标题1" unselectable="on"><i class="fa editormd-bold" name="h1" unselectable="on">H1</i></a></li>
+                                        <li><a href="javascript:;" title="标题2" unselectable="on"><i class="fa editormd-bold" name="h2" unselectable="on">H2</i></a></li>
+                                        <li><a href="javascript:;" title="标题3" unselectable="on"><i class="fa editormd-bold" name="h3" unselectable="on">H3</i></a></li>
+                                        <li><a href="javascript:;" title="标题4" unselectable="on"><i class="fa editormd-bold" name="h4" unselectable="on">H4</i></a></li>
+                                        <li><a href="javascript:;" title="标题5" unselectable="on"><i class="fa editormd-bold" name="h5" unselectable="on">H5</i></a></li>
+                                        <li><a href="javascript:;" title="标题6" unselectable="on"><i class="fa editormd-bold" name="h6" unselectable="on">H6</i></a></li>
+                                        <li class="divider" unselectable="on">|</li><li><a href="javascript:;" title="无序列表" unselectable="on"><i class="fa fa-list-ul" name="list-ul" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="有序列表" unselectable="on"><i class="fa fa-list-ol" name="list-ol" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="横线" unselectable="on"><i class="fa fa-minus" name="hr" unselectable="on"></i></a></li>
+                                        <li class="divider" unselectable="on">|</li><li><a href="javascript:;" title="链接" unselectable="on"><i class="fa fa-link" name="link" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="引用链接" unselectable="on"><i class="fa fa-anchor" name="reference-link" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="添加图片" unselectable="on"><i class="fa fa-picture-o" name="image" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="行内代码" unselectable="on"><i class="fa fa-code" name="code" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="预格式文本 / 代码块（缩进风格）" unselectable="on"><i class="fa fa-file-code-o" name="preformatted-text" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="代码块（多语言风格）" unselectable="on"><i class="fa fa-file-code-o" name="code-block" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="添加表格" unselectable="on"><i class="fa fa-table" name="table" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="日期时间" unselectable="on"><i class="fa fa-clock-o" name="datetime" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="Emoji表情" unselectable="on"><i class="fa fa-smile-o" name="emoji" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="HTML实体字符" unselectable="on"><i class="fa fa-copyright" name="html-entities" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="插入分页符" unselectable="on"><i class="fa fa-newspaper-o" name="pagebreak" unselectable="on"></i></a></li>
+                                        <li class="divider" unselectable="on">|</li><li><a href="javascript:;" title="跳转到行" unselectable="on"><i class="fa fa-terminal" name="goto-line" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="关闭实时预览" unselectable="on"><i class="fa fa-eye-slash" name="watch" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="全窗口预览HTML（按 Shift + ESC还原）" unselectable="on"><i class="fa fa-desktop" name="preview" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="全屏（按ESC还原）" unselectable="on"><i class="fa fa-arrows-alt" name="fullscreen" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="清空" unselectable="on"><i class="fa fa-eraser" name="clear" unselectable="on"></i></a></li>
+                                        <li><a href="javascript:;" title="搜索" unselectable="on"><i class="fa fa-search" name="search" unselectable="on"></i></a></li>
+                                        <li class="divider" unselectable="on">|</li><li><a href="javascript:;" title="使用帮助" unselectable="on"><i class="fa fa-question-circle" name="help" unselectable="on"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+

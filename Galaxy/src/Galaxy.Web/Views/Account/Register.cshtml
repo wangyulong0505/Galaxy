@@ -1,0 +1,56 @@
+﻿@model Galaxy.Users.Dto.RegisterUserDto
+@section Styles {
+
+}
+@section Scripts {
+    <script src="~/view-resources/Views/Account/Register.js" asp-append-version="true"></script>
+}
+<div class="card">
+    <div class="login-box-body">
+        <form id="RegisterForm" asp-action="Register" method="post">
+            <h4 class="text-center">Register</h4>
+            <!--隐藏域 begin-->
+            <!--隐藏域 end-->
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" name="name" id="name" placeholder="请输入用户名" value="@Model.UserName" required="" data-bv-field="name">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" name="password" id="password" placeholder="请输入密码" data-bv-field="password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" name="repassword" id="repassword" placeholder="再次确认密码" data-bv-field="repassword">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入手机号码" required="" data-bv-field="phone">
+                <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" name="email" id="email" placeholder="请输入邮箱" data-bv-field="email">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="checkbox icheck">
+                        <label class="">
+                            <div class="icheckbox_square-red" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                <input type="checkbox" id="agreement" class="icheck" required="" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" />
+                                <ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                            </div> 同意遵循<a href="#">Galaxy协议</a>
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <a asp-action="Login" class="btn btn-default waves-effect">Back</a>
+                    <button id="RegisterButton" style="width:82%;" class="btn btn-warning waves-effect" type="submit">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

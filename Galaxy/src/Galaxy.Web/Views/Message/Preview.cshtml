@@ -1,0 +1,175 @@
+﻿@section styles{
+    <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/iCheck/all.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/datepicker/datepicker3.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/select2/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" asp-append-version="true" />
+}
+@section scripts{
+    <script src="~/lib/AdminLTE/plugins/datepicker/bootstrap-datepicker.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/select2/select2.full.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
+    <script src="~/js/base-message.js" asp-append-version="true"></script>
+    <script src="~/js/base.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <!--用于附件上传回填使用-->
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-fileinput/js/locales/zh.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/base-file.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/Message/Preview.js" asp-append-version="true"></script>
+}
+
+<div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
+    <!-- 以下代码为代码生成器生成，生成时间: 2017-03-01 11:21:59，作者：billjiang/475572229@qq.com-->
+    <section class="content-header">
+        <h1>
+            消息管理
+            <small>查看消息</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">系统工具</a></li>
+            <li class="active">消息管理</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <button data-btn-type="titleBtn" data-flag="new" class="btn btn-primary btn-block margin-bottom">新建消息</button>
+                @Html.Partial("~/Views/Shared/MessageMenu")
+                @*<div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">我的文件夹</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding" id="folder">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="" data-btn-type="inbox" data-url="/message/inbox">
+                                <a href="#">
+                                    <i class="fa fa-inbox"></i>
+                                    <span>收件箱</span>
+                                    <span class="label label-primary pull-right">0</span>
+                                </a>
+                            </li>
+                            <li data-btn-type="sent" data-url="/message/outbox" class="active">
+                                <a href="#">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span>发件箱</span>
+                                    <span class="label label-info pull-right">6</span>
+                                </a>
+                            </li>
+                            <li data-btn-type="draft" data-url="/message/draft" class="">
+                                <a href="#">
+                                    <i class="fa fa-file-text-o"></i>
+                                    <span>草稿箱</span>
+                                    <span class="label label-warning pull-right">4</span>
+                                </a>
+                            </li>
+                            <li data-btn-type="trash" data-url="/message/trash" class="">
+                                <a href="#">
+                                    <i class="fa fa-trash-o"></i>
+                                    <span>回收站</span>
+                                    <span class="label label-danger pull-right">1</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">消息类型</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#"><i class="fa fa-tv text-danger"></i>系统消息</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o text-info"></i>邮件</a></li>
+                            <li><a href="#"><i class="fa fa-mobile text-success fa-lg"></i>&nbsp;短信</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">消息标记</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#"><i class="fa fa-star-o text-yellow"></i> 一般消息</a></li>
+                            <li><a href="#"><i class="fa fa-star text-yellow"></i> 重要消息</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>*@
+            </div>
+            <div class="col-md-9">
+                <div class="box box-primary" id="contentBody">
+                    <form id="message_form" name="message_form" class="form-horizontal" enctype="multipart/form-data">
+                        <input type="hidden" id="id" name="id" value="8a8a84995ab76f13015abbc8b8a00000"><input type="hidden" name="version" value="1"><input type="hidden" name="createDateTime" data-flag="date" data-format="yyyy-mm-dd hh:ii:ss" value="2017-03-11 13:12:58"><input type="hidden" name="deleted" value="0">
+                        <input type="hidden" name="fileIds" id="fileIds" value="8a8a84995ab654d1015ab6759e960007,8a8a84995ab654d1015ab6759e9e0008">
+                        <input type="hidden" name="receiverType" id="receiverType" value="0">
+                        <input type="hidden" name="receiverIds" id="receiverIds" value="402880e55a998466015a998e208d0003">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                查看消息
+                            </h3>
+                            <label id="messageType" class="pull-right">&nbsp;<i class="fa fa-tv text-danger"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o text-info"></i>&nbsp;</label>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="mailbox-read-info">
+                                <!--消息Title-->
+                                <h3><label id="messageFlag" class="pull-right"><i class="fa fa-star text-yellow"></i></label><label name="sendSubject">北京市局全力服务城市副中心建设test</label></h3>
+                                <h5>
+                                    收件人： <label id="receiverUsers">billJiang-test,推敲2,室主任A</label>
+                                    <label class="mailbox-read-time pull-right" name="createDateTime" data-flag="date" data-format="yyyy-mm-dd hh:ii:ss">2017-03-11 13:12:58</label>
+                                </h5>
+                            </div>
+                            <div class="mailbox-read-message" id="sendContent">
+                                <!--消息正文，使用html.Raw("")加载-->
+                                我打江南走过，那等待季节里的容颜如莲花般的开落
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group" id="file_container">
+                                    <!--判断是否有附件，有附件就直接添加附件，没有就file_container添加display:none-->
+                                    <input type="file" name="file" class="file" id="attachment" multiple="multiple" style="display:none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="reset" class="btn btn-default" data-btn-type="cancel_draft">
+                                <i class="fa fa-reply"></i> &nbsp;返回
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

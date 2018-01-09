@@ -1,0 +1,256 @@
+﻿@section styles{
+    <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/iCheck/all.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/datepicker/datepicker3.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/select2/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
+}
+@section scripts{ 
+    <script src="~/lib/AdminLTE/plugins/datepicker/bootstrap-datepicker.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/select2/select2.full.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/Roles/Index.js" asp-append-version="true"></script>
+}
+<div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
+    <section class="content-header">
+        <h1>角色管理</h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">系统管理</a></li>
+            <li class="active">角色管理</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-md-7">
+                <div class="box box-primary">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="role_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="dataTables_filter" id="searchDiv">
+                                        <input placeholder="请输入名称" name="name" class="form-control" type="search" likeoption="true">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary" data-btn-type="search">查询</button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" data-btn-type="add">新增</button>
+                                            <button type="button" class="btn btn-default" data-btn-type="edit">编辑</button>
+                                            <button type="button" class="btn btn-default" data-btn-type="delete">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="role_table" class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 100%;" role="grid">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="role_table" rowspan="1" colspan="1" aria-label="名称: activate to sort column ascending">名称</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="role_table" rowspan="1" colspan="1" aria-label="编码: activate to sort column ascending">编码</th><th class="text-center sorting" tabindex="0" aria-controls="role_table" rowspan="1" colspan="1" aria-label="是否可用: activate to sort column ascending">是否可用</th>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="备注">备注</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="402880eb5c4ec2a4015c4ec591390000" role="row" class="odd selected">
+                                                <td class="text-center sorting_1">1</td>
+                                                <td class=" text-center">一般用户</td>
+                                                <td class=" text-center">COMMON</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center">系统注册的用户，不可删除</td>
+                                            </tr>
+                                            <tr id="bc4d163c5880ab4901588b6681e50003" role="row" class="even">
+                                                <td class="text-center sorting_1">2</td>
+                                                <td class=" text-center">管理员</td>
+                                                <td class=" text-center">ADMIN</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="4028818a56fd502f015700209b040000" role="row" class="odd">
+                                                <td class="text-center sorting_1">3</td>
+                                                <td class=" text-center">bill jiang</td>
+                                                <td class=" text-center">1232</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center">bill jiang 's test</td>
+                                            </tr>
+                                            <tr id="8a8a80f05cc32020015cc32ee7c20007" role="row" class="even">
+                                                <td class="text-center sorting_1">4</td>
+                                                <td class=" text-center">领导审批</td>
+                                                <td class=" text-center">WORKFLOW-LEADER</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center">工作流测试</td>
+                                            </tr>
+                                            <tr id="8a8a80f05cc32020015cc32f730f0008" role="row" class="odd">
+                                                <td class="text-center sorting_1">5</td>
+                                                <td class=" text-center">人事审批</td>
+                                                <td class=" text-center">WORKFLOW-HR</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center">工作流测试</td>
+                                            </tr>
+                                            <tr id="402880e95d0da971015d0dc4a05f000f" role="row" class="even">
+                                                <td class="text-center sorting_1">6</td>
+                                                <td class=" text-center">室主任</td>
+                                                <td class=" text-center">WORKFLOW-SZR</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center">流程测试</td>
+                                            </tr>
+                                            <tr id="8a8a83d45d10ce66015d113caa230000" role="row" class="odd">
+                                                <td class="text-center sorting_1">7</td>
+                                                <td class=" text-center">员工</td>
+                                                <td class=" text-center">WORKFLOW-EMPLOYEE</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center"></td>
+                                            </tr>
+                                            <tr id="8afa94f65d20d38b015bc7b93bb10008" role="row" class="even">
+                                                <td class="text-center sorting_1">8</td>
+                                                <td class=" text-center">检测人</td>
+                                                <td class=" text-center">WORKFLOW-VERIFY</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center">实验室检测</td>
+                                            </tr>
+                                            <tr id="8afa94f65d20d38b015bc7b9bcc30009" role="row" class="odd">
+                                                <td class="text-center sorting_1">9</td>
+                                                <td class=" text-center">签发人</td>
+                                                <td class=" text-center">WORKFLOW-APPROVE</td>
+                                                <td class=" text-center">可用</td>
+                                                <td class=" text-center">签发人</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div id="role_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5"></div>
+                                <div class="col-sm-7"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <div class="col-md-5">
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="userRole_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="dataTables_filter" id="searchDiv_userRole">
+                                        <h5 id="roleName" class="pull-left">【一般用户】</h5>
+                                        <input type="hidden" name="roleId" value="402880eb5c4ec2a4015c4ec591390000" id="roleId">
+                                        <input placeholder="请输入用户名" name="user.name" class="form-control" type="search" likeoption="true">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary" data-btn-type="search">查询</button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" data-btn-type="selectUserRole">选择</button>
+                                            <button type="button" class="btn btn-default" data-btn-type="deleteUserRole">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="userRole_table" class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="userRole_table_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="userRole_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending">用户名</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="userRole_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending">登录名</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="8a991f87608c95700160acf8b970011d" role="row" class="odd">
+                                                <td class="text-center sorting_1">1</td>
+                                                <td class=" text-center">332</td>
+                                                <td class=" text-center">2332</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a7524e680112" role="row" class="even">
+                                                <td class="text-center sorting_1">2</td>
+                                                <td class=" text-center">tester1</td>
+                                                <td class=" text-center">ere</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a34bcdb3010e" role="row" class="odd">
+                                                <td class="text-center sorting_1">3</td>
+                                                <td class=" text-center">admin</td>
+                                                <td class=" text-center">190217646@qq.com</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a21e0256010a" role="row" class="even">
+                                                <td class="text-center sorting_1">4</td>
+                                                <td class=" text-center">332</td>
+                                                <td class=" text-center">233232</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a18d43b60101" role="row" class="odd">
+                                                <td class="text-center sorting_1">5</td>
+                                                <td class=" text-center">999</td>
+                                                <td class=" text-center">000</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a12b61f600f6" role="row" class="even">
+                                                <td class="text-center sorting_1">6</td>
+                                                <td class=" text-center">licheng</td>
+                                                <td class=" text-center">lcszxh@126.com</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a10f597300f4" role="row" class="odd">
+                                                <td class="text-center sorting_1">7</td>
+                                                <td class=" text-center">黛风</td>
+                                                <td class=" text-center">zhangjinxinpp@163.com</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a0f3257600e6" role="row" class="even">
+                                                <td class="text-center sorting_1">8</td>
+                                                <td class=" text-center">ShanerChan</td>
+                                                <td class=" text-center">573304330@qq.com</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a0ed17ec00db" role="row" class="odd">
+                                                <td class="text-center sorting_1">9</td>
+                                                <td class=" text-center">111</td>
+                                                <td class=" text-center">111@qq.com</td>
+                                            </tr>
+                                            <tr id="8a991f87608c95700160a0e6f1f400d8" role="row" class="even">
+                                                <td class="text-center sorting_1">10</td>
+                                                <td class=" text-center">huke</td>
+                                                <td class=" text-center">hua.361@163.com</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div id="userRole_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" id="userRole_table_info" role="status" aria-live="polite">第 1 至 10 项记录，共 34 项</div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="userRole_table_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button previous disabled" id="userRole_table_previous"><a href="#" aria-controls="userRole_table" data-dt-idx="0" tabindex="0">上页</a></li>
+                                            <li class="paginate_button active"><a href="#" aria-controls="userRole_table" data-dt-idx="1" tabindex="0">1</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="userRole_table" data-dt-idx="2" tabindex="0">2</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="userRole_table" data-dt-idx="3" tabindex="0">3</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="userRole_table" data-dt-idx="4" tabindex="0">4</a></li>
+                                            <li class="paginate_button next" id="userRole_table_next"><a href="#" aria-controls="userRole_table" data-dt-idx="5" tabindex="0">下页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
+

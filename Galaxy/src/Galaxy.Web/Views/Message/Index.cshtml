@@ -1,0 +1,221 @@
+﻿@section styles{
+    <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/iCheck/all.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/datepicker/datepicker3.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/AdminLTE/plugins/select2/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
+}
+@section scripts{
+    <script src="~/lib/AdminLTE/plugins/datepicker/bootstrap-datepicker.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/select2/select2.full.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
+    <script src="~/js/base-message.js" asp-append-version="true"></script>
+    <script src="~/js/base.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/Message/Index.js" asp-append-version="true"></script>
+}
+
+<div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
+    <section class="content-header">
+        <h1>消息管理<small>收件箱</small></h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">系统工具</a></li>
+            <li class="active">消息管理</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <button data-btn-type="titleBtn" data-flag="new" class="btn btn-primary btn-block margin-bottom">新建消息</button>
+                @Html.Partial("~/Views/Shared/MessageMenu")
+                @*<div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">我的文件夹</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding" id="folder" style="display: block;">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="active" data-btn-type="inbox" data-url="/message/inbox">
+                                <a href="#">
+                                    <i class="fa fa-inbox"></i>
+                                    <span>收件箱</span>
+                                    <span class="label label-primary pull-right">1</span>
+                                </a>
+                            </li>
+                            <li data-btn-type="sent" data-url="/message/sent">
+                                <a href="#">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span>发件箱</span>
+                                    <span class="label label-info pull-right">6</span>
+                                </a>
+                            </li>
+                            <li data-btn-type="draft" data-url="/message/draft">
+                                <a href="#">
+                                    <i class="fa fa-file-text-o"></i>
+                                    <span>草稿箱</span>
+                                    <span class="label label-warning pull-right">4</span>
+                                </a>
+                            </li>
+                            <li data-btn-type="trash" data-url="/message/trash">
+                                <a href="#">
+                                    <i class="fa fa-trash-o"></i>
+                                    <span>回收站</span>
+                                    <span class="label label-danger pull-right">0</span>
+                                </a>
+                            </li>
+                            <!--<li data-btn-type="receiver" data-url="/message/receiver"><a href="#"><i class="fa fa-user-o"></i>
+                                <span>收件人管理</span>
+                                <span class="label label-default pull-right">0</span></a></li>-->
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">消息类型</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding" style="display: block;">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#"><i class="fa fa-tv text-danger"></i>系统消息</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o text-info"></i>邮件</a></li>
+                            <li><a href="#"><i class="fa fa-mobile text-success fa-lg"></i>&nbsp;短信</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">消息标记</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding" style="display: block;">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#"><i class="fa fa-star-o text-yellow"></i> 一般消息</a></li>
+                            <li><a href="#"><i class="fa fa-star text-yellow"></i> 重要消息</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>*@
+            </div>
+            <div class="col-md-9">
+                <div class="box box-primary" id="contentBody">
+                    <!--收件箱-->
+
+                    <div class="box-body">
+                        <div id="message_inbox_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="dataTables_length" id="message_inbox_table_length">
+                                        <label>
+                                            <select name="message_inbox_table_length" aria-controls="message_inbox_table" class="form-control input-sm">
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="-1">全部</option>
+                                            </select> 记录/页
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="dataTables_filter " id="searchDiv" style="">
+                                        <!--查询条件-->
+                                        <!-- <div class="has-feedback">
+                                             <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                                             <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                         </div>-->
+                                        <input type="hidden" name="receiveUserID" value="402880e456223e8f015625231d8e0003">
+                                        <div class="has-feedback form-group">
+                                            <input type="search" placeholder="请输入标题" title="主题" name="message.sendSubject" class="form-control input-sm" id="sendSubject" operator="like" likeoption="true">
+                                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                        </div>
+                                        <button type="button" class="btn btn-primary btn-sm" data-callback="enableOrDisableButtons()" data-btn-type="search" title="查询"><i class="fa fa-refresh"></i></button>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-sm" disabled="" data-btn-type="delete" title="放入回收站"><i class="fa fa-trash-o"></i></button>
+                                            <button type="button" class="btn btn-default btn-sm" disabled="" data-btn-type="reply" title="回复邮件"><i class="fa fa-reply"></i></button>
+                                            <button type="button" class="btn btn-default btn-sm" disabled="" data-btn-type="share" title="转发邮件"><i class="fa fa-share"></i></button>
+
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-sm" disabled="" data-btn-type="readNo" title="标记为未读"><i class="fa fa-flag-o"></i></button>
+                                            <button type="button" class="btn btn-default btn-sm" disabled="" data-btn-type="readYes" title="标记为已读"><i class="fa fa-flag text-yellow"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="message_inbox_table" style="border-top: 1px solid rgb(244, 244, 244); width: 100%;" class="table table-border table-striped table-hover dataTable no-footer" role="grid" aria-describedby="message_inbox_table_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="发送人">发送人</th>
+                                                <th class="sorting text-center" tabindex="0" aria-controls="message_inbox_table" rowspan="1" colspan="1" aria-label="主题: activate to sort column ascending">主题</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="message_inbox_table" rowspan="1" colspan="1" aria-label="发送时间: activate to sort column ascending">发送时间</th>
+                                                <th class="sorting_disabled text-center" rowspan="1" colspan="1" aria-label="类型">类型</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="message_inbox_table" rowspan="1" colspan="1" aria-label="标记: activate to sort column ascending">标记</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="402880ed5abdfec1015ac02c898a0006" role="row" class="odd">
+                                                <td class="text-center sorting_1">1</td>
+                                                <td class=" text-center">billJiang-test</td>
+                                                <td class=" text-left">
+                                                    <a class="text-bold" href="#" onclick="readMsg('402880ed5abdfec1015ac02c898a0006')">
+                                                        <span data-toggle="tooltip" data-placement="right" data-html="true" title="" data-original-title="商办唱主角北京房地产市场新格局商办唱主角北京房地产市场新格局AdminEAP框架消息管理系统">商办唱主角北京房地产市场新格局商办唱主角...</span>
+                                                    </a>
+                                                </td>
+                                                <td class=" text-center">2017-03-12 09:40</td>
+                                                <td class=" text-left">&nbsp;<i class="fa fa-tv text-danger"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o text-info"></i>&nbsp;</td>
+                                                <td class=" text-center"><i class="fa fa-star text-yellow"></i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div id="message_inbox_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" id="message_inbox_table_info" role="status" aria-live="polite">第 1 至 1 项记录，共 1 项</div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_full_numbers" id="message_inbox_table_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button first disabled" id="message_inbox_table_first"><a href="#" aria-controls="message_inbox_table" data-dt-idx="0" tabindex="0">首页</a></li>
+                                            <li class="paginate_button previous disabled" id="message_inbox_table_previous"><a href="#" aria-controls="message_inbox_table" data-dt-idx="1" tabindex="0">上页</a></li>
+                                            <li class="paginate_button active"><a href="#" aria-controls="message_inbox_table" data-dt-idx="2" tabindex="0">1</a></li>
+                                            <li class="paginate_button next disabled" id="message_inbox_table_next"><a href="#" aria-controls="message_inbox_table" data-dt-idx="3" tabindex="0">下页</a></li>
+                                            <li class="paginate_button last disabled" id="message_inbox_table_last"><a href="#" aria-controls="message_inbox_table" data-dt-idx="4" tabindex="0">末页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
