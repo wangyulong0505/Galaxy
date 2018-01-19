@@ -11,9 +11,10 @@ using System;
 namespace Galaxy.Migrations
 {
     [DbContext(typeof(GalaxyDbContext))]
-    partial class GalaxyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180119013744_initialCreate")]
+    partial class initialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

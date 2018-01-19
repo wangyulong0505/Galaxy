@@ -11,6 +11,12 @@ namespace Galaxy.EntityFrameworkCore
 
         public virtual DbSet<Role> Roles { get; set; }
 
+        public virtual DbSet<Organization> Organization { get; set; }
+
+        public virtual DbSet<Document> Documents { get; set; }
+
+        public virtual DbSet<Message> Messages { get; set; }
+
         public GalaxyDbContext(DbContextOptions<GalaxyDbContext> options) 
             : base(options)
         {

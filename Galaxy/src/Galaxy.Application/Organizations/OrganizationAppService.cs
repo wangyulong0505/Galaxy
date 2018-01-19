@@ -1,12 +1,10 @@
 ﻿using Abp.Application.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Galaxy.Entities;
 using Galaxy.IRepositories;
-using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Galaxy.Organization
+namespace Galaxy.Organizations
 {
     public class OrganizationAppService : ApplicationService, IOrganizationAppService
     {
@@ -17,49 +15,49 @@ namespace Galaxy.Organization
         }
 
         /// <summary>
-        /// 删除
+        /// 删除组织
         /// </summary>
         /// <param name="entity"></param>
-        public void DeleteOrganization(Entities.Organization entity)
+        public async Task DeleteOrganization(int Id)
         {
-            repository.Delete(entity);
+            await repository.DeleteAsync(Id);
         }
 
         /// <summary>
-        /// 
+        /// 根据Id获取组织信息
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Entities.Organization GetOrganizationById(int Id)
+        public Organization GetOrganizationById(int Id)
         {
             return repository.GetOrganizationById(Id);
         }
 
         /// <summary>
-        /// 获取列表
+        /// 获取组织列表
         /// </summary>
         /// <returns></returns>
-        public List<Entities.Organization> GetOrganizationList()
+        public async Task<List<Organization>> GetOrganizations()
         {
-            return repository.GetAll().ToList();
+            return await repository.GetAllListAsync();
         }
 
         /// <summary>
-        /// 新增
+        /// 新增组织
         /// </summary>
         /// <param name="entity"></param>
-        public void PostOrganization(Entities.Organization entity)
+        public async Task PostOrganization(Organization entity)
         {
-            repository.Insert(entity);
+            await repository.InsertAsync(entity);
         }
 
         /// <summary>
-        /// 修改
+        /// 修改组织信息
         /// </summary>
         /// <param name="entity"></param>
-        public void PutOrganization(Entities.Organization entity)
+        public async Task PutOrganization(Organization entity)
         {
-            repository.Update(entity);
+            await repository.UpdateAsync(entity);
         }
     }
 }

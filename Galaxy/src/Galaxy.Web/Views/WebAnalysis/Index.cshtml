@@ -1,0 +1,162 @@
+﻿@section styles{
+    <link href="~/lib/AdminLTE/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" asp-append-version="true" />
+    <!-- jvectormap -->
+    <link href="~/lib/AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
+}
+@section scripts{
+    <script src="~/lib/AdminLTE/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/lib/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- jvectormap -->
+    <script src="~/lib/AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" asp-append-version="true"></script>
+    <script src="~/lib/AdminLTE/plugins/jvectormap/jquery-jvectormap-cn-mill.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/WebAnalysis/Index.js" asp-append-version="true"></script>
+}
+
+<div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
+    <section class="content-header">
+        <h1>网站统计</h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">系统工具</a></li>
+            <li class="active">网站统计</li>
+        </ol>
+    </section>
+    <section class="content">
+        <!-- 分布地图 -->
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <i class="fa fa-map-marker"></i>
+                <h3 class="box-title">地域分布</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body with-border">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- 时间筛选 -->
+                        <form class="form-inline" role="form">
+                            <div class="form-group" style="margin-top:10px;">
+                                <label>时间选择:&nbsp;&nbsp;</label>
+
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-default pull-left" id="daterange-btn">
+                                        <span>
+                                            <i class="fa fa-calendar"></i> 选择时间
+                                        </span>
+                                        <i class="fa fa-caret-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group pull-right" style="overflow-x:auto;">
+                                <table class="summary-table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-muted">
+                                                <span class="text">
+                                                    浏览量(PV)
+                                                    <i class="fa fa-question-circle question-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="即通常说的Page View(PV)，用户每打开一个网站页面就被记录1次。用户多次打开同一页面，浏览量值累计。"></i>
+                                                </span>
+                                                <div id="pv_count">95</div>
+                                            </td>
+                                            <td class="text-muted">
+                                                <span class="text">
+                                                    访客数(UV)
+                                                    <i class="fa fa-question-circle question-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="一天之内您网站的独立访客数(以Cookie为依据)，一天内同一访客多次访问您网站只计算1个访客。"></i>
+                                                </span>
+                                                <div id="visitor_count">32</div>
+                                            </td>
+                                            <td class="text-muted">
+                                                <span class="text">
+                                                    IP数
+                                                    <i class="fa fa-question-circle question-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="一天之内您网站的独立访问ip数。"></i>
+                                                </span>
+                                                <div id="ip_count">31</div>
+                                            </td>
+                                            <td class="text-muted">
+                                                <span class="text">
+                                                    跳出率
+                                                    <i class="fa fa-question-circle question-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="只浏览了一个页面便离开了网站的访问次数占总的访问次数的百分比。"></i>
+                                                </span>
+                                                <div id="bounce_ratio">64.52%</div>
+                                            </td>
+                                            <td class="text-muted">
+                                                <span class="text">
+                                                    平均访问时长
+                                                    <i class="fa fa-question-circle question-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="访客在一次访问中，平均打开网站的时长。即每次访问中，打开第一个页面到关闭最后一个页面的平均值，打开一个页面时计算打开关闭的时间差。"></i>
+                                                </span>
+                                                <div id="avg_visit_time">499 s</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-sm-5">
+                        <div class="pad">
+                            <!-- Map will be created here -->
+                            <div id="map-markers" style="height: 440px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <!-- 分布表格 -->
+                    <div class="col-md-4 col-sm-4" style="height: 440px; overflow: auto;">
+                        <table class="table table-bordered" id="districtTable">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>省份</th>
+                                    <th>浏览量(PV)</th>
+                                    <th>占比</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.col -->
+                    <!-- 近一周统计 -->
+                    <div class="col-md-2 col-sm-3">
+                        <div class="pad box-pane-right bg-green" style="min-height: 280px">
+                            <div class="description-block margin-bottom">
+                                <div class="sparkbar pad" data-color="#fff">90,70,90,70,75,80,70</div>
+                                <h5 class="description-header">8390</h5>
+                                <span class="description-text">浏览量(PV)</span>
+                            </div>
+                            <!-- /.description-block -->
+                            <div class="description-block margin-bottom">
+                                <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
+                                <h5 class="description-header">30%</h5>
+                                <span class="description-text">访客数(UV)</span>
+                            </div>
+                            <!-- /.description-block -->
+                            <div class="description-block">
+                                <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
+                                <h5 class="description-header">70%</h5>
+                                <span class="description-text">IP数</span>
+                            </div>
+                            <!-- /.description-block -->
+                            <div class="description-block">
+                                <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
+                                <h5 class="description-header">30s</h5>
+                                <span class="description-text">平均访问时长</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </section>
+</div>

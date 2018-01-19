@@ -1,15 +1,7 @@
 ﻿@section styles{
     <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/AdminLTE/plugins/iCheck/all.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/AdminLTE/plugins/datepicker/datepicker3.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/AdminLTE/plugins/select2/select2.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
     <style type="text/css">
-        .popover-content {
-            padding: 0px 14px;
-        }
         .textline {
             width: 850px;
             border: 1px solid #EBEBEB;
@@ -24,12 +16,6 @@
     </style>
 }
 @section scripts{
-    <script src="~/lib/AdminLTE/plugins/datepicker/bootstrap-datepicker.js" asp-append-version="true"></script>
-    <script src="~/lib/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" asp-append-version="true"></script>
-    <script src="~/lib/AdminLTE/plugins/select2/select2.full.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
-    <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
     <script src="~/js/auto-line-number.js" asp-append-version="true"></script>
     <script src="~/view-resources/Views/ApiModule/Index.js" asp-append-version="true"></script>
 }
@@ -56,7 +42,7 @@
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            GET &nbsp;&nbsp;
+                                            GET &nbsp;
                                             <span class="fa fa-caret-down"></span>
                                         </button>
                                         <ul class="dropdown-menu">
@@ -81,7 +67,7 @@
                                         </ul>
                                     </div>
                                     <!-- /btn-group -->
-                                    <input type="text" class="form-control" placeholder="Enter request url">
+                                    <input type="text" id="url" class="form-control" placeholder="Enter request url">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-info btn-flat" data-event="add">Params</button>
                                     </span>
@@ -90,7 +76,7 @@
                             <div class="col-md-1">
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary" style="border-radius:6px;">Send</button>
+                                        <button type="button" class="btn btn-primary" data-event="send" style="border-radius:6px;">Send</button>
                                     </span>
                                 </div>
                             </div>
@@ -104,15 +90,15 @@
                                             <th class="text-left" name="value" rowspan="1" colspan="1">value</th>
                                             <th class="text-left" name="description" rowspan="1" colspan="1">description</th>
                                             <th class="text-center" style="width:80px; padding-right:10px;"><a style="color:#e08e0b; cursor:pointer;" data-effect="change">Bulk Edit</a></th>
-                                            <th class="text-center" style="width:10px; padding-right:10px;"><a class="show" style="cursor:pointer;" data-toggle="popover" title="SHOW COLUMNS" data-container="body" data-placement="bottom">•••</a></th>
+                                            <th class="text-center" style="width:10px; padding-right:10px;"><a class="show" style="cursor:pointer;"></a></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr role="row" class="odd">
-                                            <td class="text-left"><input placeholder="New Key" class="form-control" type="text" likeoption="true" /></td>
-                                            <td class="text-left" name="value"><input placeholder="Value" class="form-control" type="text" likeoption="true" /></td>
-                                            <td class="text-left" name="description" colspan="2"><input placeholder="Description" class="form-control" type="text" likeoption="true" /></td>
-                                            <td class="text-center" style="vertical-align:middle;" onclick="deleteRow(this)"><i class="fa fa-remove"></i></td>
+                                            <td class="text-left"><input placeholder="New Key" data-name="key" class="form-control" type="text" likeoption="true" /></td>
+                                            <td class="text-left" name="value"><input placeholder="Value" data-name="value" class="form-control" type="text" likeoption="true" /></td>
+                                            <td class="text-left" name="description" colspan="2"><input data-name="description" placeholder="Description" class="form-control" type="text" likeoption="true" /></td>
+                                            <td class="text-center remove" style="vertical-align:middle;"><i class="fa fa-remove"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -125,11 +111,10 @@
                                     </thead>
                                     <tbody>
                                         <tr role="row" class="odd">
-                                            <td class="text-left" colspan="2"><textarea placeholder="" name="" style="height:150px;" class="form-control" likeoption="true"></textarea></td>
+                                            <td class="text-left" colspan="2"><textarea id="paramarea" placeholder="" name="" style="height:150px;" class="form-control" likeoption="true"></textarea></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div id="userRole_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
                             </div>
                         </div>
                         <div class="row">
@@ -144,31 +129,711 @@
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="authorization">
-                                            <form class="form-horizontal">
-                                                <div class="form-group" style="margin:0px;">
-                                                    <div class="col-sm-3">
-                                                        <div>
-                                                            <label>Type</label>
-                                                            <select class="form-control">
-                                                                <option>Inherit auth from parent</option>
-                                                                <option>No Auth</option>
-                                                                <option>Bearer Token</option>
-                                                                <option>Basic Auth</option>
-                                                                <option>Digest Auth</option>
-                                                                <option>OAuth 1.0</option>
-                                                                <option>OAuth 2.0</option>
-                                                                <option>Hask Authentication</option>
-                                                                <option>AWS Signature</option>
-                                                                <option>NTLM Authentication[Beta]</option>
-                                                            </select>
+                                            <table id="authtable" class="table table-bordered table-hover dataTable no-footer" role="grid">
+                                                <tr role="row">
+                                                    <th class="text-left" name="key">
+                                                        <div class="col-sm-8">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0" selected="selected">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically<br /> generated when you send the request.</div>
                                                         </div>
-                                                        <div>The authorization header will be automatically generated when you send the request. Learn more about authorization</div>
-                                                    </div>
-                                                    <div class="col-sm-9 text-center" style="border-left: 1px solid #d2d6de;">
-                                                        This request is not inheriting any authorization helper at the moment. Save it in a collection to use the parent's authorization helper.
-                                                    </div>
-                                                </div>
-                                            </form>
+                                                    </th>
+                                                    <th class="text-left" name="value" style="vertical-align:middle;">
+                                                        <div class="col-sm-12 text-center">
+                                                            This request is not inheriting any authorization helper at the moment. Save it in a collection to use the parent's authorization helper.
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1" selected="selected">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value" style="vertical-align:middle;">
+                                                        <div class="col-md-12 text-center">
+                                                            This request does not use any authorization.
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2" selected="selected">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                            <button type="button" class="btn btn-warning btn-flat" style="margin:20px 0; border-radius:3px;" data-event="preview-request">Preview Request</button>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value" style="vertical-align:middle;">
+                                                        <div class="col-md-12 text-center">
+                                                            <div class="form-group">
+                                                                <label for="token" class="col-sm-2 control-label">Token</label>
+
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" id="token" placeholder="Token">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3" selected="selected">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                            <button type="button" class="btn btn-warning btn-flat" style="margin:20px 0; border-radius:3px;" data-event="preview-request">Preview Request</button>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value">
+                                                        <div class="col-md-12">
+                                                            <div class="box-body">
+                                                                <div style="margin: 10px 0;">
+                                                                    <label for="username" class="col-sm-2 control-label">UserName</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="username" placeholder="UserName">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:60px;">
+                                                                    <label for="password" class="col-sm-2 control-label">Password</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="pwdprop"> Show Password
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4" selected="selected">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                            <div style="margin-top:15px;">By default, Postman will extract values from the received response, add it to the request, and retry it. Do you want to disable this?</div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" id="retryrequest"> Yes, disable retrying the request
+                                                                </label>
+                                                            </div>
+                                                            <button type="button" class="btn btn-warning btn-flat" style="margin:20px 0; border-radius:3px;" data-event="preview-request">Preview Request</button>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value">
+                                                        <div class="col-md-12">
+                                                            <div class="box-body">
+                                                                <div style="margin: 10px 0;">
+                                                                    <label for="username" class="col-sm-2 control-label">UserName</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="username" placeholder="UserName">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:60px;">
+                                                                    <label for="password" class="col-sm-2 control-label">Password</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" style="margin-top:110px;">
+                                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="pwdprop"> Show Password
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="panel box box-primary" style="margin-top:160px;">
+                                                                    <div class="box-header with-border">
+                                                                        <h4 class="box-title">
+                                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" class="">
+                                                                                Advanced
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
+                                                                        <div class="box-body">
+                                                                            These are advanced configuration options. They are optional. Postman will auto generate values for some fields if left blank.
+                                                                            <div style="margin-top:10px;">
+                                                                                <label for="realm" class="col-sm-2 control-label">Realm</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="realm" placeholder="testrealm@example.com">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:60px;">
+                                                                                <label for="nonce" class="col-sm-2 control-label">Nonce</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="nonce" placeholder="Nonce">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:110px;">
+                                                                                <label for="password" class="col-sm-2 control-label">Algorithm</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <select class="form-control">
+                                                                                        <option>MD5</option>
+                                                                                        <option>MD5-sess</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:160px;">
+                                                                                <label for="qop" class="col-sm-2 control-label">Qop</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="qop" placeholder="e.g.auth-int">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:210px;">
+                                                                                <label for="noncecount" class="col-sm-2 control-label">Nonce Count</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="noncecount" placeholder="e.g.00000001">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:260px;">
+                                                                                <label for="clientnonce" class="col-sm-2 control-label">Client Nonce</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="clientnonce" placeholder="e.g.oa4f113b">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:310px;">
+                                                                                <label for="opaque" class="col-sm-2 control-label">Opaque</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="opaque" placeholder="Opaque">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5" selected="selected">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                            <div style="margin-top:15px;">
+                                                                <label>Add authorization data to</label>
+                                                                <select class="form-control">
+                                                                    <option value="0">Request Body/Request URL</option>
+                                                                    <option value="1">Request Headers</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">Postman will automatically choose between body and URL based on the request method.</div>
+                                                            <button type="button" class="btn btn-warning btn-flat" style="margin:20px 0; border-radius:3px;" data-event="preview-request">Preview Request</button>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value">
+                                                        <div class="col-md-12">
+                                                            <div class="box-body">
+                                                                <div style="margin: 10px 0;">
+                                                                    <label for="oauth1consumerkey" class="col-sm-2 control-label">Consumer Key</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="oauth1consumerkey" placeholder="Consumer Key">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:60px;">
+                                                                    <label for="oauth1consumersecret" class="col-sm-2 control-label">Consumer Secret</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="oauth1consumersecret" placeholder="Consumer Secret">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:110px;">
+                                                                    <label for="oauth1accesstoken" class="col-sm-2 control-label">Access Token</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="oauth1accesstoken" placeholder="Access Token">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:160px;">
+                                                                    <label for="oauth1tokensecret" class="col-sm-2 control-label">Token Secret</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="oauth1tokensecret" placeholder="Token Secret">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="panel box box-primary" style="margin-top:210px;">
+                                                                    <div class="box-header with-border">
+                                                                        <h4 class="box-title">
+                                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" class="">
+                                                                                Advanced
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div id="collapseTwo" class="panel-collapse collapse in" aria-expanded="true">
+                                                                        <div class="box-body">
+                                                                            These are advanced configuration options. They are optional. Postman will auto generate values for some fields if left blank.
+                                                                            <div style="margin-top:10px;">
+                                                                                <label for="oauth1signaturemethod" class="col-sm-2 control-label">Signature Method</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <select class="form-control">
+                                                                                        <option>HMAC-SHA1</option>
+                                                                                        <option>HMAC-SHA256</option>
+                                                                                        <option>PLAINTEXT</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:60px;">
+                                                                                <label for="oauth1timestamp" class="col-sm-2 control-label">Timestamp</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="oauth1timestamp" placeholder="Timestamp">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:110px;">
+                                                                                <label for="oauth1nonce" class="col-sm-2 control-label">Nonce</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="oauth1nonce" placeholder="Nonce">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:160px;">
+                                                                                <label for="oauth1version" class="col-sm-2 control-label">Version</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="oauth1version" placeholder="1.0">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:210px;">
+                                                                                <label for="oauth1realm" class="col-sm-2 control-label">Realm</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="oauth1realm" placeholder="Realm">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6" selected="selected">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                            <div style="margin-top:15px;">
+                                                                <label>Add authorization data to</label>
+                                                                <select class="form-control">
+                                                                    <option value="0">Request URL</option>
+                                                                    <option value="1" selected="selected">Request Headers</option>
+                                                                </select>
+                                                            </div>
+                                                            <button type="button" class="btn btn-warning btn-flat" style="margin:20px 0; border-radius:3px;" data-event="preview-request">Preview Request</button>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value">
+                                                        <div class="col-md-12">
+                                                            <div class="box-body">
+                                                                <div style="margin: 10px 0;">
+                                                                    <label for="oauth2accesstoken" class="col-sm-2 control-label">Access Token</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="oauth2accesstoken" placeholder="Access Token">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                                        <button type="button" class="btn btn-warning btn-flat" style="margin: 20px 0; border-radius:3px;" data-event="preview-request">Get New Access Token</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7" selected="selected">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                            <button type="button" class="btn btn-warning btn-flat" style="margin:20px 0; border-radius:3px;" data-event="preview-request">Preview Request</button>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value">
+                                                        <div class="col-md-12">
+                                                            <div class="box-body">
+                                                                <div style="margin: 10px 0;">
+                                                                    <label for="oauth1consumerkey" class="col-sm-2 control-label">Hawk Auth ID</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="oauth1consumerkey" placeholder="Hawk Auth ID">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:60px;">
+                                                                    <label for="oauth1consumersecret" class="col-sm-2 control-label">Hawk Auth Key</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="oauth1consumersecret" placeholder="Hawk Auth Key">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:110px;">
+                                                                    <label for="oauth1signaturemethod" class="col-sm-2 control-label">Algorithm</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <select class="form-control">
+                                                                            <option selected="selected">SHA256</option>
+                                                                            <option>SHA1</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="panel box box-primary" style="margin-top:160px;">
+                                                                    <div class="box-header with-border">
+                                                                        <h4 class="box-title">
+                                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" class="">
+                                                                                Advanced
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div id="collapseThree" class="panel-collapse collapse in" aria-expanded="true">
+                                                                        <div class="box-body">
+                                                                            These are advanced configuration options. They are optional. Postman will auto generate values for some fields if left blank.
+                                                                            <div style="margin-top:10px;">
+                                                                                <label for="hawkuser" class="col-sm-2 control-label">User</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="hawkuser" placeholder="UserName">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:60px;">
+                                                                                <label for="hawknonce" class="col-sm-2 control-label">Nonce</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="hawknonce" placeholder="Nonce">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:110px;">
+                                                                                <label for="hawkext" class="col-sm-2 control-label">ext</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="hawkext" placeholder="e.g.Some-app-extra-data">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:160px;">
+                                                                                <label for="hawkapp" class="col-sm-2 control-label">app</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="hawkapp" placeholder="Application ID">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:210px;">
+                                                                                <label for="hawkdlg" class="col-sm-2 control-label">dlg</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="hawkdlg" placeholder="e.g.dalegated-by">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:260px;">
+                                                                                <label for="hawktimestamp" class="col-sm-2 control-label">Timestamp</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="hawktimestamp" placeholder="Timestamp">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8" selected="selected">AWS Signature</option>
+                                                                    <option value="9">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                            <button type="button" class="btn btn-warning btn-flat" style="margin:20px 0; border-radius:3px;" data-event="preview-request">Preview Request</button>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value">
+                                                        <div class="col-md-12">
+                                                            <div class="box-body">
+                                                                <div style="margin: 10px 0;">
+                                                                    <label for="awsaccesskey" class="col-sm-2 control-label">AccessKey</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="awsaccesskey" placeholder="Access Key">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:60px;">
+                                                                    <label for="awssecretkey" class="col-sm-2 control-label">SecretKey</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="awssecretkey" placeholder="Secret Key">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="panel box box-primary" style="margin-top:110px;">
+                                                                    <div class="box-header with-border">
+                                                                        <h4 class="box-title">
+                                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" class="">
+                                                                                Advanced
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div id="collapseFour" class="panel-collapse collapse in" aria-expanded="true">
+                                                                        <div class="box-body">
+                                                                            These are advanced configuration options. They are optional. Postman will auto generate values for some fields if left blank.
+                                                                            <div style="margin-top:10px;">
+                                                                                <label for="awsregion" class="col-sm-2 control-label">AWS Region</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="awsregion" placeholder="e.g.us-east-1">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:60px;">
+                                                                                <label for="awsservicename" class="col-sm-2 control-label">Service Name</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="awsservicename" placeholder="e.g.s3">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:110px;">
+                                                                                <label for="awssessiontoken" class="col-sm-2 control-label">Session Token</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="sessiontoken" placeholder="Session Token">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr role="row" style="display:none;">
+                                                    <th class="text-left" name="key" style="width:30%;">
+                                                        <div class="col-md-12">
+                                                            <div>
+                                                                <label>Type</label>
+                                                                <select class="form-control authType">
+                                                                    <option value="0">Inherit auth from parent</option>
+                                                                    <option value="1">No Auth</option>
+                                                                    <option value="2">Bearer Token</option>
+                                                                    <option value="3">Basic Auth</option>
+                                                                    <option value="4">Digest Auth</option>
+                                                                    <option value="5">OAuth 1.0</option>
+                                                                    <option value="6">OAuth 2.0</option>
+                                                                    <option value="7">Hask Authentication</option>
+                                                                    <option value="8">AWS Signature</option>
+                                                                    <option value="9" selected="selected">NTLM Authentication[Beta]</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top:15px;">The authorization header will be automatically generated when you send the request.</div>
+                                                            <div style="margin-top:15px;">By default, Postman will extract values from the received response, add it to the request, and retry it. Do you want to disable this?</div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" id="retryrequest"> Yes, disable retrying the request
+                                                                </label>
+                                                            </div>
+                                                            <button type="button" class="btn btn-warning btn-flat" style="margin:20px 0; border-radius:3px;" data-event="preview-request">Preview Request</button>
+                                                        </div>
+                                                    </th>
+                                                    <th class="text-left" name="value">
+                                                        <div class="col-md-12">
+                                                            <div class="box-body">
+                                                                <div style="margin: 10px 0;">
+                                                                    <label for="ntlmusername" class="col-sm-2 control-label">UserName</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="ntlmusername" placeholder="UserName">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-top:60px;">
+                                                                    <label for="ntlmpassword" class="col-sm-2 control-label">Password</label>
+
+                                                                    <div class="col-sm-10">
+                                                                        <input type="password" class="form-control" id="ntlmpassword" placeholder="Password">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" style="margin-top:110px;">
+                                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="ntlmpwdprop"> Show Password
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="panel box box-primary" style="margin-top:160px;">
+                                                                    <div class="box-header with-border">
+                                                                        <h4 class="box-title">
+                                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" class="">
+                                                                                Advanced
+                                                                            </a>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div id="collapseFive" class="panel-collapse collapse in" aria-expanded="true">
+                                                                        <div class="box-body">
+                                                                            These are advanced configuration options. They are optional. Postman will auto generate values for some fields if left blank.
+                                                                            <div style="margin-top:10px;">
+                                                                                <label for="ntlmdomain" class="col-sm-2 control-label">Domain</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="ntlmdomain" placeholder="example.com">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div style="margin-top:60px;">
+                                                                                <label for="ntlmworkstation" class="col-sm-2 control-label">Workstation</label>
+
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="ntlmworkstation" placeholder="e.g.Join-PC">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </table>
                                         </div>
                                         <!-- /.tab-pane -->
                                         <div class="tab-pane" id="headers">
@@ -178,15 +843,16 @@
                                                         <th class="text-left" name="key" rowspan="1" colspan="1">key</th>
                                                         <th class="text-left" name="value" rowspan="1" colspan="1">value</th>
                                                         <th class="text-left" name="description" rowspan="1" colspan="1">description</th>
-                                                        <th class="text-center" style="width:10px; padding-right:10px;"><a class="show" style="cursor:pointer;" data-toggle="popover" title="SHOW COLUMNS" data-container="body" data-placement="bottom">•••</a></th>
                                                         <th class="text-center" style="width:80px; padding-right:10px;"><a style="color:#e08e0b; cursor:pointer;" data-effect="changeheader">Bulk Edit</a></th>
+                                                        <th class="text-center addrow" style="width:10px; padding-right:10px;"><a class="show" style="cursor:pointer;"><i class="fa fa-plus"></i></a></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr role="row" class="odd">
                                                         <td class="text-left"><input placeholder="New Key" name="" class="form-control" type="text" likeoption="true" /></td>
                                                         <td class="text-left"><input placeholder="Value" name="" class="form-control" type="text" likeoption="true" /></td>
-                                                        <td class="text-left" colspan="3"><input placeholder="Description" name="" class="form-control" type="text" likeoption="true" /></td>
+                                                        <td class="text-left" colspan="2"><input placeholder="Description" name="" class="form-control" type="text" likeoption="true" /></td>
+                                                        <td class="text-center removeheader" style="vertical-align:middle;"><i class="fa fa-remove"></i></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -316,36 +982,4 @@
             </label>
         </div>
     </div>
-    <script type="text/javascript">
-        $('div[class="checkbox"]').find('input').on('click', function () { 
-            var ischeck = $(this).prop('checked');
-            //初始状态是选中状态
-            if (ischeck) {
-                //如果是选中执行下面的步骤，添加对应的列
-                $(this).removeAttr('checked');
-                var title = $(this).parent().text();
-                if (title == "Value") {
-                    $('#bulk').find('th[name=key]').remove();
-                    $('#bulk').find('td[name=value]').remove();
-                }
-                if (title == "Description") { 
-                    $('#bulk').find('th[name=description]').remove();
-                    $('#bulk').find('td[name=description]').remove();
-                }
-            }
-            else { 
-                //如果是取消选中执行下面的步骤：移除对应的列
-                $(this).attr('checked', 'checked');
-                var title = $(this).parent().text();
-                if (title == "Value") {
-                    $('#bulk').find('th[name=value]').remove();
-                    $('#bulk').find('td[name=value]').remove();
-                }
-                if (title == "Description") { 
-                    $('#bulk').find('th[name=description]').remove();
-                    $('#bulk').find('td[name=description]').remove();
-                }
-            }
-        })
-    </script>
 </div>

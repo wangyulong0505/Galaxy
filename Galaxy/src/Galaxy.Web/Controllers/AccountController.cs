@@ -157,7 +157,7 @@ namespace Galaxy.Web.Controllers
         public virtual JsonResult CheckUnique(string name)
         {
             bool result = true;
-            List<RegisterUserDto> Users = appService.GetUsers();
+            List<RegisterUserDto> Users = appService.GetRegisterUsers();
             foreach (RegisterUserDto user in Users)
             {
                 if (user.UserName.Equals(name))

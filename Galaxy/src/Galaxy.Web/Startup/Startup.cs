@@ -7,11 +7,15 @@ using Castle.Facilities.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using Galaxy.Web.Configuration;
+using System.IO;
+using Swashbuckle.AspNetCore.Swagger;
+using Galaxy.Web.Filters;
 
 namespace Galaxy.Web.Startup
 {
@@ -44,6 +48,22 @@ namespace Galaxy.Web.Startup
                     options.AccessDeniedPath = "/Home/Forbidden";
                     options.LoginPath = "/Account/Login";
                 });
+            //添加Swagger - Enable this line and the related lines in Configure method to enable swagger UI
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info
+                {
+                    Title = "Galaxy API接口文档",
+                    Version = "v1",
+                    Description = "RESTful API for Galaxy",
+                    TermsOfService = "None",
+                    Contact = new Contact { Name = "wangshibang", Email = "wangyulong0505@sina.com", Url = "" }
+                });
+                options.DocInclusionPredicate((docName, description) => true);
+                options.IncludeXmlComments(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Galaxy.Application.xml"));
+                options.DescribeAllEnumsAsStrings();
+                options.OperationFilter<HttpHeaderOperation>(); // 添加httpHeader参数
+            });
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
@@ -75,7 +95,12 @@ namespace Galaxy.Web.Startup
             }
 
             app.UseStaticFiles();
-
+            //添加Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Galaxy API V1");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

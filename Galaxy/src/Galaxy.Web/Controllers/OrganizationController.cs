@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Abp.Web.Models;
-using Galaxy.Organization;
+using Galaxy.Organizations;
 using Newtonsoft.Json;
+using Galaxy.Entities;
 
 namespace Galaxy.Web.Controllers
 {
@@ -26,9 +27,9 @@ namespace Galaxy.Web.Controllers
         /// 获取所有的数据，填充TreeView
         /// </summary>
         /// <returns></returns>
-        public JsonResult GetTreeData()
+        public async Task<JsonResult> GetTreeData()
         {
-            List<Entities.Organization> list = orgAppService.GetOrganizationList();
+            List<Organization> list = await orgAppService.GetOrganizations();
             return Json(new AjaxResponse() { Result = JsonConvert.SerializeObject(list)});
         }
 
