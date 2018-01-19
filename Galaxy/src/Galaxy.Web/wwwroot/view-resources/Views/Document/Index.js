@@ -1,14 +1,14 @@
 ﻿(function () {
     $(function () {
-        window.location.href= $('#basePath').val() + "home/index";
         $('button[data-btn-type]').click(function () {
             //button event
             var action = $(this).attr('data-btn-type');
             switch (action) {
                 case 'add':
-                    window.location.href = "../Document/Edit";
+                    window.location.href = appPath + "Document/Edit";
                     break;
                 case 'search':
+                    //
                     break;
                 case 'reset':
                     $('#searchDiv input[name="title"]').val('');
@@ -22,7 +22,7 @@
      * @param {any} id
      */
     function editMD(id) {
-        window.location.href = "../Document/Edit/" + id;
+        window.location.href = appPath + "Document/Edit/" + id;
     }
     /**
      * 删除
@@ -31,14 +31,14 @@
     function deleteMD(id){
         modals.confirm("是否要删除该行数据？", function () {
             $.ajax({
-                url: '../Document/Delete/' + id,
+                url: appPath + 'Document/Delete/' + id,
                 data: null,
                 type: 'POST',
-                dataType: 'JSON',
+                dataType: 'HTML',
                 success: function (data, textStatus) {
                     if (data) {
                         modals.info("删除成功");
-                        window.location.href = '../Document/Index?pa';
+                        window.location.href = appPath + 'Document/Index?pageIndex=' + $('#pageIndex').val() + '&pageSzie=' + $('#pageSize').val() + '&strKey=' + $('#key').val();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, erronThrown) {

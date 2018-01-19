@@ -258,6 +258,10 @@
              immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div>
+    <script type="text/javascript">
+        //This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
+        var appPath = '@ApplicationPath';
+    </script>
     <!-- jQuery -->
     <script src="~/lib/AdminLTE/plugins/jQuery/jquery-3.1.1.min.js" asp-append-version="true"></script>
     <!-- Bootstrap 3.3.6 -->

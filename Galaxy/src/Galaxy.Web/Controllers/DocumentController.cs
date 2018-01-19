@@ -24,6 +24,7 @@ namespace Galaxy.Web.Controllers
             ViewBag.Page = TablePagination.PagingHtml(pageIndex, pageSize, pageCount, itemCount, strKey);
             ViewBag.PageIndex = pageIndex;
             ViewBag.PageSize = pageSize;
+            ViewBag.Key = strKey;
             return View(docList);
         }
 
