@@ -11,8 +11,8 @@ using System;
 namespace Galaxy.Migrations
 {
     [DbContext(typeof(GalaxyDbContext))]
-    [Migration("20180119013744_initialCreate")]
-    partial class initialCreate
+    [Migration("20180120034634_initialCreation")]
+    partial class initialCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -1,8 +1,6 @@
-﻿(function ($) {
-    if (!$) {
-        return;
-    }
+﻿(function () {
     $(function () {
+        //初始化icheck
         $('input.icheck').iCheck({
             checkboxClass: 'icheckbox_square-red',
             radioClass: 'iradio_square-red',
@@ -134,9 +132,7 @@
             }
         });
 
-        $registerForm.submit(function (e) {
-            e.preventDefault();
-
+        $('#RegisterButton').on('click', function () {
             if (!$registerForm.data('bootstrapValidator').isValid()) {
                 return;
             }
@@ -159,7 +155,8 @@
                 dataType: 'json',
                 success: function (data, textStatus) {
                     if (data) {
-                        location.href = 'Home/Index';
+                        modals.info("注册成功");
+                        window.location.href = appPath + 'Home/Index';
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

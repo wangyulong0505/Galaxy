@@ -141,7 +141,8 @@ namespace Galaxy.Web.Controllers
         /// <returns></returns>
         /// 
         [AllowAnonymous]
-        public virtual async Task<JsonResult> Register(RegisterViewModel registermodel)
+        [HttpPost]
+        public virtual async Task<JsonResult> Register(RegisterUserDto entity)
         {
             //数据写进数据库后，执行Identity身份验证， 根据Authentcation生成Token，设置Cookie，直接跳转到首页
             return Json(new AjaxResponse { Result = "" });

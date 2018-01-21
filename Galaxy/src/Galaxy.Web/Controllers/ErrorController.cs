@@ -2,6 +2,7 @@
 using Abp.AspNetCore.Mvc.Controllers;
 using Abp.Web.Models;
 using Abp.Web.Mvc.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,18 @@ namespace Galaxy.Web.Controllers
                     exception
                 )
             );
+        }
+
+        [AllowAnonymous]
+        public new ActionResult NotFound()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult SomethingWrong()
+        {
+            return View();
         }
     }
 }

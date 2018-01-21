@@ -5,22 +5,10 @@ using System.Collections.Generic;
 
 namespace Galaxy.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class initialCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "Birthday",
-                table: "Users",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldNullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Avatar",
-                table: "Users",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "Documents",
                 columns: table => new
@@ -82,6 +70,51 @@ namespace Galaxy.Migrations
                 {
                     table.PrimaryKey("PK_Organization", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Code = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Remark = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Avatar = table.Column<string>(nullable: true),
+                    Birthday = table.Column<DateTime>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    DepartmentId = table.Column<int>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    Gender = table.Column<int>(nullable: false),
+                    Github = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    QQ = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    Telephone = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    WeChat = table.Column<string>(nullable: true),
+                    Weibo = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -95,15 +128,11 @@ namespace Galaxy.Migrations
             migrationBuilder.DropTable(
                 name: "Organization");
 
-            migrationBuilder.DropColumn(
-                name: "Avatar",
-                table: "Users");
+            migrationBuilder.DropTable(
+                name: "Roles");
 
-            migrationBuilder.AlterColumn<string>(
-                name: "Birthday",
-                table: "Users",
-                nullable: true,
-                oldClrType: typeof(DateTime));
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
