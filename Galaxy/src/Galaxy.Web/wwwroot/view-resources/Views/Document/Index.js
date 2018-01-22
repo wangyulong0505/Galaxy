@@ -38,7 +38,7 @@
                 success: function (data, textStatus) {
                     if (data) {
                         modals.info("删除成功");
-                        window.location.href = appPath + 'Document/Index?pageIndex=' + $('#pageIndex').val() + '&pageSzie=' + $('#pageSize').val() + '&strKey=' + $('#key').val();
+                        window.location.href = appPath + 'Document/Index?pageIndex=' + $('#pageIndex').val() + '&pageSize=' + $('#pageSize').val() + '&strKey=' + $('#key').val();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, erronThrown) {
@@ -52,6 +52,6 @@
      * @param {any} id
      */
     function previewMD(id, path) {
-        window.location.href = "../Documnt/Preview/" + id;
+        window.location.href = appPath + "../Documnt/Preview/" + id;
     }
 })()

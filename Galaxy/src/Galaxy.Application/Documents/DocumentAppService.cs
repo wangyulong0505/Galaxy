@@ -25,6 +25,16 @@ namespace Galaxy.Documents
         }
 
         /// <summary>
+        /// 根据Id获取实体对象
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<Document> GetDocumentDetail(int Id)
+        {
+            return await repository.GetAsync(Id);
+        }
+
+        /// <summary>
         /// 获取文档列表
         /// </summary>
         /// <returns></returns>

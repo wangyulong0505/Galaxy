@@ -16,5 +16,7 @@ namespace Galaxy.Documents
         Task DeleteDocument(int Id);
 
         List<Document> GetPagingDocuments(int pageIndex, int pageSize, out int pageCount, out int itemCount);
+
+        Task<Document> GetDocumentDetail(int Id);
     }
 }

@@ -1,23 +1,15 @@
-﻿@section styles{
-    <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+﻿@model Galaxy.Entities.Document
+@section styles{
     <link href="~/lib/AdminLTE/plugins/iCheck/all.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/AdminLTE/plugins/datepicker/datepicker3.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/AdminLTE/plugins/select2/select2.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
     <!--editor.md-->
     <link href="~/lib/editor.md/css/editormd.min.css" rel="stylesheet" asp-append-version="true" />
 }
 @section scripts{
-    <script src="~/lib/AdminLTE/plugins/datepicker/bootstrap-datepicker.js" asp-append-version="true"></script>
-    <script src="~/lib/AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" asp-append-version="true"></script>
     <script src="~/lib/AdminLTE/plugins/select2/select2.full.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
     <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
     <script src="~/js/base.js" asp-append-version="true"></script>
-    <script src="~/view-resources/Views/Document/Preview.js" asp-append-version="true"></script>
     <!--editor.md-->
     <script src="~/lib/editor.md/lib/marked.min.js" asp-append-version="true"></script>
     <script src="~/lib/editor.md/lib/prettify.min.js" asp-append-version="true"></script>
@@ -25,9 +17,9 @@
     <script src="~/lib/editor.md/lib/underscore.min.js" asp-append-version="true"></script>
     <script src="~/lib/editor.md/lib/sequence-diagram.min.js" asp-append-version="true"></script>
     <script src="~/lib/editor.md/lib/flowchart.min.js" asp-append-version="true"></script>
-    <script src="~/lib/editor.md/lib/flowchart.min.js" asp-append-version="true"></script>
     <script src="~/lib/editor.md/lib/jquery.flowchart.min.js" asp-append-version="true"></script>
     <script src="~/lib/editor.md/editormd.min.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/Document/Preview.js" asp-append-version="true"></script>
 }
 
 <div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
@@ -48,194 +40,15 @@
                 <div class="box box-primary">
                     <div class="box-header text-center">
                         <div clas="form-group">
-                            <label id="title" style="font-size:21px;font-weight:normal"></label>
+                            <label id="title" style="font-size:21px;font-weight:normal">@Model.Title</label>
                         </div>
                         <div clas="form-group">
                             <label style="font-weight: normal">关键字：</label>
-                            <label id="keywords"></label>
+                            <label id="keywords">@Model.KeyWords</label>
                         </div>
                     </div>
                     <div clas="box-body">
-                        <div id="editormd" class="markdown-body editormd-html-preview">
-
-                            <h1 id="h1--markdown-"><a name="欢迎使用Markdown编辑器写文章" class="reference-link"></a><span class="header-link octicon octicon-link"></span>欢迎使用Markdown编辑器写文章</h1>
-                            <p>本Markdown编辑器使用<strong>Editor.md</strong>修改而来，用它写技术文章，将会带来全新的体验哦：</p>
-                            <ul>
-                                <li><strong>Markdown和扩展Markdown简洁的语法</strong></li>
-                                <li><strong>代码块高亮</strong></li>
-                                <li><strong>图片链接和图片上传</strong></li>
-                                <li><strong><em>LaTex</em>数学公式</strong></li>
-                                <li><strong>UML序列图和流程图</strong></li>
-                                <li><strong>离线写文章</strong></li>
-                                <li><strong>导入导出Markdown文件</strong></li>
-                                <li><strong>丰富的快捷键</strong></li>
-                            </ul>
-                            <hr>
-                            <h2 id="h2-u5FEBu6377u952E"><a name="快捷键" class="reference-link"></a><span class="header-link octicon octicon-link"></span>快捷键</h2>
-                            <ul>
-                                <li>加粗    <code>Ctrl + B</code></li>
-                                <li>斜体    <code>Ctrl + I</code></li>
-                                <li>引用    <code>Ctrl + Q</code></li>
-                                <li>插入链接    <code>Ctrl + L</code></li>
-                                <li>插入代码    <code>Ctrl + K</code></li>
-                                <li>插入图片    <code>Ctrl + G</code></li>
-                                <li>提升标题    <code>Ctrl + H</code></li>
-                                <li>有序列表    <code>Ctrl + O</code></li>
-                                <li>无序列表    <code>Ctrl + U</code></li>
-                                <li>横线    <code>Ctrl + R</code></li>
-                                <li>撤销    <code>Ctrl + Z</code></li>
-                                <li>重做    <code>Ctrl + Y</code></li>
-                            </ul>
-                            <h2 id="h2-markdown-"><a name="Markdown及扩展" class="reference-link"></a><span class="header-link octicon octicon-link"></span>Markdown及扩展</h2>
-                            <blockquote>
-                                <p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— <a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank"> [ 维基百科 ]</a></p><a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank">
-                                </a>
-                            </blockquote>
-                            <a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank"></a>
-                            <p>
-                                <a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank">使用简单的符号标识不同的标题，将某些文字标记为<strong>粗体</strong>或者<em>斜体</em>，创建一个</a>
-                                <a href="http://www.csdn.net">链接</a>等，详细语法参考帮助？。
-                            </p>
-                            <p>本编辑器支持 <strong>Markdown Extra</strong> , 　扩展了很多好用的功能。具体请参考[Github][2].</p>
-                            <h3 id="h3-u8868u683C"><a name="表格" class="reference-link"></a><span class="header-link octicon octicon-link"></span>表格</h3><p><strong>Markdown　Extra</strong>　表格语法：</p>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>项目</th>
-                                        <th>价格</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Computer</td>
-                                        <td>$1600</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phone</td>
-                                        <td>$12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pipe</td>
-                                        <td>$1</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p>可以使用冒号来定义对齐方式：</p>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th style="text-align:left">项目</th>
-                                        <th style="text-align:right">价格</th>
-                                        <th style="text-align:center">数量</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="text-align:left">Computer</td>
-                                        <td style="text-align:right">1600 元</td>
-                                        <td style="text-align:center">5</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align:left">Phone</td>
-                                        <td style="text-align:right">12 元</td>
-                                        <td style="text-align:center">12</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align:left">Pipe</td>
-                                        <td style="text-align:right">1 元</td>
-                                        <td style="text-align:center">234</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <h3 id="h3-u4EE3u7801u5757"><a name="代码块" class="reference-link"></a><span class="header-link octicon octicon-link"></span>代码块</h3>
-                            <p>代码块语法遵循标准markdown代码，例如：</p>
-                            <pre class="prettyprint linenums prettyprinted">
-                                <ol class="linenums">
-                                    <li class="L0"><code class="lang-python"><span class="lit">requires_authorization</span></code></li>
-                                    <li class="L1"><code class="lang-python"><span class="kwd">def</span><span class="pln"> somefunc</span><span class="pun">(</span><span class="pln">param1</span><span class="pun">=</span><span class="str">''</span><span class="pun">,</span><span class="pln"> param2</span><span class="pun">=</span><span class="lit">0</span><span class="pun">):</span></code></li>
-                                    <li class="L2"><code class="lang-python"><span class="pln">    </span><span class="str">'''A docstring'''</span></code></li>
-                                    <li class="L3"><code class="lang-python"><span class="pln">    </span><span class="kwd">if</span><span class="pln"> param1 </span><span class="pun">&gt;</span><span class="pln"> param2</span><span class="pun">:</span><span class="pln"> </span><span class="com"># interesting</span></code></li>
-                                    <li class="L4"><code class="lang-python"><span class="pln">        </span><span class="kwd">print</span><span class="pln"> </span><span class="str">'Greater'</span></code></li>
-                                    <li class="L5"><code class="lang-python"><span class="pln">    </span><span class="kwd">return</span><span class="pln"> </span><span class="pun">(</span><span class="pln">param2 </span><span class="pun">-</span><span class="pln"> param1 </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">or</span><span class="pln"> </span><span class="kwd">None</span></code></li>
-                                    <li class="L6"><code class="lang-python"><span class="kwd">class</span><span class="pln"> </span><span class="typ">SomeClass</span><span class="pun">:</span></code></li>
-                                    <li class="L7"><code class="lang-python"><span class="pln">    </span><span class="kwd">pass</span></code></li>
-                                    <li class="L8"><code class="lang-python"><span class="pun">&gt;&gt;&gt;</span><span class="pln"> message </span><span class="pun">=</span><span class="pln"> </span><span class="str">'''interpreter</span></code></li>
-                                    <li class="L9"><code class="lang-python"><span class="str">... prompt'''</span></code></li>
-                                </ol>
-                            </pre>
-                            <h3 id="h3-u76EEu5F55"><a name="目录" class="reference-link"></a><span class="header-link octicon octicon-link"></span>目录</h3><p>用 <code>[TOC]</code>来生成目录：</p>
-                            <h3 id="h3-u6570u5B66u516Cu5F0F"><a name="数学公式" class="reference-link"></a><span class="header-link octicon octicon-link"></span>数学公式</h3><p>使用MathJax渲染<em>LaTex</em> 数学公式，详见[math.stackexchange.com][1].</p>
-                            <ul>
-                                <li>行内公式，数学公式为：$\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$。</li>
-                                <li>块级公式：</li>
-                            </ul>
-                            <p class="editormd-tex">    x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} </p>
-                            <p>更多LaTex语法请参考 [这儿][3].</p>
-                            <h3 id="h3-uml-"><a name="UML 图:" class="reference-link"></a><span class="header-link octicon octicon-link"></span>UML 图:</h3><p>可以渲染序列图：</p>
-                            <div class="sequence-diagram">
-                                张三-&gt;李四: 嘿，小四儿, 写博客了没?
-                                Note right of 李四: 李四愣了一下，说：
-                                李四--&gt;张三: 忙得吐血，哪有时间写。
-                            </div><p>或者流程图：</p>
-                            <div class="flowchart">
-                                <svg height="358.875" version="1.1" width="140.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative;">
-                                    <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.2</desc>
-                                    <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-                                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                        <marker id="raphael-marker-endblock33-obj8" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use>
-                                        </marker>
-                                        <marker id="raphael-marker-endblock33-obj9" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use>
-                                        </marker>
-                                        <marker id="raphael-marker-endblock33-obj10" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use>
-                                        </marker>
-                                        <marker id="raphael-marker-endblock33-obj12" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use>
-                                        </marker>
-                                    </defs>
-                                    <rect x="0" y="0" width="50" height="36" rx="20" ry="20" fill="#ffffff" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="st" transform="matrix(1,0,0,1,33.75,13.375)"></rect>
-                                    <text x="10" y="18" text-anchor="start" font-family="&quot;Arial&quot;" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 14px;" id="stt" class="flowchartt" transform="matrix(1,0,0,1,33.75,13.375)">
-                                        <tspan dy="5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">开始</tspan>
-                                    </text>
-                                    <rect x="0" y="0" width="78" height="36" rx="0" ry="0" fill="#ffffff" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="op" transform="matrix(1,0,0,1,19.75,112.75)"></rect>
-                                    <text x="10" y="18" text-anchor="start" font-family="&quot;Arial&quot;" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 14px;" id="opt" class="flowchartt" transform="matrix(1,0,0,1,19.75,112.75)">
-                                        <tspan dy="5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">我的操作</tspan>
-                                    </text>
-                                    <path fill="#ffffff" stroke="#000000" d="M27.375,13.6875L0,27.375L54.75,54.75L109.5,27.375L54.75,0L0,27.375" stroke-width="2" id="cond" class="flowchart" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" transform="matrix(1,0,0,1,4,202.75)"></path>
-                                    <text x="32.375" y="27.375" text-anchor="start" font-family="&quot;Arial&quot;" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 14px;" id="condt" class="flowchartt" transform="matrix(1,0,0,1,4,202.75)">
-                                        <tspan dy="5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">确认？</tspan>
-                                        <tspan dy="16.8" x="32.375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></tspan>
-                                    </text>
-                                    <rect x="0" y="0" width="50" height="36" rx="20" ry="20" fill="#ffffff" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="end-element" id="e" transform="matrix(1,0,0,1,33.75,320.875)"></rect>
-                                    <text x="10" y="18" text-anchor="start" font-family="&quot;Arial&quot;" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 14px;" id="et" class="end-elementt" transform="matrix(1,0,0,1,33.75,320.875)">
-                                        <tspan dy="5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">结束</tspan>
-                                    </text>
-                                    <path fill="none" stroke="#000000" d="M58.75,49.375C58.75,49.375,58.75,97.19504317641258,58.75,109.75714436240378" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj8)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                    <path fill="none" stroke="#000000" d="M58.75,148.75C58.75,148.75,58.75,188.40409994125366,58.75,199.75043908460066" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj9)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                    <path fill="none" stroke="#000000" d="M58.75,257.5C58.75,257.5,58.75,305.3200431764126,58.75,317.8821443624038" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj10)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                    <text x="63.75" y="267.5" text-anchor="start" font-family="&quot;Arial&quot;" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 14px;">
-                                        <tspan dy="5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">yes</tspan>
-                                    </text>
-                                    <path fill="none" stroke="#000000" d="M113.5,230.125C113.5,230.125,138.5,230.125,138.5,230.125C138.5,230.125,138.5,87.75,138.5,87.75C138.5,87.75,58.75,87.75,58.75,87.75C58.75,87.75,58.75,103.12344455718994,58.75,109.75924777425826" stroke-width="2" marker-end="url(#raphael-marker-endblock33-obj12)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                    <text x="118.5" y="220.125" text-anchor="start" font-family="&quot;Arial&quot;" font-size="14px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 14px;">
-                                        <tspan dy="5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">no</tspan>
-                                    </text>
-                                </svg>
-                            </div>
-                            <ul>
-                                <li>关于 <strong>序列图</strong> 语法，参考 [这儿][4],</li>
-                                <li>关于 <strong>流程图</strong> 语法，参考 [这儿][5].</li>
-                            </ul>
-                            <h2 id="h2-u79BBu7EBFu5199u535Au5BA2"><a name="离线写博客" class="reference-link"></a><span class="header-link octicon octicon-link"></span>离线写博客</h2><p>即使用户在没有网络的情况下，也可以通过本编辑器离线写文章（直接在曾经使用过的浏览器中输入<a href="http://write.blog.csdn.net/mdeditor">write.blog.csdn.net/mdeditor</a>即可。<strong>Markdown编辑器</strong>使用浏览器离线存储将内容保存在本地。</p>
-                            <p>用户写文章的过程中，内容实时保存在浏览器缓存中，在用户关闭浏览器或者其它异常情况下，内容不会丢失。用户再次打开浏览器时，会显示上次用户正在编辑的没有发表的内容。</p>
-                            <p>文章发表后，本地缓存将被删除。　</p>
-                            <p>用户可以选择 <i class="icon-disk"></i> 把正在写的文章保存到服务器草稿箱，即使换浏览器或者清除缓存，内容也不会丢失。</p>
-                            <blockquote>
-                                <p><strong>注意：</strong>虽然浏览器存储大部分时候都比较可靠，但为了您的数据安全，在联网后，<strong>请务必及时发表或者保存到服务器草稿箱</strong></p>
-                            </blockquote>
-                        </div>
+                        <div id="editormd" class="markdown-body editormd-html-preview">@Html.Raw(Model.Content)</div>
                     </div>
                 </div>
             </div>
@@ -255,34 +68,7 @@
                 <!-- /.box-header -->
                 <div class="box-body" style="padding-left:0">
                     <div id="custom-toc-container" previewcontainer="false">
-                        <div class="editormd-toc-menu">
-                            <div class="editormd-toc-menu">
-                                <div class="markdown-toc editormd-markdown-toc">
-                                    <ul class="markdown-toc-list">
-                                        <li>
-                                            <a class="toc-level-1" href="#欢迎使用Markdown编辑器写文章" level="1">欢迎使用Markdown编辑器写文章</a>
-                                            <ul>
-                                                <li><a class="toc-level-2" href="#快捷键" level="2">快捷键</a></li>
-                                                <li>
-                                                    <a class="toc-level-2" href="#Markdown及扩展" level="2">Markdown及扩展</a>
-                                                    <ul>
-                                                        <li><a class="toc-level-3" href="#表格" level="3">表格</a></li>
-                                                        <li><a class="toc-level-3" href="#代码块" level="3">代码块</a></li>
-                                                        <li><a class="toc-level-3" href="#目录" level="3">目录</a></li>
-                                                        <li><a class="toc-level-3" href="#数学公式" level="3">数学公式</a></li>
-                                                        <li><a class="toc-level-3" href="#UML 图:" level="3">UML 图:</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a class="toc-level-2" href="#离线写博客" level="2">离线写博客</a>
-                                                    <ul></ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -290,4 +76,5 @@
         </div>
     </section>
 </div>
+<input type="hidden" id="mid" value="@Model.Id" />
 
