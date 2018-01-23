@@ -28,7 +28,7 @@
                 }
             }
         });
-
+        
         var editor;
         //初始化editormd
         editor = editormd("editormd", {                                                         //editormd为div的Id
@@ -61,7 +61,7 @@
                 localStorage.markdownContent = editor.getMarkdown();
             }
         });
-
+        
         //markdown 默认内容
         var markdownContent = null;
         $.ajax({
@@ -83,7 +83,7 @@
             $.ajax({
                 url: appPath + 'Document/Markdown/' + mid,
                 type: 'GET',
-                data: null,
+                data: {},
                 dataType: 'JSON',
                 success: function (data, textStatus) {
                     if (localStorage.mdtitle && localStorage.mdtitle != data.title) {
@@ -150,25 +150,40 @@
         });
 
         //保存编辑内容
+        
         $("#submitMD").on('click', function () {
             var obj_md = {};
             obj_md["Content"] = editor.getMarkdown();
             obj_md["KeyWords"] = $("#keywords").val();
             obj_md["Title"] = $("#title").val();
             obj_md["Id"] = $('#Id').val();
-            
-            var data = {
-                "Content": editor.getMarkdown(),
-                "KeyWords": $("#keywords").val(),
-                "Title": $("#title").val(),
-                "Id": $('#Id').val()
-            }
-            
+            var param = {
+                Content: editor.getMarkdown(),
+                KeyWords: $("#keywords").val(),
+                Title: $("#title").val(),
+                Id: $('#Id').val()
+            };
+            console.log(obj_md);
+            /*
+            $.post(appPath + 'Document/MarkdownSave',
+                JSON.stringify(obj_md),
+                function (data, status) {
+                    if (data.success) {
+                        modals.info("保存成功");
+                        window.location.href = appPath + 'Document/Index';
+                    }
+                    else {
+                        modals.error(data.result);
+                    }
+                }
+            );
+            */
             $.ajax({
                 url: appPath + 'Document/MarkdownSave',
                 type: 'POST',
-                data: data,
-                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(param),
+                dataType: 'json',
                 success: function (data, textStatus) {
                     if (data.success) {
                         modals.info("保存成功");
@@ -177,17 +192,16 @@
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     console.log(XMLHttpRequest);
-                    console.log(textStatus);
                     modals.error(errorThrown);
                 }
             });
         });
-
+        
         $("#backMD").click(function () {
             window.location.href = appPath + 'Document/Index';
         });
     });
-
+    
     //根据select的Id，动态生成option，并追加到select下面
     function themeSelect(id, themes, lsKey, callback) {
         var select = $("#" + id);

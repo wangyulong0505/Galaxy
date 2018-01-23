@@ -125,6 +125,7 @@ function ajaxPost(url, params, callback) {
         //contentType : 'application/json',
         success: function (data, status) {
             result = data;
+            alert("操作成功");
             if (data && data.code && data.code == '101') {
                 modals.error("操作失败，请刷新重试，具体错误：" + data.message);
                 return false;

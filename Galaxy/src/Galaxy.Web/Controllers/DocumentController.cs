@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Abp.Web.Models;
 using Galaxy.Documents;
 using Galaxy.Entities;
+using Galaxy.Web.Models.Document;
 using Galaxy.Web.Utils;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Hosting;
-using Abp.Web.Models;
-using Newtonsoft.Json;
-using Galaxy.Web.Models.Document;
+using System.Threading.Tasks;
 
 namespace Galaxy.Web.Controllers
 {
@@ -67,7 +67,6 @@ namespace Galaxy.Web.Controllers
         public async Task<JsonResult> MarkdownSave([FromBody]MarkdownViewModel entity)
         {
             Document doc = new Document();
-            //Document entity = JsonConvert.DeserializeObject<Document>(str);
             try
             {
                 if (entity.Id == 0)
@@ -89,7 +88,7 @@ namespace Galaxy.Web.Controllers
                     doc.Title = entity.Title;
                     await documentAppService.PutDocument(doc);
                 }
-
+                
                 return Json(new AjaxResponse { Success=true, Result="" });
             }
             catch (Exception ex)
@@ -157,6 +156,30 @@ namespace Galaxy.Web.Controllers
             Document entity = await documentAppService.GetDocumentDetail(Convert.ToInt32(Id));
 
             return Json(new AjaxResponse { Result = JsonConvert.SerializeObject(entity) });
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public async Task<JsonResult> Delete(int Id)
+        {
+            try
+            {
+                if (Id == 0)
+                {
+                    return Json(new AjaxResponse { Success = false, Error = new ErrorInfo("Id为空"), Result = "" });
+                }
+                await documentAppService.DeleteDocument(Id);
+                return Json(new AjaxResponse { Success = true, Result = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new AjaxResponse { Success = false, Result = ex.Message });
+            }
         }
     }
 }
