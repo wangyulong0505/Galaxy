@@ -64,11 +64,14 @@ namespace Galaxy.Web.Controllers
         /// <returns></returns>
         /// 
         [HttpPost]
-        public async Task<JsonResult> MarkdownSave([FromBody]MarkdownViewModel entity)
+        [IgnoreAntiforgeryToken]
+        public async Task<JsonResult> PostMarkdown([FromBody]Document entity)
         {
+            //参数到底怎么传过来
             Document doc = new Document();
             try
             {
+                
                 if (entity.Id == 0)
                 {
                     doc.KeyWords = entity.KeyWords;

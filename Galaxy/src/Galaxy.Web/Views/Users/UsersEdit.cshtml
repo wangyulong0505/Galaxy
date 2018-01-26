@@ -22,7 +22,7 @@
     <section class="content-header">
         <h1>
             <span>用户管理</span>
-            <small>新增</small>
+            <small>编辑</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -75,7 +75,7 @@
 
                                     <div class="col-sm-6">
                                         <input type="hidden" name="deptId" id="deptId" />
-                                        <input type="text" class="form-control" id="deptName" value="" placeholder="所在部门" />
+                                        <input type="text" class="form-control" id="deptName" value="@Model.DepartmentId" placeholder="所在部门" />
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="button" class="btn btn-info" data-flag="org">
@@ -141,7 +141,7 @@
                         <div class="box-footer text-right">
                             <!--以下两种方式提交验证,根据所需选择-->
                             <button type="button" class="btn btn-primary" data-btn-type="cancel">取消</button>
-                            <button type="submit" class="btn btn-primary" data-btn-type="save">提交</button>
+                            <button type="button" class="btn btn-primary" data-btn-type="save">提交</button>
                         </div>
                         <!-- /.box-footer -->
                         <input type="hidden" value="">

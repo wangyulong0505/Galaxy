@@ -13,7 +13,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            文章管理 <small>列表</small>
+            文章管理 
+            <small>列表</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -34,7 +35,7 @@
                                 <div class="col-sm-3">
                                     <div class="dataTables_length" id="markdown_table_length">
                                         <label>
-                                            <select name="markdown_table_length" aria-controls="markdown_table" class="form-control input-sm">
+                                            <select id="markdown_page" name="markdown_table_length" aria-controls="markdown_table" class="form-control input-sm">
                                                 <option value="10">10</option>
                                                 <option value="20">20</option>
                                                 <option value="50">50</option>
@@ -74,14 +75,14 @@
                                             @for (int i = 0; i < Model.Count(); i++)
                                             {
                                                 <tr id="@Model[i].Id" role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
-                                                    <td class="text-center sorting_1">@((ViewBag.PageIndex-1) * ViewBag.PageSize) + i + 1</td>
+                                                    <td class="text-center sorting_1">@(((ViewBag.PageIndex-1) * ViewBag.PageSize) + i + 1)</td>
                                                     <td class="text-left">@Model[i].Title</td>
                                                     <td class="text-left">@Model[i].KeyWords</td>
                                                     <td class="text-center">@Model[i].CreateTime.ToString("yyyy-MM-dd")</td>
                                                     <td class="text-center">
-                                                        <a href="#" onclick="previewMD('@Model[i].Id')"><i class="fa">浏览</i></a>&nbsp;&nbsp;
-                                                        <a href="#" onclick="editMD('@Model[i].Id')"><i class="fa">编辑</i></a>&nbsp;&nbsp;
-                                                        <a href="#" onclick="deleteMD('@Model[i].Id')"><i class="fa">删除</i></a>
+                                                        <a href="#" data-btn-type="preview"><i class="fa">浏览</i></a>&nbsp;&nbsp;
+                                                        <a href='@Url.Content("~/Document/Edit/" + Model[i].Id)'><i class="fa">编辑</i></a>&nbsp;&nbsp;
+                                                        <a href="#" data-btn-type="delete"><i class="fa">删除</i></a>
                                                     </td>
                                                 </tr>
                                             }

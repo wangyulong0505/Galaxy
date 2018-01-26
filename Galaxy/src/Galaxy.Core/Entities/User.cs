@@ -48,7 +48,7 @@ namespace Galaxy.Entities
         public virtual string Email { get; set; }
 
         /// <summary>
-        /// 性别
+        /// 性别 0:男， 1:女
         /// </summary>
         public virtual int Gender { get; set; }
 

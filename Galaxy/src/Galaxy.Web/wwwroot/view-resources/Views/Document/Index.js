@@ -16,19 +16,31 @@
                     break;
             }
         });
+        $('a[data-btn-type]').click(function () {
+            //a event
+            var action = $(this).attr('data-btn-type');
+            switch (action) {
+                case 'delete':
+                    var id = $(this).parents('tr').attr("id");
+                    deleteMD(id);
+                    break;
+                case 'preview':
+                    var id = $(this).parents('tr').attr("id");
+                    previewMD(id);
+                    break;
+            }
+        })
+        $('#markdown_page').change(function () {
+            var vs = this.value;
+            console.log(this.value);
+            window.location.href = appPath + 'Documet/Index?pageIndex=1&pageSize=' + vs + '&strKey=' + $('#key').val();
+        })
     });
-    /**
-     * 编辑
-     * @param {any} id
-     */
-    function editMD(id) {
-        window.location.href = appPath + "Document/Edit/" + id;
-    }
     /**
      * 删除
      * @param {any} id
      */
-    function deleteMD(id){
+    function deleteMD(id) {
         modals.confirm("是否要删除该行数据？", function () {
             $.ajax({
                 url: appPath + 'Document/Delete/' + id,
@@ -51,7 +63,7 @@
      * 预览
      * @param {any} id
      */
-    function previewMD(id, path) {
-        window.location.href = appPath + "../Documnt/Preview/" + id;
+    function previewMD(id) {
+        window.location.href = appPath + "../Document/Preview/" + id;
     }
 })()

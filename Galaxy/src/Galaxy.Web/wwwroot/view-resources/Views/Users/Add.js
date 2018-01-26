@@ -1,5 +1,6 @@
 ﻿(function () {
     $(function () {
+        var $addForm = $('#user-form');
         $("#user-form").bootstrapValidator({
             message: '请输入有效值',
             /*
@@ -28,10 +29,6 @@
                     validators: {
                         notEmpty: {
                             message: '请输入出生日期'
-                        },
-                        date: {
-                            format: $(this).data("format"),
-                            message: '请输入有效日期'
                         }
                     }
                 },
@@ -64,7 +61,6 @@
             nameField: $("#deptName"),
             title: '选择部门',
             levels: 3
-
         })
         */
         //回填id
@@ -89,13 +85,38 @@
 
         //cancel
         $("[data-btn-type='cancel']").click(function () {
-            window.location.href = '../Users/Index';
-        })
-
+            window.location.href = appPath + 'Users/Index';
+        });
+        //upload
         $("[data-btn-type='upload']").click(function () {
             uploadAvatar();
-        })
+        });
+        //submit
+        $("[data-btn-type='save']").click(function () {
+            console.log($addForm.serialize());
+            $.ajax({
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'POST',
+                url: $addForm.attr('action'),
+                data: $addForm.serialize(),
+                dataType: 'json',
+                success: function (data, textStatus) {
+                    console.log(data);
+                    if (data.success) {
+                        modals.correct("添加成功");
+                        window.location.href = appPath + 'Users/Index';
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    modals.error(errorThrown);
+                }
+            });
+        });
     });
+
+    /**
+     * 初始化日期选择器
+     */
     function initDatePicker() {
         var form = $('#user-form');
         var datepickerElement = "[data-flag='datepicker']";
@@ -114,6 +135,10 @@
             }).parent().css("padding-left", "15px").css("padding-right", "15px");
         }
     }
+
+    /**
+     * 初始化ICheck
+     */
     function initICheck() {
         var form = $('#user-form');
         if (form.find('[data-flag="icheck"]').length > 0) {
@@ -133,28 +158,29 @@
             });
         }
     }
-    function gotolist(id) {
-        window.location.href = abp.appPath + 'Users/Index';
-    }
 
-    var avatarWin = "avatarWin";
+    /**
+     * 上传头像
+     */
     function uploadAvatar() {
         modals.openWin({
-            winId: avatarWin,
+            winId: 'avatarWin',
             title: '上传头像',
             width: '700px',
-            url: basePath + "/user/avatar?userId=" + id
+            url: appPath + "Users/Avatar"
         });
     }
 
-
+    /**
+     * 没找到触发的入口
+     */
     function resetForm() {
         form.clearForm();
         $("#user-form").data('bootstrapValidator').resetForm();
     }
 
     function setAvatar(avatar_id, avatar_url, isAdd) {
-        $("#avatarImg").attr("src", basePath + avatar_url);
+        $("#avatarImg").attr("src", appPath + avatar_url);
         //如果是新增 绑定用户
         if (isAdd) {
             $("#avatarId").val(avatar_id);

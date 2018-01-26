@@ -64,6 +64,12 @@ namespace Galaxy.Web.Startup
                 options.DescribeAllEnumsAsStrings();
                 options.OperationFilter<HttpHeaderOperation>(); // 添加httpHeader参数
             });
+            services.AddAntiforgery(option =>
+            {
+                option.Cookie.Name = "GALAXY-CSRF-COOKIE";
+                option.FormFieldName = "GalaxyFieldName";
+                option.HeaderName = "GALAXY-CSRF-HEADER";
+            });
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());

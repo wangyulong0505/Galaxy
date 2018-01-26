@@ -67,7 +67,6 @@
         $.ajax({
             type: "get",
             url: "/lib/editor.md/README.md",
-            async: false,
             success: function (md) {
                 markdownContent = localStorage.markdownContent ? localStorage.markdownContent : md;
             }
@@ -86,17 +85,17 @@
                 data: {},
                 dataType: 'JSON',
                 success: function (data, textStatus) {
-                    if (localStorage.mdtitle && localStorage.mdtitle != data.title) {
+                    if (localStorage.mdtitle && localStorage.mdtitle != data.result.title) {
                         modals.confirm("浏览器缓存的文章与当前要编辑的文章不一致，是否替换缓存中内容？", function () {
-                            fillLocalStorage(data);
-                            $("#title").val(data.title);
-                            $("#keywords").tagsinput("add", data.keywords);
-                            editor.setMarkdown(data.content);
+                            fillLocalStorage(data.result);
+                            $("#title").val(data.result.title);
+                            $("#keywords").tagsinput("add", data.result.keywords);
+                            editor.setMarkdown(data.result.content);
                         });
                     } else {
-                        fillLocalStorage(result);
+                        fillLocalStorage(data.result);
                     }
-                    $("#code").val(result.code);
+                    //$("#code").val(result.code);
                 },
                 error: function (XMLHttpRequest, textStatus, erronThrown) {
                     modals.error(erronThrown);
@@ -152,38 +151,31 @@
         //保存编辑内容
         
         $("#submitMD").on('click', function () {
+            var token = $("input[name='GalaxyFieldName']").val();//隐藏域的名称要改
             var obj_md = {};
             obj_md["Content"] = editor.getMarkdown();
             obj_md["KeyWords"] = $("#keywords").val();
             obj_md["Title"] = $("#title").val();
             obj_md["Id"] = $('#Id').val();
             var param = {
-                Content: editor.getMarkdown(),
-                KeyWords: $("#keywords").val(),
-                Title: $("#title").val(),
-                Id: $('#Id').val()
+                'Content': editor.getMarkdown(),
+                'KeyWords': $("#keywords").val(),
+                'Title': $("#title").val(),
+                'Id': $('#Id').val()
             };
-            console.log(obj_md);
-            /*
-            $.post(appPath + 'Document/MarkdownSave',
-                JSON.stringify(obj_md),
-                function (data, status) {
-                    if (data.success) {
-                        modals.info("保存成功");
-                        window.location.href = appPath + 'Document/Index';
-                    }
-                    else {
-                        modals.error(data.result);
-                    }
-                }
-            );
-            */
+            var param2 = {
+                'Content': "123456",
+                'KeyWords': "abc,edf",
+                'Title': "标题",
+                'Id': 2
+            };
             $.ajax({
-                url: appPath + 'Document/MarkdownSave',
+                url: appPath + 'Document/PostMarkdown',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(param),
-                dataType: 'json',
+                //headers: { "GALAXY-CSRF-HEADER": token },
+                dataType: 'JSON',
                 success: function (data, textStatus) {
                     if (data.success) {
                         modals.info("保存成功");
@@ -195,6 +187,7 @@
                     modals.error(errorThrown);
                 }
             });
+            
         });
         
         $("#backMD").click(function () {
