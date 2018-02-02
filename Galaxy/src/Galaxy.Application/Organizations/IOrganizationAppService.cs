@@ -15,6 +15,6 @@ namespace Galaxy.Organizations
 
         Task DeleteOrganization(int Id);
 
-        Organization GetOrganizationById(int Id);
+        Task<Organization> GetOrganization(int Id);
     }
 }

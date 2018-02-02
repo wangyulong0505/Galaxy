@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Organizations
 {
+    /// <summary>
+    /// 组织机构服务实现类
+    /// </summary>
     public class OrganizationAppService : ApplicationService, IOrganizationAppService
     {
         private readonly IOrganizationRepository repository;
+        /// <summary>
+        /// 构造函数，依赖注入初始化
+        /// </summary>
+        /// <param name="_repository"></param>
         public OrganizationAppService(IOrganizationRepository _repository)
         {
             repository = _repository;
@@ -17,7 +24,7 @@ namespace Galaxy.Organizations
         /// <summary>
         /// 删除组织
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="Id"></param>
         public async Task DeleteOrganization(int Id)
         {
             await repository.DeleteAsync(Id);
@@ -28,9 +35,9 @@ namespace Galaxy.Organizations
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Organization GetOrganizationById(int Id)
+        public async Task<Organization> GetOrganization(int Id)
         {
-            return repository.GetOrganizationById(Id);
+            return await repository.GetAsync(Id);
         }
 
         /// <summary>

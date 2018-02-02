@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Documents
 {
+    /// <summary>
+    /// 文档服务实现类
+    /// </summary>
     public class DocumentAppService : ApplicationService, IDocumentAppService
     {
         private readonly IDocumentRepository repository;
+        /// <summary>
+        /// 构造函数，依赖注入初始化
+        /// </summary>
+        /// <param name="_repository"></param>
         public DocumentAppService(IDocumentRepository _repository)
         {
             repository = _repository;

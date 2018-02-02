@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Roles
 {
+    /// <summary>
+    /// 角色服务实现类
+    /// </summary>
     public class RoleAppService : ApplicationService, IRoleAppService
     {
         private readonly IRoleRepository repository;
+        /// <summary>
+        /// 构造函数初始化和依赖注入
+        /// </summary>
+        /// <param name="_repository"></param>
         public RoleAppService(IRoleRepository _repository)
         {
             repository = _repository;
@@ -22,6 +29,16 @@ namespace Galaxy.Roles
         public async Task DeleteRole(int Id)
         {
             await repository.DeleteAsync(Id);
+        }
+
+        /// <summary>
+        /// 获取角色详情
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<Role> GetRoleDetail(int Id)
+        {
+            return await repository.GetAsync(Id);
         }
 
         /// <summary>

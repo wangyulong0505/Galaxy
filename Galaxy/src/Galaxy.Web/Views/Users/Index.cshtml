@@ -67,22 +67,24 @@
                                     <table id="user_table" class="table table-border table-hover dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="user_table_info">
                                         <thead>
                                             <tr role="row">
-                                            <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
-                                            <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="姓名: activate to sort column ascending">姓名</th>
-                                            <th class="sorting_disabled text-center" rowspan="1" colspan="1" aria-label="所在部门">所在部门</th>
-                                            <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="性别: activate to sort column ascending">性别</th>
-                                            <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="出生年月: activate to sort column ascending">出生年月</th>
-                                            <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending">登录名</th>
-                                            <th class="sorting_disabled text-center" rowspan="1" colspan="1" aria-label="邮箱">邮箱</th>
-                                            <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="手机">手机</th>
-                                            <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="QQ">QQ</th></tr>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="姓名: activate to sort column ascending">姓名</th>
+                                                <th class="sorting_disabled text-center" rowspan="1" colspan="1" aria-label="所在部门">所在部门</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="性别: activate to sort column ascending">性别</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="出生年月: activate to sort column ascending">出生年月</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="user_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending">登录名</th>
+                                                <th class="sorting_disabled text-center" rowspan="1" colspan="1" aria-label="邮箱">邮箱</th>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="手机">手机</th>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="QQ">QQ</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             @for (int i = 0; i < Model.Count(); i++)
                                             {
                                                 <tr id="@Model[i].Id" role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
-                                                    <td class="text-center sorting_1">@((ViewBag.PageIndex - 1) * ViewBag.PageSize) + i + 1</td>
+                                                    <td class="text-center sorting_1">@((ViewBag.PageIndex - 1) * ViewBag.PageSize + i + 1)</td>
                                                     <td class="text-left">@Model[i].Name</td>
+                                                    <th class="text-center">@Model[i].DepartmentId</th>
                                                     <td class="text-left">@(Model[i].Gender == 0 ? "男" : "女")</td>
                                                     <td class="text-center">@Model[i].Birthday.ToString("yyyy-MM-dd")</td>
                                                     <td class="text-center">@Model[i].UserName</td>
@@ -93,7 +95,6 @@
                                             }
                                         </tbody>
                                     </table>
-                                    <div id="user_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
                                 </div>
                             </div>
                             @Html.Raw(ViewBag.Page)
@@ -105,6 +106,6 @@
     </section>
 </div>
 <!--隐藏域-->
-<input type="hidden" id="pageIndex" value="@ViewBag.PageIndex " />
-<input type="hidden" id="pageSize" value="@ViewBag.PageSize " />
-<input type="hidden" id="key" value="@ViewBag.Key " />
+<input type="hidden" id="pageIndex" value="@ViewBag.PageIndex" />
+<input type="hidden" id="pageSize" value="@ViewBag.PageSize" />
+<input type="hidden" id="key" value="@ViewBag.Key" />

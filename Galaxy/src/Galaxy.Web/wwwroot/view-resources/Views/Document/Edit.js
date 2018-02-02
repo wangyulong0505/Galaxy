@@ -163,12 +163,6 @@
                 'Title': $("#title").val(),
                 'Id': $('#Id').val()
             };
-            var param2 = {
-                'Content': "123456",
-                'KeyWords': "abc,edf",
-                'Title': "标题",
-                'Id': 2
-            };
             $.ajax({
                 url: appPath + 'Document/PostMarkdown',
                 type: 'POST',

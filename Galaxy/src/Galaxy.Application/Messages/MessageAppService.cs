@@ -6,9 +6,16 @@ using Galaxy.IRepositories;
 
 namespace Galaxy.Messages
 {
+    /// <summary>
+    /// 消息服务实现类
+    /// </summary>
     public class MessageAppService : ApplicationService, IMessageAppService
     {
         private readonly IMessageRepository repository;
+        /// <summary>
+        /// 构造函数，依赖注入初始化
+        /// </summary>
+        /// <param name="_repository"></param>
         public MessageAppService(IMessageRepository _repository)
         {
             repository = _repository;
