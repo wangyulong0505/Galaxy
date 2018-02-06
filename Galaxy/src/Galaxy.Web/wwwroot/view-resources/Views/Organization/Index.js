@@ -117,7 +117,7 @@
     //根据选中的Id初始化树
     function initTree (selectNodeId) {
         $.ajax({
-            url: '/Organization/GetTreeData',
+            url: appPath + 'Organization/GetTreeData',
             data: null,
             type: 'GET',
             dataType: 'json',
@@ -167,7 +167,7 @@
     function fillOrgForm(node) {
         //先清除表单的数据，然后ajax调用获取的数据重新初始化表单
         $.ajax({
-            url: '/Organization/GetNodeData/' + node,
+            url: appPath + 'Organization/GetNodeData/' + node,
             type: 'GET',
             data: null,
             dataType: 'json',
@@ -405,7 +405,7 @@
                     success: function (data, textStatus) {
                         if (data.success) {
                             var selectedArr = $("#tree").data("treeview").getSelected();
-                            var selectedNodeId = selectedArr.length > 0 ? selectedArr[0].nodeId : 0;
+                            var selectedNodeId = selectedArr.length > 0 ? selectedArr[0].id : 0;
                             initTree(selectedNodeId);
                         }
                     },

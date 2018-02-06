@@ -19,6 +19,8 @@ namespace Galaxy.EntityFrameworkCore
 
         public virtual DbSet<Menu> Menus { get; set; }
 
+        public virtual DbSet<Permission> Permissions { get; set; }
+
         public GalaxyDbContext(DbContextOptions<GalaxyDbContext> options) 
             : base(options)
         {

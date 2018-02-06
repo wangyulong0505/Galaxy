@@ -13,6 +13,10 @@ namespace Galaxy.Entities
         public virtual string Name { get; set; }
 
         /// <summary>
+        /// 菜单链接
+        /// </summary>
+        public virtual string URL { get; set; }
+        /// <summary>
         /// 父菜单Id
         /// </summary>
         public virtual int ParentNodeId { get; set; }
@@ -26,6 +30,22 @@ namespace Galaxy.Entities
         /// 编码
         /// </summary>
         public virtual string Code { get; set; }
+
+        /// <summary>
+        /// 层级编码：用来同级排序
+        /// </summary>
+        public virtual string LevelCode { get; set; }
+
+        /// <summary>
+        /// 
+        /// 菜单类型：目录，菜单，按钮
+        /// </summary>
+        public virtual int MenuType { get; set; }
+
+        /// <summary>
+        /// 图标
+        /// </summary>
+        public virtual string MenuIcon { get; set; }
 
         /// <summary>
         /// 状态： 0：正常， 1：禁用

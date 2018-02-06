@@ -5,36 +5,31 @@ using System.Text;
 
 namespace Galaxy.Entities
 {
-    public class Role : Entity
+    public class Permission : Entity
     {
         /// <summary>
-        /// 角色名
+        /// 权限名称
         /// </summary>
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 状态
+        /// 权限关联菜单Id
+        /// </summary>
+        public virtual int MenuId { get; set; }
+
+        /// <summary>
+        /// 权限关联菜单名称
+        /// </summary>
+        public virtual string MenuName { get; set; }
+
+        /// <summary>
+        /// 权限状态
         /// </summary>
         public virtual int Status { get; set; }
-
-        /// <summary>
-        /// 代码/编码
-        /// </summary>
-        public virtual string Code { get; set; }
-
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public virtual string Remark { get; set; }
 
         /// <summary>
         /// 创建日期
         /// </summary>
         public virtual DateTime CreateDate { get; set; }
-
-        /// <summary>
-        /// 角色拥有权限Id, 一个角色可以有多个权限, 用逗号隔开 
-        /// </summary>
-        public virtual string PermissionIds { get; set; }
     }
 }
