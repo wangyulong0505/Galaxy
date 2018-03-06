@@ -16,26 +16,66 @@ using Galaxy.Web.Configuration;
 using System.IO;
 using Swashbuckle.AspNetCore.Swagger;
 using Galaxy.Web.Filters;
+using Galaxy.Web.Utils;
+using Galaxy.Cache;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.EntityFrameworkCore;
 
 namespace Galaxy.Web.Startup
 {
     public class Startup
     {
+        private readonly RedisCacheConfig cacheProvider;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            cacheProvider = new RedisCacheConfig();
         }
         public IConfiguration Configuration { get; }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            //Configure DbContext
+            #region 添加DbContext
+
             services.AddAbpDbContext<GalaxyDbContext>(options =>
             {
                 DbContextOptionsConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
             });
+            //添加对mysql的支持
+            /*
+            services.AddDbContext<GalaxyDbContext>(options =>
+            {
+                options.UseMySQL(Configuration.GetConnectionString("MySqlConnection"));
+            });
+            */
+            #endregion
+
             services.AddSession();
             services.AddOptions();
+            
+            #region 添加缓存
+            /*
+            services.AddMemoryCache();
+            if (cacheProvider.IsUseRedis)
+            {
+                services.AddSingleton(typeof(ICacheService), new RedisCacheService(new Microsoft.Extensions.Caching.Redis.RedisCacheOptions
+                {
+                    Configuration = cacheProvider.ConnectionString,
+                    InstanceName = cacheProvider.InstanceName
+                }, 0));
+            }
+            else
+            {
+                services.AddSingleton<IMemoryCache>(factory =>
+                {
+                    var cache = new MemoryCache(new MemoryCacheOptions());
+                    return cache;
+                });
+                services.AddSingleton<ICacheService, MemoryCacheService>();
+            }
+            */
+            #endregion
+
             //添加对appsettings的配置文件的读取
             services.Configure<QQLoginSettings>(Configuration.GetSection("QQLoginSettings"));
             services.Configure<WechatLoginSettings>(Configuration.GetSection("WechatLoginSettings"));
@@ -100,6 +140,8 @@ namespace Galaxy.Web.Startup
                 app.UseExceptionHandler("/Error");
             }
 
+            //添加初始化自定义类DI，便于直接使用IHostEnvironment
+            app.UseWkMvcDI();
             app.UseStaticFiles();
             //添加Swagger
             app.UseSwagger();

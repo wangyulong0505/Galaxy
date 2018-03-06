@@ -1,15 +1,8 @@
 ﻿(function () {
     $(function () {
-        var $addForm = $('#user-form');
-        $addForm.bootstrapValidator({
+        var $editForm = $('#user-form');
+        $editForm.bootstrapValidator({
             message: '请输入有效值',
-            /*
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            */
             fields: {
                 name: {
                     validators: {
@@ -18,7 +11,7 @@
                         }
                     }
                 },
-                sex: {
+                gender: {
                     validators: {
                         notEmpty: {
                             message: '请选择性别'
@@ -68,15 +61,16 @@
         });
         initDatePicker();
         initICheck();
+        $("input[name='gender'][value='" + $('#gender').val() + "']").iCheck('check');
         //初始化组织机构选择器
-        
+
         $("button[data-flag='org']").org({
             idField: $("#deptId"),
             nameField: $("#departmentName"),
             title: '选择部门',
             levels: 3
         })
-        
+
         //回填id
         /*
         if (id != "0") {
@@ -119,11 +113,12 @@
         });
         //submit
         $("[data-btn-type='save']").click(function () {
-            $addForm.data('bootstrapValidator').validate();
-            if (!$addForm.data('bootstrapValidator').isValid()) {
+            $editForm.data('bootstrapValidator').validate();
+            if (!$editForm.data('bootstrapValidator').isValid()) {
                 return;
             }
             var param = {
+                'Id': $('#id').val(),
                 'Birthday': formatDate(new Date($('#birthday').val()), 'yyyy-mm-dd'),
                 'CreateDate': formatDate(new Date(), 'yyyy-mm-dd'),
                 'DepartmentId': $('#deptId').val(),
@@ -138,11 +133,11 @@
                 'Avatar': ''
             }
             console.log(JSON.stringify(param));
-            modals.confirm("确认保存？", function () { 
+            modals.confirm("确认保存？", function () {
                 $.ajax({
                     contentType: 'application/json; charset=utf-8',
                     type: 'POST',
-                    url: $addForm.attr('action'),
+                    url: $editForm.attr('action'),
                     data: JSON.stringify(param),
                     dataType: 'JSON',
                     success: function (data, textStatus) {

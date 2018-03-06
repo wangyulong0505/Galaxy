@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Galaxy.Roles;
 using Galaxy.Menus;
 using Galaxy.Entities;
 using Abp.Web.Models;
@@ -10,28 +11,27 @@ using Newtonsoft.Json;
 
 namespace Galaxy.Web.Controllers
 {
-    public class MenuController : GalaxyControllerBase
+    public class PermissionController : GalaxyControllerBase
     {
-        #region 对象初始化和依赖注入
-
+        private readonly IRoleAppService roleAppService;
         private readonly IMenuAppService menuAppService;
-        public MenuController(IMenuAppService _menuAppService)
+        public PermissionController(IRoleAppService _roleAppService, IMenuAppService _menuAppService)
         {
+            roleAppService = _roleAppService;
             menuAppService = _menuAppService;
         }
 
-        #endregion
-
-        #region 首页
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string strKey = "")
         {
-            return View();
+            //获取角色列表
+            List<Role> roleList = await roleAppService.GetRoles();
+            if (!string.IsNullOrEmpty(strKey))
+            {
+                roleList = roleList.Where(q => q.Name.Contains(strKey)).ToList();
+            }
+            ViewData["Key"] = strKey;
+            return View(roleList);
         }
-
-        #endregion
-
-        #region 获取全部数据初始化树菜单
 
         #region 获取Organization所有数据
 
@@ -44,8 +44,6 @@ namespace Galaxy.Web.Controllers
             try
             {
                 List<Menu> list = await menuAppService.GetMenus();
-                //过滤掉MenuType=2的数据
-                list = list.Where(q => q.MenuType != 2).ToList();
                 //修改数据格式，示例数据格式如下
                 /*
                 var str = "[
@@ -142,117 +140,6 @@ namespace Galaxy.Web.Controllers
             }
 
             return JsonConvert.SerializeObject(dicList);
-        }
-
-        #endregion
-
-        #region 根据Id获取单条记录
-
-        /// <summary>
-        /// 根据Id获取单条记录
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public async Task<JsonResult> GetNodeData(int Id)
-        {
-            try
-            {
-                Menu entity = await menuAppService.GetMenuDetail(Id);
-                return Json(new AjaxResponse() { Result = JsonConvert.SerializeObject(entity) });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message);
-                return Json(new AjaxResponse { Success = false, Result = ex.Message });
-            }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region 删除节点
-
-        /// <summary>
-        /// 删除节点
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public async Task<JsonResult> DeleteNode(int Id)
-        {
-            try
-            {
-                await menuAppService.DeleteMenu(Id);
-                return Json(new AjaxResponse { Success = true, Result = "" });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message);
-                return Json(new AjaxResponse { Success = false, Result = ex.Message });
-            }
-        }
-
-        #endregion
-
-        #region 保存修改
-
-        /// <summary>
-        /// 保存修改
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [IgnoreAntiforgeryToken]
-        public async Task<JsonResult> SaveChange([FromBody]Menu entity)
-        {
-            try
-            {
-                if (entity.Id == 0)
-                {
-                    await menuAppService.PostMenu(entity);
-                }
-                else
-                {
-                    await menuAppService.PutMenu(entity);
-                }
-
-                return Json(new AjaxResponse { Success = true, Result = "" });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message);
-                return Json(new AjaxResponse { Success = false, Result = ex.Message });
-            }
-        }
-
-        #endregion
-
-        #region 检查编码是否唯一
-
-        /// <summary>
-        /// 检查编码是否唯一
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public virtual async Task<JsonResult> CheckCodeUnique(string code)
-        {
-            bool result = true;
-            List<Menu> orgList = await menuAppService.GetMenus();
-            foreach (Menu org in orgList)
-            {
-                if (org.Code.Equals(code))
-                {
-                    result = false;
-                    break;
-                }
-            }
-            Dictionary<string, bool> dic = new Dictionary<string, bool>
-            {
-                { "valid", result }
-            };
-            //转化为Json输出
-            //返回数据
-            return Json(JsonConvert.SerializeObject(dic));
         }
 
         #endregion

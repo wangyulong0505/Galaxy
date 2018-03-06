@@ -1,6 +1,7 @@
 ﻿using Abp.Web.Models;
 using Galaxy.Entities;
 using Galaxy.Users;
+using Galaxy.Organizations;
 using Galaxy.Web.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,11 @@ namespace Galaxy.Web.Controllers
     public class UsersController : GalaxyControllerBase
     {
         private readonly IUserAppService userAppService;
-        public UsersController(IUserAppService _userAppService)
+        private readonly IOrganizationAppService orgAppService;
+        public UsersController(IUserAppService _userAppService, IOrganizationAppService _orgAppService)
         {
             userAppService = _userAppService;
+            orgAppService = _orgAppService;
         }
 
         public IActionResult Index(int pageIndex = 1, int pageSize = 10, string strKey = "")
@@ -38,7 +41,8 @@ namespace Galaxy.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UsersAdd(User entity)
+        [IgnoreAntiforgeryToken]
+        public async Task<JsonResult> UsersAdd([FromBody]User entity)
         {
             try
             {
@@ -57,10 +61,40 @@ namespace Galaxy.Web.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public IActionResult UsersEdit(int Id)
+        public async Task<IActionResult> UsersEdit(int Id)
         {
-            var entity = userAppService.GetUserDetail(Id);
+            User entity = await userAppService.GetUserDetail(Id);
+            if (entity.DepartmentId == 0)
+            {
+                ViewData["DepartmentName"] = "";
+            }
+            else
+            {
+                Organization org = await orgAppService.GetOrganization(entity.DepartmentId);
+                ViewData["DepartmentName"] = org.Name;
+            }
             return View(entity);
+        }
+
+        /// <summary>
+        /// 用户编辑
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<JsonResult> UsersEdit([FromBody]User entity)
+        {
+            try
+            {
+                await userAppService.PutUser(entity);
+                return Json(new AjaxResponse { Success = true, Result = "" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                return Json(new AjaxResponse { Success = false, Result = ex.Message });
+            }
         }
 
         [HttpPost]

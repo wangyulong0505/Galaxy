@@ -10,12 +10,12 @@
     <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
     <script src="~/js/base-message.js" asp-append-version="true"></script>
     <script src="~/js/base.js" asp-append-version="true"></script>
-    <script src="~/view-resources/Views/Message/Index.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/Message/Trash.js" asp-append-version="true"></script>
 }
 
 <div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
     <section class="content-header">
-        <h1>消息管理<small>收件箱</small></h1>
+        <h1>消息管理<small>垃圾箱</small></h1>
         <ol class="breadcrumb">
             <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
             <li><a href="#">系统工具</a></li>
@@ -29,7 +29,7 @@
                 <button data-btn-type="titleBtn" data-flag="new" class="btn btn-primary btn-block margin-bottom">新建消息</button>
                 @await Component.InvokeAsync("Message")
                 <!--0收件箱， 1发件箱， 2草稿箱， 3回收站-->
-                <input type="hidden" id="status" value="0" />
+                <input type="hidden" id="status" value="3" />
             </div>
             <div class="col-md-9">
                 <div class="box box-primary" id="contentBody">
@@ -52,7 +52,12 @@
                                 </div>
                                 <div class="col-sm-9">
                                     <div class="dataTables_filter " id="searchDiv" style="">
-                                        <input type="hidden" name="receiveUserID" value="">
+                                        <!--查询条件-->
+                                        <!-- <div class="has-feedback">
+                                                <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                            </div>-->
+                                        <input type="hidden" name="receiveUserID" value="402880e456223e8f015625231d8e0003">
                                         <div class="has-feedback form-group">
                                             <input type="search" placeholder="请输入标题" title="主题" name="message.sendSubject" class="form-control input-sm" id="sendSubject" operator="like" likeoption="true">
                                             <span class="glyphicon glyphicon-search form-control-feedback"></span>
@@ -76,7 +81,6 @@
                                     <table id="message_inbox_table" style="border-top: 1px solid rgb(244, 244, 244); width: 100%;" class="table table-border table-striped table-hover dataTable no-footer" role="grid" aria-describedby="message_inbox_table_info">
                                         <thead>
                                             <tr role="row">
-                                                <td class="text-left" rowspan="1" colspan="1"><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></td>
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="发送人">发送人</th>
                                                 <th class="sorting text-center" tabindex="0" aria-controls="message_inbox_table" rowspan="1" colspan="1" aria-label="主题: activate to sort column ascending">主题</th>
@@ -89,14 +93,10 @@
                                             @for (int i = 0; i < Model.Count; i++)
                                             {
                                                 <tr id='@Model[i].Id' role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
-                                                    <td class="text-left">
-                                                        <div class="icheckbox_flat-blue" aria-checked="false" aria-disabled="false" style="position: relative;"><input type="checkbox" style="position: absolute; opacity: 0;" /></div>
-                                                    </td>
                                                     <td class="text-center sorting_1">@((ViewBag.PageIndex - 1) * ViewBag.PageSize + i + 1)</td>
-                                                    <td class=" text-center">@Model[i].Title</td>
                                                     <td class=" text-left">
-                                                        <a class="text-bold" href='@Url.Content("~/Message/Perview/" + Model[i].Id)'>
-                                                            <span data-toggle="tooltip" data-placement="right" data-html="true" title="">@Model[i].Title</span>
+                                                        <a class="text-bold" href='@Url.Content("~/Message/Preview/"+Model[i].Id)'>
+                                                            <span data-toggle="tooltip" data-placement="right" data-html="true" title="" data-original-title='@Model[i].Title'>@Model[i].Title</span>
                                                         </a>
                                                     </td>
                                                     <td class="text-center">@Model[i].CreateTime.ToString("yyyy-MM-dd HH:mm")</td>
@@ -124,12 +124,11 @@
                                                         }
                                                         &nbsp;
                                                     </td>
-                                                    <td class="text-center">@(Model[i].Mark == 0 ? "<i class='fa fa-star-o text-yellow'></i>" : "<i class='fa fa-star text-yellow'></i>")</td>
+                                                    <td class="text-center"><i class="fa fa-star text-yellow"></i></td>
                                                 </tr>
                                             }
                                         </tbody>
                                     </table>
-                                    <div id="message_inbox_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
                                 </div>
                             </div>
                             @Html.Raw(ViewBag.Page)

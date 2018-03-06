@@ -412,6 +412,8 @@
                             console.log(selectedArr);
                             var selectedNodeId = selectedArr.length > 0 ? selectedArr[0].id : 0;
                             initTree(selectedNodeId);
+                            //取消form验证
+                            $('#function-form').bootstrapValidator('resetForm')
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {

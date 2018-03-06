@@ -28,6 +28,11 @@ namespace Galaxy.Entities
         public virtual string Remark { get; set; }
 
         /// <summary>
+        /// 排序
+        /// </summary>
+        public virtual string Sort { get; set; }
+
+        /// <summary>
         /// 创建日期
         /// </summary>
         public virtual DateTime CreateDate { get; set; }

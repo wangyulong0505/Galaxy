@@ -26,7 +26,7 @@ namespace Galaxy.Web.Controllers
         {
             List<Role> roleList = await roleService.GetRoles();
             //获取所有的Role和分页获取Users
-            if (string.IsNullOrEmpty(strRoleKey))
+            if (!string.IsNullOrEmpty(strRoleKey))
             {
                 roleList = roleList.Where(q => q.Name.Contains(strRoleKey)).ToList();
             }
@@ -66,7 +66,7 @@ namespace Galaxy.Web.Controllers
 
         [HttpPost]
         [IgnoreAntiforgeryToken]
-        public async Task<JsonResult> RoleSave(Role entity)
+        public async Task<JsonResult> RoleSave([FromBody]Role entity)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Galaxy.Web.Controllers
                 {
                     await roleService.PutRole(entity);
                 }
-
+                
                 return Json(new AjaxResponse { Success = true, Result = "" });
             }
             catch (Exception ex)

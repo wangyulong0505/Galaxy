@@ -11,6 +11,7 @@
     <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
     <script src="~/lib/AdminLTE/plugins/iCheck/icheck.min.js" asp-append-version="true"></script>
+    <script src="~/js/base-org.js" asp-append-version="true"></script>
     <script src="~/view-resources/Views/Users/Add.js" asp-append-version="true"></script>
 }
 <!-- Content Wrapper. Contains page content -->
@@ -30,12 +31,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-info">
-                    <form id="user-form" asp-action="UsersAdd" method="post" name="user-form" class="form-horizontal bv-form" novalidate="novalidate">
-                        <input type="hidden" name="github" />
-                        <input type="hidden" name="wechat" />
-                        <input type="hidden" name="weibo" />
-                        <input type="hidden" name="createDate" data-flag="date" data-format="yyyy-mm-dd hh:ii:ss" />
-                        <input type="hidden" name="status" value="0" />
+                    <form id="user-form" asp-action="UsersAdd" method="post" name="user-form" class="form-horizontal bv-form">
                         <input type="hidden" id="avatar" name="avatar" />
                         <div class="box-header">
                             <div class="col-xs-12 text-center">
@@ -53,7 +49,6 @@
                                     <label for="name" class="col-sm-3 control-label">姓名</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="name" name="name" placeholder="姓名" data-bv-field="name">
-                                        <i class="form-control-feedback" data-bv-icon-for="name" style="display: none;"></i>
                                     </div>
                                 </div>
                                 <div class="form-group has-feedback">
@@ -70,7 +65,7 @@
 
                                     <div class="col-sm-6">
                                         <input type="hidden" name="departmentId" id="deptId" />
-                                        <input type="text" class="form-control" id="departmentName" placeholder="所在部门" />
+                                        <input type="text" class="form-control" name="departmentName" id="departmentName" placeholder="所在部门" />
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="button" class="btn btn-info" data-flag="org">
@@ -98,25 +93,35 @@
                                     <div class="col-sm-8">
                                         <label class="control-label">
                                             <div class="iradio_square-green" aria-checked="false" aria-disabled="false">
-                                                <input type="radio" name="gender" data-flag="icheck" class="square-green" value="1" data-bv-field="sex" style="position: absolute; opacity: 0;" />
+                                                <input type="radio" name="gender" data-flag="icheck" class="square-green" value="0" data-bv-field="sex" style="position: absolute; opacity: 0;" />
                                             </div>
                                             男
                                         </label> &nbsp;
                                         <label class="control-label">
                                             <div class="iradio_square-green" aria-checked="false" aria-disabled="false">
-                                                <input type="radio" name="gender" data-flag="icheck" class="square-green" value="0" data-bv-field="sex" style="position: absolute; opacity: 0;">
+                                                <input type="radio" name="gender" data-flag="icheck" class="square-green" value="1" data-bv-field="sex" style="position: absolute; opacity: 0;">
                                             </div>
                                             女
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group has-feedback">
-                                    <label for="loginName" class="col-sm-3 control-label">登录名</label>
+                                    <label for="userName" class="col-sm-3 control-label">登录名</label>
 
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="登录名" data-bv-field="loginName" />
+                                        <input type="text" class="form-control" id="userName" name="userName" placeholder="登录名" data-bv-field="userName" />
                                     </div>
                                 </div>
+                                @*
+                                <div class="form-group has-feedback">
+                                    <label for="password" class="col-sm-3 control-label">密码</label>
+
+                                    <div class="col-sm-8" style="display:table;">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="密码" data-bv-field="password" />
+                                        <span class="input-group-addon" data-btn-type='showpwd'><i class="glyphicon glyphicon-eye-open"></i></span>
+                                    </div>
+                                </div>
+                                *@
                                 <div class="form-group">
                                     <label for="mobile" class="col-sm-3 control-label">手机</label>
 

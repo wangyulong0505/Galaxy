@@ -133,6 +133,7 @@
         });
 
         $('#RegisterButton').on('click', function () {
+            $registerForm.data('bootstrapValidator').validate()
             if (!$registerForm.data('bootstrapValidator').isValid()) {
                 return;
             }

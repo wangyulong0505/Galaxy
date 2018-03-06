@@ -262,7 +262,7 @@
         $('#parentName').val(data.ParentNodeName);
         $("#name").val(data.Name);
         $('#code').val(data.Code);
-        $("input[name='organizationType'][value='" + data.OrganizationType + "']").iCheck('check');;
+        $("input[name='organizationType'][value='" + data.OrganizationType + "']").iCheck('check');
         $('#levelCode').val(data.LevelCode);
         $("input[name='status'][value='" + data.Status + "']").prop("checked", "checked");
         $('#remark').val(data.Remark);

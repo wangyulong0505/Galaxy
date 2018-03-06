@@ -59,18 +59,17 @@
         }
     }
 
-    /**
-     * 点击新建消息按钮
-     * @param {any} obj
-     */
     function titleBtnClick(obj) {
         if ($(obj).data("flag") == "new") {
+            loadPage("/message/edit", "#contentBody");
             $(obj).text("返回收件箱");
             $(obj).data("flag", "return");
             //清除选中
             $("#folder ul li").removeClass("active");
             $(".content-header small").text("新建消息");
         } else if ($(obj).data("flag") == "return") {
+            //loadPage(basePath+"/message/inbox","#contentBody");
+            //$(obj).data("flag","new");
             $("[data-btn-type='inbox']").click();
         }
     }

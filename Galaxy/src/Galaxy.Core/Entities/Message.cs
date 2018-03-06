@@ -48,7 +48,7 @@ namespace Galaxy.Entities
         public string Recipients { get; set; }
 
         /// <summary>
-        /// 消息状态：0草稿箱， 1发件箱， 2收件箱， 3回收站
+        /// 消息状态：0收件箱， 1发件箱， 2草稿箱， 3回收站
         /// </summary>
         public int MessageStatus { get; set; }
 

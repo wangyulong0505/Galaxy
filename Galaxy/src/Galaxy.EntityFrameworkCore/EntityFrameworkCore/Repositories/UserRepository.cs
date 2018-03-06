@@ -88,7 +88,7 @@ namespace Galaxy.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public List<User> GetUsers()
         {
-            return GetAll().Where(q => q.Status == 0 && q.UserName != "admin").OrderBy(q=>q.Id).ToList();
+            return GetAll().Where(q => q.Status == 0 && q.UserName != "admin").OrderBy(q => q.Id).ToList();
         }
 
         /// <summary>

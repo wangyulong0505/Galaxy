@@ -10,12 +10,13 @@
         $('button[data-btn-type]').click(function () {
             var action = $(this).attr('data-btn-type');
             //获取选中数据的Id
-            var rowId = $('#user_table tr[class="trchange"]').attr('id');
+            var rowId = $('#user_table tr.trchange').attr('id');
             switch (action) {
                 case 'add':
                     window.location.href = appPath + 'Users/UsersAdd';
                     break;
                 case 'edit':
+                    console.log(rowId);
                     if (!rowId) {
                         modals.info('请选择要编辑的行');
                         return false;

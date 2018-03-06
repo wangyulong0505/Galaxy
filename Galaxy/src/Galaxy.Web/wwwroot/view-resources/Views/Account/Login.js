@@ -49,7 +49,7 @@
 
         $('#LoginButton').click(function (e) {
             e.preventDefault();
-
+            $loginForm.data('bootstrapValidator').validate();
             if (!$loginForm.data('bootstrapValidator').isValid()) {
                 return;
             }

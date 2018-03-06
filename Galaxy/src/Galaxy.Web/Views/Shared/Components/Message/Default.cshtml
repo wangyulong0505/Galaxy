@@ -1,0 +1,83 @@
+﻿<div class="box box-solid">
+    <div class="box-header with-border">
+        <h3 class="box-title">我的文件夹</h3>
+
+        <div class="box-tools">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body no-padding" id="folder">
+        <ul class="nav nav-pills nav-stacked">
+            <li data-btn-type="inbox" data-url="/Message/Inbox" class="active">
+                <a href='@Url.Content("~/Message/Index")'>
+                    <i class="fa fa-inbox"></i>
+                    <span>收件箱</span>
+                    <span class="label label-primary pull-right">0</span>
+                </a>
+            </li>
+            <li data-btn-type="sent" data-url="/Message/Outbox"class="" >
+                <a href='@Url.Content("~/Message/Outbox")'>
+                    <i class="fa fa-envelope-o"></i>
+                    <span>发件箱</span>
+                    <span class="label label-info pull-right">6</span>
+                </a>
+            </li>
+            <li data-btn-type="draft" data-url="/Message/Draft" class="">
+                <a href='@Url.Content("~/Message/Draft")'>
+                    <i class="fa fa-file-text-o"></i>
+                    <span>草稿箱</span>
+                    <span class="label label-warning pull-right">4</span>
+                </a>
+            </li>
+            <li data-btn-type="trash" data-url="/Message/Trash" class="">
+                <a href='@Url.Content("~/Message/Trash")'>
+                    <i class="fa fa-trash-o"></i>
+                    <span>回收站</span>
+                    <span class="label label-danger pull-right">1</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /. box -->
+<div class="box box-solid">
+    <div class="box-header with-border">
+        <h3 class="box-title">消息类型</h3>
+
+        <div class="box-tools">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body no-padding">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="#"><i class="fa fa-tv text-danger"></i>系统消息</a></li>
+            <li><a href="#"><i class="fa fa-envelope-o text-info"></i>邮件</a></li>
+            <li><a href="#"><i class="fa fa-mobile text-success fa-lg"></i>&nbsp;短信</a></li>
+        </ul>
+    </div>
+    <!-- /.box-body -->
+</div>
+<div class="box box-solid">
+    <div class="box-header with-border">
+        <h3 class="box-title">消息标记</h3>
+
+        <div class="box-tools">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body no-padding">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="#"><i class="fa fa-star-o text-yellow"></i> 一般消息</a></li>
+            <li><a href="#"><i class="fa fa-star text-yellow"></i> 重要消息</a></li>
+        </ul>
+    </div>
+    <!-- /.box-body -->
+</div>
+
