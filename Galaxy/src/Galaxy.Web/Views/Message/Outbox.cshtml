@@ -26,7 +26,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-3">
-                <button data-btn-type="titleBtn" data-flag="new" class="btn btn-primary btn-block margin-bottom">新建消息</button>
+                <button data-btn-type="addMessage" data-flag="new" class="btn btn-primary btn-block margin-bottom">新建消息</button>
                 @await Component.InvokeAsync("Message")
                 <!--0收件箱， 1发件箱， 2草稿箱， 3回收站-->
                 <input type="hidden" id="status" value="1" />
@@ -81,6 +81,7 @@
                                     <table id="message_inbox_table" style="border-top: 1px solid rgb(244, 244, 244); width: 100%;" class="table table-border table-striped table-hover dataTable no-footer" role="grid" aria-describedby="message_inbox_table_info">
                                         <thead>
                                             <tr role="row">
+                                                <td class="text-left" rowspan="1" colspan="1"><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></td>
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
                                                 <th class="sorting text-center" tabindex="0" aria-controls="message_inbox_table" rowspan="1" colspan="1" aria-label="主题: activate to sort column ascending">主题</th>
                                                 <th class="text-center sorting" tabindex="0" aria-controls="message_inbox_table" rowspan="1" colspan="1" aria-label="发送时间: activate to sort column ascending">发送时间</th>
@@ -94,16 +95,53 @@
                                             @for (int i = 0; i < Model.Count; i++)
                                             {
                                                 <tr id='@Model[i].Id' role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
+                                                    <td class="text-left">
+                                                        <div class="icheckbox_flat-blue" style="position: relative;">
+                                                            <input type="checkbox" data-flag="icheck" style="position: absolute; opacity: 0;" />
+                                                        </div>
+                                                    </td>
                                                     <td class="text-center sorting_1">@((ViewBag.PageIndex - 1) * ViewBag.PageSize + i + 1)</td>
                                                     <td class=" text-center">@Model[i].Title</td>
                                                     <td class=" text-left">
-                                                        <a class="text-bold" href="#" onclick="readMsg('402880ed5abdfec1015ac02c898a0006')">
-                                                            <span data-toggle="tooltip" data-placement="right" data-html="true" title="" data-original-title="商办唱主角北京房地产市场新格局商办唱主角北京房地产市场新格局AdminEAP框架消息管理系统">商办唱主角北京房地产市场新格局商办唱主角...</span>
+                                                        <a class="text-bold" href='@Url.Content("~/Message/Detail/" + Model[i].Id)'>
+                                                            <span data-toggle="tooltip" data-placement="right" data-html="true">@Model[i].Title</span>
                                                         </a>
                                                     </td>
-                                                    <td class="text-center">2017-03-12 09:40</td>
-                                                    <td class="text-left">&nbsp;<i class="fa fa-tv text-danger"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o text-info"></i>&nbsp;</td>
-                                                    <td class="text-center"><i class="fa fa-star text-yellow"></i></td>
+                                                    <td class="text-center">@Model[i].CreateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                                    <td class="text-left">
+                                                        &nbsp;
+                                                        @switch (Model[i].MessageType)
+                                                        {
+                                                            case 0:
+                                                                <i class='fa fa-tv text-danger'></i>
+                                                                break;
+                                                            case 1:
+                                                                <i class="fa fa-envelope-o text-info"></i>
+                                                                break;
+                                                            case 2:
+                                                                <i class="fa fa-mobile text-success fa-lg"></i>
+                                                                break;
+                                                            case 3:
+                                                                <i class="fa fa-tv text-danger"></i>  <i class="fa fa-envelope-o text-info"></i>
+                                                                break;
+                                                            case 4:
+                                                                <i class="fa fa-tv text-danger"></i>  <i class="fa fa-mobile text-success fa-lg"></i>
+                                                                break;
+                                                            default:
+                                                                break;
+                                                        }
+                                                        &nbsp;
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (Model[i].Mark == 0)
+                                                        {
+                                                            <i class='fa fa-star-o text-yellow'></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class='fa fa-star text-yellow'></i>
+                                                        }
+                                                    </td>
                                                 </tr>
                                             }
                                         </tbody>

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -59,8 +58,11 @@ namespace Galaxy.Web.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserID));
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
                 */
+                //缓存用户名
                 ClaimsPrincipal user = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, loginModel.UsernameOrEmailAddress) }, CookieAuthenticationDefaults.AuthenticationScheme));
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user, new AuthenticationProperties { IsPersistent = loginModel.RememberMe });
+                //HttpContext.Session.SetString("UserName", AbpSession.GetUserName());
+                //HttpContext.Session.SetString("UserName", loginModel.UsernameOrEmailAddress);
             }
             return Json(new AjaxResponse { Result = loginStatus });
         }

@@ -43,6 +43,25 @@
         $("#folder ul li").removeClass("active");
         var index = parseInt($('#status').val());
         $('#folder ul li').eq(index).addClass("active");
+        //初始化ICheck
+        $('#message_inbox_table input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+        //
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $("#message_inbox_table input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $("#message_inbox_table input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
+        });
     });
 
     function enableOrDisableButtons() {

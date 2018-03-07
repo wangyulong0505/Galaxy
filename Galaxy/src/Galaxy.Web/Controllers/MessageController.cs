@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Galaxy.Messages;
 using Galaxy.Entities;
 using Galaxy.Web.Utils;
+using Abp.Web.Models;
 
 namespace Galaxy.Web.Controllers
 {
@@ -85,6 +86,22 @@ namespace Galaxy.Web.Controllers
         public IActionResult Add()
         {
             return View();
+        }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> Add([FromBody]Message entity)
+        {
+            try
+            {
+                //
+                return Json(new AjaxResponse { Success = true, Result = "" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                return Json(new AjaxResponse { Success = false, Result = ex.Message });
+            }
         }
 
         /// <summary>

@@ -26,7 +26,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-3">
-                <button data-btn-type="titleBtn" data-flag="new" class="btn btn-primary btn-block margin-bottom">新建消息</button>
+                <button data-btn-type="addMessage" data-flag="new" class="btn btn-primary btn-block margin-bottom">新建消息</button>
                 @await Component.InvokeAsync("Message")
                 <!--0收件箱， 1发件箱， 2草稿箱， 3回收站-->
                 <input type="hidden" id="status" value="3" />
@@ -52,12 +52,7 @@
                                 </div>
                                 <div class="col-sm-9">
                                     <div class="dataTables_filter " id="searchDiv" style="">
-                                        <!--查询条件-->
-                                        <!-- <div class="has-feedback">
-                                                <input type="text" class="form-control input-sm" placeholder="Search Mail">
-                                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                            </div>-->
-                                        <input type="hidden" name="receiveUserID" value="402880e456223e8f015625231d8e0003">
+                                        <input type="hidden" name="receiveUserID" />
                                         <div class="has-feedback form-group">
                                             <input type="search" placeholder="请输入标题" title="主题" name="message.sendSubject" class="form-control input-sm" id="sendSubject" operator="like" likeoption="true">
                                             <span class="glyphicon glyphicon-search form-control-feedback"></span>
@@ -81,6 +76,7 @@
                                     <table id="message_inbox_table" style="border-top: 1px solid rgb(244, 244, 244); width: 100%;" class="table table-border table-striped table-hover dataTable no-footer" role="grid" aria-describedby="message_inbox_table_info">
                                         <thead>
                                             <tr role="row">
+						                        <td class="text-left" rowspan="1" colspan="1"><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></td>
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号">序号</th>
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="发送人">发送人</th>
                                                 <th class="sorting text-center" tabindex="0" aria-controls="message_inbox_table" rowspan="1" colspan="1" aria-label="主题: activate to sort column ascending">主题</th>
@@ -93,7 +89,13 @@
                                             @for (int i = 0; i < Model.Count; i++)
                                             {
                                                 <tr id='@Model[i].Id' role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
+							                        <td class="text-left">
+                                                        <div class="icheckbox_flat-blue" style="position: relative;">
+                                                            <input type="checkbox" data-flag="icheck" style="position: absolute; opacity: 0;" />
+                                                        </div>
+                                                    </td>
                                                     <td class="text-center sorting_1">@((ViewBag.PageIndex - 1) * ViewBag.PageSize + i + 1)</td>
+                                                    <td class="text-center sorting_1">@Model[i].Recipients</td>
                                                     <td class=" text-left">
                                                         <a class="text-bold" href='@Url.Content("~/Message/Preview/"+Model[i].Id)'>
                                                             <span data-toggle="tooltip" data-placement="right" data-html="true" title="" data-original-title='@Model[i].Title'>@Model[i].Title</span>
@@ -105,7 +107,7 @@
                                                         @switch (Model[i].MessageType)
                                                         {
                                                             case 0:
-                                                                Html.Raw("<i class='fa fa-tv text-danger'></i>");
+                                                                <i class='fa fa-tv text-danger'></i>
                                                                 break;
                                                             case 1:
                                                                 <i class="fa fa-envelope-o text-info"></i>
@@ -124,7 +126,16 @@
                                                         }
                                                         &nbsp;
                                                     </td>
-                                                    <td class="text-center"><i class="fa fa-star text-yellow"></i></td>
+                                                    <td class="text-center">
+                                                        @if (Model[i].Mark == 0)
+                                                        {
+                                                            <i class='fa fa-star-o text-yellow'></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class='fa fa-star text-yellow'></i>
+                                                        }
+                                                    </td>
                                                 </tr>
                                             }
                                         </tbody>

@@ -1,48 +1,74 @@
 ﻿(function () {
-    var messageTable, winId = "messageWin";
     //初始化WangEditor编辑器
-    editor = new wangEditor("editor");
-    editor.create();
-    //初始化fileinput控件（第一次初始化）
-    $('#attachment').fileinput({
-        language: 'zh', //设置语言
-        uploadUrl: "/FileUpload/Upload", //上传的地址
-        maxFileCount: 10,
-        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-    });
+    var editor = new wangEditor("editor");
     $(function () {
-        $("#sendContent").wysihtml5();
+        editor.create();
+        //初始化ICheck
+        initICheck();
+        //初始化fileinput控件（第一次初始化）
+        $('#attachment').fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/FileUpload/Upload", //上传的地址
+            maxFileCount: 10,
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+        });
         //数据校验
         $("#message_form").bootstrapValidator({
             message: '请输入有效值',
+            /*
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
                 invalid: 'glyphicon glyphicon-remove',
                 validating: 'glyphicon glyphicon-refresh'
             },
-            submitHandler: function () {
-                saveData(4);
+            */
+            fields: {
+                receiverIds: {
+                    validators: {
+                        notEmpty: {
+                            Message: '请选择接收人'
+                        }
+                    }
+                },
+                sendSubject: {
+                    validators: {
+                        notEmpty: {
+                            Message: '标题不能为空'
+                        }
+                    }
+                },
+                messageType: {
+                    validators: {
+                        notEmpty: {
+                            Message:'请选择消息类型'
+                        }
+                    }
+                }
             }
         });
         //绑定按钮事件
         $("button[data-btn-type]").click(function () {
             var action = $(this).data("btn-type");
             switch (action) {
-                case "titleBtn":
-                    titleBtnClick(this);
+                case "backInbox":
+                    backInbox();
                     break;
-                case "save_draft":
-                    saveData(0);
+                case "saveDraft":
+                    saveData(2);
                     break;
-                case "cancel_draft":
+                case "send":
+                    saveData(1);
+                    break;
+                case "cancel":
                     //返回收件箱首页
+                    window.history.back(-1);
                     break;
-                case "receiver_select":
+                case "selectReceiver":
                     modals.openWin({
                         winId: "receiverWin",
                         title: '选择接收人',
                         width: '1000px',
-                        url: basePath + "/message/receiver/select",
+                        url: appPath + "Message/receiver/select",
                         hideFunc: function () {
                             //主要是本页面wyhtml5含有modal样式影响了模态窗体的显示
                             $(document.body).removeClass('modal-open');
@@ -52,74 +78,84 @@
                     break;
             }
         });
-        //更新消息数目
-        updateMsgCount();
     })
 
-    function titleBtnClick(obj) {
-        if ($(obj).data("flag") == "new") {
-            loadPage(basePath + "/message/edit", "#contentBody");
-            $(obj).text("返回收件箱");
-            $(obj).data("flag", "return");
-            //清除选中
-            $("#folder ul li").removeClass("active");
-            $(".content-header small").text("新建消息");
-        } else if ($(obj).data("flag") == "return") {
-            //loadPage(basePath+"/message/inbox","#contentBody");
-            //$(obj).data("flag","new");
-            $("[data-btn-type='inbox']").click();
+    function backInbox() {
+        window.location.href = appPath + 'Message/Index';
+    }
+
+    /**
+     * 初始化ICheck
+     */
+    function initICheck() {
+        var form = $('#message_form');
+        if (form.find('[data-flag="icheck"]').length > 0) {
+            form.find('[data-flag="icheck"]').each(function () {
+                var cls = $(this).attr("class") ? $(this).attr("class") : "square-green";
+                $(this).iCheck(
+                    {
+                        checkboxClass: 'icheckbox_' + cls,
+                        radioClass: 'iradio_' + cls
+                    }
+                ).on('ifChanged', function (e) { });
+            });
         }
     }
 
-    function updateMsgCount() {
-        ajaxPost(basePath + "/message/count", null, function (map) {
-            $("#folder ul li a").find("span.label").each(function (index, item) {
-                var btnType = $(item).parents("li").data("btn-type");
-                $(item).text(map[btnType]);
-            });
-        });
-    }
     //保存消息 0=保存为草稿  1=保存并发送
     function saveData(status) {
-        var obj = messageform.getFormSimpleData();
-        obj["messageStatus"] = status;
-        obj["sendContent"] = $("#sendContent").val();
-        //console.log(JSON.stringify(params));
-        delete obj["_wysihtml5_mode"];
-        console.log(obj);
-        if (!validateForm()) return;
-        var confirmMsg = status == 0 ? "确定保存为草稿？" : "确定保存并发送？";
-        modals.confirm(confirmMsg, function () {
-            ajaxPost(basePath + "/message/save", { message: JSON.stringify(obj) }, function (result) {
-                if (result.success) {
-                    //保存成功跳转到首页
-                    $("[data-btn-type='sent']").click();
-                    updateMsgCount();
-                }
-            });
-        })
-    }
-
-    function validateForm() {
-        //接收人
-        var errorMsg = "";
-        if (!$("#receiverIds").val()) {
-            errorMsg += "接收人不能为空<br/>";
+        $('#message_form').data('bootstrapValidator').validate();
+        if (!$('#message_form').data('bootstrapValidator').isValid()) {
+            return;
         }
-        if (!$("#sendSubject").val()) {
-            errorMsg += "标题不能为空<br/>";
+        //获取WangEditor内容，判断是否为空
+        var content = editor.$txt.html();
+        if (!content) {
+            modals.info("正文内容不能为空");
+            return;
         }
-        if ($("input[name='messageType']:checked").length == 0) {
-            errorMsg += "请选择消息类型<br/>";
+        
+        //判断消息类型的值
+        var str = '';
+        var type = 0;
+        $("input[name='messageType']:checkbox").each(function () {
+            if ($(this).is(':checked') == true) {
+                str += $(this).val() + ",";
+            }
+        });
+        switch (str) {
+            case '0,':
+                break;
+            case '1,':
+                type = 1;
+                break;
+            case '2,':
+                type = 2;
+                break;
+            case '0,1,':
+                type = 3;
+                break;
+            case '0,2,':
+                type = 4;
+                break;
+            case '1,2,':
+                type = 5;
+                break;
+            default:
+                break;
         }
-        if (!$("#sendContent").val() || $("#sendContent").val().length > 4000) {
-            errorMsg += "正文内容不能为空，且字数不能大于4000";
-        }
-        if (errorMsg.length > 0) {
-            modals.info(errorMsg);
-        return false;
-        } else {
-            return true;
+        //提交的参数
+        var param = {
+            'Title': $('#id').val() == '' ? '0' : $('#id').val(),
+            'Body': ,
+            'Sender': $("#parentNodeId").val() == '' ? '0' : $("#parentNodeId").val(),
+            'Recipients': $('#parentName').val(),
+            'RecipientIds': $("#name").val(),
+            'MessageStatus': status,
+            'MessageType': type,
+            'Mark': $("input[name='messageFlag']:checked").val(),
+            'IsRead': 0,
+            'CreateTime': formatDate(new Date(), 'yyyy-mm-dd')
         }
     }
 })()
