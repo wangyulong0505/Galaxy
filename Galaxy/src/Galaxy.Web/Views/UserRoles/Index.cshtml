@@ -1,0 +1,276 @@
+﻿@{
+    List<Galaxy.Entities.User> unbindUserList = ViewData["UnbindUserList"] as List<Galaxy.Entities.User>;
+    List<Galaxy.Entities.User> bindUserList = ViewData["BindUserList"] as List<Galaxy.Entities.User>;
+}
+@section styles{
+    <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
+    <style type="text/css">
+        .trchange {
+            background-color: #08C;
+            color: white;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
+    <script src="~/view-resources/Views/UserRoles/Index.js" asp-append-version="true"></script>
+}
+<div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
+    <section class="content-header">
+        <h1>角色管理</h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">系统管理</a></li>
+            <li class="active">角色管理</li>
+        </ol>
+    </section>
+    <!--隐藏域 begin-->
+    <!--隐藏域 end-->
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <!-- /.box-header -->
+                    <div class="box-header with-border">
+                        <h5 class="box-title" style="font-size:14px;">未绑定该角色的用户列表</h5>
+                        <button type="button" id="btn_add_ur" class="btn btn-sm close" title="用户绑定角色">
+                            <i class="fa fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="dataTables_filter" id="searchDiv_unselected">
+                        <input type="hidden" value="" name="roleId" iscondition="false">
+                        <input placeholder="请输入用户名" name="name" class="form-control form-control-sm" type="search" likeoption="true">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" data-btn-type="search">查询</button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="userRole_unselected_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div id="userRole_unselected_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
+                            <div class="dataTables_scroll">
+                                <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                    <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 450px; padding-right: 0px;">
+                                        <table class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 450px; margin-left: 0px;" role="grid">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号" style="width: 80px;">序号</th>
+                                                    <th class="text-center sorting" tabindex="0" aria-controls="userRole_unselected_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending" style="width: 124px;">用户名</th>
+                                                    <th class="text-center sorting" tabindex="0" aria-controls="userRole_unselected_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending" style="width: 125px;">登录名</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 370px; width: 100%;">
+                                    <table id="userRole_unselected_table" class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="userRole_unselected_table_info">
+                                        <thead>
+                                            <tr role="row" style="height: 0px;">
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 80px;">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">序号</div>
+                                                </th>
+                                                <th class="text-center sorting" aria-controls="userRole_unselected_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 124px;">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">用户名</div>
+                                                </th>
+                                                <th class="text-center sorting" aria-controls="userRole_unselected_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 125px;">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">登录名</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="402880e456223e8f015625231d8e0003" role="row" class="odd">
+                                                <td class="text-center sorting_1">1</td>
+                                                <td class=" text-center">billJiang-test</td>
+                                                <td class=" text-center">test</td>
+                                            </tr>
+                                            <tr id="8a991f876128add9016145d2366901f0" role="row" class="even">
+                                                <td class="text-center sorting_1">2</td>
+                                                <td class=" text-center">12</td>
+                                                <td class=" text-center">324</td>
+                                            </tr>
+                                            <tr id="8a991f876128add9016145cb792a01ee" role="row" class="odd">
+                                                <td class="text-center sorting_1">3</td>
+                                                <td class=" text-center">123</td>
+                                                <td class=" text-center">123@qq.com</td>
+                                            </tr>
+                                            <tr id="402880e95d0da971015d0dbd12da000b" role="row" class="even">
+                                                <td class="text-center sorting_1">4</td>
+                                                <td class=" text-center">C领导</td>
+                                                <td class=" text-center">leaderC</td>
+                                            </tr>
+                                            <tr id="8a8a80f05cc32020015cc32ab0f90003" role="row" class="odd">
+                                                <td class="text-center sorting_1">5</td>
+                                                <td class=" text-center">人事B</td>
+                                                <td class=" text-center">hrB</td>
+                                            </tr>
+                                            <tr id="8a8a80f05cc32020015cc32b70290004" role="row" class="even">
+                                                <td class="text-center sorting_1">6</td>
+                                                <td class=" text-center">人事A</td>
+                                                <td class=" text-center">hrA</td>
+                                            </tr>
+                                            <tr id="8a8a80f05cc32020015cc32cd3270006" role="row" class="odd">
+                                                <td class="text-center sorting_1">7</td>
+                                                <td class=" text-center">B领导</td>
+                                                <td class=" text-center">leaderB</td>
+                                            </tr>
+                                            <tr id="8a8a80f05cc32020015cc32c69ca0005" role="row" class="even">
+                                                <td class="text-center sorting_1">8</td>
+                                                <td class=" text-center">A领导</td>
+                                                <td class=" text-center">leaderA</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" id="userRole_unselected_table_info" role="status" aria-live="polite">第 1 至 8 项记录，共 8 项</div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="userRole_unselected_table_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button previous disabled" id="userRole_unselected_table_previous"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="0" tabindex="0">上页</a></li>
+                                            <li class="paginate_button active"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="1" tabindex="0">1</a></li>
+                                            <li class="paginate_button next disabled" id="userRole_unselected_table_next"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="2" tabindex="0">下页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h5 class="box-title" style="font-size:14px;float:right">已绑定该角色的用户列表</h5>
+                        <button type="button" id="btn_remove_ur" class="btn btn-sm close" style="float:left" title="用户解绑角色">
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
+                    </div>
+                    <div class="dataTables_filter" id="searchDiv_selected">
+                        <input type="hidden" value="402880eb5c4ec2a4015c4ec591390000" name="roleId" />
+                        <input placeholder="请输入用户名" name="user.name" class="form-control" type="search" likeoption="true" />
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" data-btn-type="search">查询</button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="userRole_selected_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div id="userRole_selected_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
+                            <div class="dataTables_scroll">
+                                <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                    <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 450px; padding-right: 0px;">
+                                        <table class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 450px; margin-left: 0px;" role="grid">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号" style="width: 59px;">序号</th>
+                                                    <th class="text-center sorting" tabindex="0" aria-controls="userRole_selected_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending" style="width: 79px;">用户名</th>
+                                                    <th class="text-center sorting" tabindex="0" aria-controls="userRole_selected_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending" style="width: 174px;">登录名</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 370px; width: 100%;">
+                                    <table id="userRole_selected_table" class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="userRole_selected_table_info">
+                                        <thead>
+                                            <tr role="row" style="height: 0px;">
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 59px;">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">序号</div>
+                                                </th>
+                                                <th class="text-center sorting" aria-controls="userRole_selected_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 79px;">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">用户名</div>
+                                                </th>
+                                                <th class="text-center sorting" aria-controls="userRole_selected_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 174px;">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">登录名</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="8a991f876128add9016150b5cc8d02a8" role="row" class="odd">
+                                                <td class="text-center sorting_1">1</td>
+                                                <td class=" text-center">test</td>
+                                                <td class=" text-center">zhujiang@agilesc.com</td>
+                                            </tr>
+                                            <tr id="8a991f876128add90161509eba7702a6" role="row" class="even">
+                                                <td class="text-center sorting_1">2</td>
+                                                <td class=" text-center">A小红</td>
+                                                <td class=" text-center">A小红</td>
+                                            </tr>
+                                            <tr id="8a991f876128add901615096a0dd02a4" role="row" class="odd">
+                                                <td class="text-center sorting_1">3</td>
+                                                <td class=" text-center">sealv</td>
+                                                <td class=" text-center">sealv@126.com</td>
+                                            </tr>
+                                            <tr id="8a991f876128add901615083871102a1" role="row" class="even">
+                                                <td class="text-center sorting_1">4</td>
+                                                <td class=" text-center">123123</td>
+                                                <td class=" text-center">123123</td>
+                                            </tr>
+                                            <tr id="8a991f876128add901615080fc1d029e" role="row" class="odd">
+                                                <td class="text-center sorting_1">5</td>
+                                                <td class=" text-center">Axiaoming</td>
+                                                <td class=" text-center">ABcsd</td>
+                                            </tr>
+                                            <tr id="8a991f876128add9016150805799029c" role="row" class="even">
+                                                <td class="text-center sorting_1">6</td>
+                                                <td class=" text-center">DEMO1</td>
+                                                <td class=" text-center">demos</td>
+                                            </tr>
+                                            <tr id="8a991f876128add90161507fce0f029a" role="row" class="odd">
+                                                <td class="text-center sorting_1">7</td>
+                                                <td class=" text-center">DEMO1</td>
+                                                <td class=" text-center">XIAO</td>
+                                            </tr>
+                                            <tr id="8a991f876128add901614ef2f31f0261" role="row" class="even">
+                                                <td class="text-center sorting_1">8</td>
+                                                <td class=" text-center">lixu</td>
+                                                <td class=" text-center">lixu84051543@qq.com</td>
+                                            </tr>
+                                            <tr id="8a991f876128add901614bd14554025c" role="row" class="odd">
+                                                <td class="text-center sorting_1">9</td>
+                                                <td class=" text-center">test_eric</td>
+                                                <td class=" text-center">test_eric</td>
+                                            </tr>
+                                            <tr id="8a991f876128add901614bcb2d92025a" role="row" class="even">
+                                                <td class="text-center sorting_1">10</td>
+                                                <td class=" text-center">simon</td>
+                                                <td class=" text-center">mfq666@126.com</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" id="userRole_selected_table_info" role="status" aria-live="polite">第 1 至 10 项记录，共 34 项</div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="userRole_selected_table_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button previous disabled" id="userRole_selected_table_previous"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="0" tabindex="0">上页</a></li>
+                                            <li class="paginate_button active"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="1" tabindex="0">1</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="userRole_selected_table" data-dt-idx="2" tabindex="0">2</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="userRole_selected_table" data-dt-idx="3" tabindex="0">3</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="userRole_selected_table" data-dt-idx="4" tabindex="0">4</a></li>
+                                            <li class="paginate_button next" id="userRole_selected_table_next"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="5" tabindex="0">下页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
+
+

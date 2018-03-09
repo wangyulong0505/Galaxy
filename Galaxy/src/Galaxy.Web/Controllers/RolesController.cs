@@ -25,10 +25,21 @@ namespace Galaxy.Web.Controllers
             userRoleAppService = _userRoleAppService;
         }
 
+        //
+        // TODO
+        // 
+        /// <summary>
+        /// 分页获取Roles数据
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="strRoleKey"></param>
+        /// <param name="strUserKey"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string strRoleKey = "", string strUserKey = "")
         {
             List<Role> roleList = await roleService.GetRoles();
-            //获取所有的Role和分页获取Users
+            //分页获取Roles
             if (!string.IsNullOrEmpty(strRoleKey))
             {
                 roleList = roleList.Where(q => q.Name.Contains(strRoleKey)).ToList();
@@ -37,10 +48,8 @@ namespace Galaxy.Web.Controllers
             ViewBag.Page = TablePagination.PagingHtml(pageIndex, pageSize, pageCount, itemCount, strUserKey);
             ViewBag.PageIndex = pageIndex;
             ViewBag.PageSize = pageSize;
-            ViewBag.UserKey = strUserKey;
             ViewBag.RoleKey = strRoleKey;
             ViewData["RoleList"] = roleList;
-            ViewData["UserList"] = userList;
             return View();
         }
 
@@ -91,16 +100,17 @@ namespace Galaxy.Web.Controllers
             }
         }
 
-        public async Task<JsonResult> RoleSelect(int RoleId)
+        /// <summary>
+        /// 根据RoleId获取绑定的用户
+        /// </summary>
+        /// <param name="RoleId"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetUsers(int Id)
         {
-            /* 界面中这样的设计，根据RoleId获取所有RoleId下的用户
-             * 打开选择页面，两个Table分割所有的用户，左边的Table是RoleId记录不包含的用户，右边的是RoleId记录包含的用户
-             * 部分更新的原理：先根据ID查出所有的数据，然后重新赋值后，用实体进行更新
-             */
             try
             {
-                List<User> excludeUserList = await userRoleAppService.GetExcludeUsersByRoleId(RoleId);
-                return Json(new AjaxResponse { Success = true, Result = JsonConvert.SerializeObject(excludeUserList) });
+                List<User> userList = await userRoleAppService.GetUsersByRoleId(Id);
+                return Json(new AjaxResponse { Success = true, Result = JsonConvert.SerializeObject(userList) });
             }
             catch (Exception ex)
             {

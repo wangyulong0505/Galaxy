@@ -2,7 +2,26 @@
     $(function () {
         //隐藏的弹出框--数据校验
         formValidate();
-        
+        //如果Id不为0就ajax获取数据初始化Form
+        if (0 != "0") {
+            $.ajax({
+                url: appPath + 'Role/GetRole/' + id,
+                data: {},
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (data, textStatus) {
+                    if (data.success) {
+                        //获取数据后初始化Form
+                    }
+                    else {
+                        modals.warn(data.result);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    modals.error(errorThrown);
+                }
+            });
+        }
         //RoleTable tr选中样式
         $('#role_table tr').click(function () {
             //一次只能选中一行
@@ -14,14 +33,12 @@
             getRoleUsers(roleId);
         });
         //UserTable tr选中样式
-        /*
         $('#userRole_table tr').click(function () {
             //一次只能选中一行
             $(this).siblings().css('background-color', '#fff');
             $(this).addClass("trchange").siblings().removeClass("trchange");
             $(this).css('background-color', '#08C');
         });
-        */
         //
         $('button[data-btn-type]').click(function () {
             var action = $(this).attr('data-btn-type');
@@ -143,8 +160,75 @@
                     //根据RoleId获取两个Json，然后绑定到Table中，最后打开modals
                     window.location.href = appPath + 'UserRoles/Index/' + rowId;
                     break;
+                case 'deleteUser':
+                    var userRowId = $('#userRole_table tr[class="trchange"]').attr('id');
+                    if (!userRowId) {
+                        modals.info("请选择要删除的用户");
+                        return false;
+                    }
+                    modals.confirm("是否要删除该行数据", function () {
+                        $.ajax({
+                            url: appPath + 'Roles/Delete/' + userRowId,
+                            type: 'POST',
+                            data: {},
+                            dataType: 'JSON',
+                            success: function (data, textStatus) {
+                                userRoleTable.reloadData();
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                modals.info(errorThrown);
+                            }
+                        });
+                    });
+                    break;
             }
         });
+
+        //绑定角色到用户
+        $("#btn_add_ur").click(function () {
+            var rows = unselectedTable.getSelectedRowsData();
+            var urlist = [];
+            if (!rows) {
+                modals.info("请选择要绑定该角色的用户");
+                return;
+            }
+            $.each(rows, function (index, row) {
+                var urObj = {};
+                var user = {};
+                user.id = row.id;
+                user.version = row.version;
+                urObj.user = user;
+                urObj.roleId = roleId;
+                urlist.push(urObj);
+            });
+            ajaxPost(appPath + "UserRole/Add", { "urlist": JSON.stringify(urlist) }, function (data) {
+                if (data.success) {
+                    selectedTable.reloadData();
+                    unselectedTable.reloadRowData();
+                }
+            });
+
+        });
+
+        //解绑用户
+        $("#btn_remove_ur").click(function () {
+            var rows = selectedTable.getSelectedRowsData();
+            if (!rows) {
+                modals.info("请选择要解绑的用户");
+                return;
+            }
+            var idArr = [];
+            $.each(rows, function (index, row) {
+                idArr.push(row.id);
+            })
+            ajaxPost(appPath + "UserRole/Delete", { "ids": idArr.join(",") }, function (data) {
+                if (data.success) {
+                    unselectedTable.reloadRowData();
+                    selectedTable.reloadData();
+                }
+            })
+        });
+
         //页面加载后触发第一个tr的点击事件
         $('#role_table tr').eq(1).click();
     });
