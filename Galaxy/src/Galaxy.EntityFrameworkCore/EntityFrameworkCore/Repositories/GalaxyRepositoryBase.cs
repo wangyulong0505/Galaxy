@@ -21,6 +21,7 @@ namespace Galaxy.EntityFrameworkCore.Repositories
         }
 
         // Add your common methods for all repositories
+        //可以在这里添加通用的仓储方法，对所有仓储适用。比如添加一个根据分页获取数据的通用方法
     }
 
     /// <summary>

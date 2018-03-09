@@ -175,15 +175,8 @@
                         modals.info('请选择角色');
                         return;
                     }
-                    modals.openWin({
-                        winId: 'userRoleWin',
-                        width: 1000,
-                        title: '角色【' + $('#role_table tr[class="trchange"] td').eq(1).text() + '】绑定用户',
-                        url: '/Role/RoleSelect/' + rowId,
-                        hideFunc: function () {
-                            //
-                        }
-                    })
+                    //根据RoleId获取两个Json，然后绑定到Table中，最后打开modals
+                    $('#userRoleWin').modal('show');
                     break;
                 case 'deleteUser':
                     var userRowId = $('#userRole_table tr[class="trchange"]').attr('id');
@@ -265,28 +258,6 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             excluded: [':disabled'],
-            /*
-            submitHandler: function (validator, roleform, submitButton) {
-                modals.confirm('确认保存？', function () {
-                    $.ajax({
-                        url: appPath + 'Role/RoleSave',
-                        data: params,
-                        type: 'POST',
-                        dataType: 'JSON',
-                        success: function (data, textStatus) {
-                            if (data.success) {
-                                //判断是新增还是更新
-                                modals.closeWin(winId);
-                                //重新加载数据
-                            }
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            modals.error(errorThrown);
-                        }
-                    });
-                });
-            },
-            */
             fields: {
                 name: {
                     validators: {
@@ -328,35 +299,19 @@
     }
 
     /**
-     * 日期格式化
-     * @param {any} date
-     * @param {any} format
+     *
+     * @param {any} tableid绑定的table的id
+     * @param {any} json数组
      */
-    function formatDate(date, format) {
-        if (!date) return date;
-        date = (typeof date == "number") ? new Date(date) : date;
-        return date.Format(format);
-    }
-
-    Date.prototype.Format = function (fmt) {
-        var o = {
-            "m+": this.getMonth() + 1, // 月份
-            "d+": this.getDate(), // 日
-            "h+": this.getHours(), // 小时
-            "i+": this.getMinutes(), // 分
-            "s+": this.getSeconds(), // 秒
-            "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
-            "S": this.getMilliseconds()
-            // 毫秒
-        };
-        if (/(y+)/.test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    function bindDataTable(tableid, json) {
+        var str = '';
+        for (var i = 0; i < json.length; i++) {
+            str += '<tr id="' + json[i].Id + '" role="row" class=' + (i % 2 == 0 ? "even" : "odd") + '>';
+            str += '<td class="text-center sorting_1">' + ((ViewBag.PageIndex - 1) * ViewBag.PageSize + i + 1) + '</td>';
+            str += '<td class="text-center">' + json[i].Name + '</td>';
+            str += '<td class="text-center">' + json[i].UserName + '</td>';
+            str += '</tr>';
         }
-        for (var k in o) {
-            if (new RegExp("(" + k + ")").test(fmt)) {
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            }
-        }
-        return fmt;
+        $("'#" + tableid + "'").find('tbody').append(str);
     }
 })()

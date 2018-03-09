@@ -13,10 +13,10 @@ namespace Galaxy.EntityFrameworkCore.Repositories
 {
     public class UserRoleRepository : GalaxyRepositoryBase<UserRole>, IUserRoleRepository
     {
-        private readonly GalaxyDbContext db;
+        private readonly IDbContextProvider<GalaxyDbContext> provider;
         public UserRoleRepository(IDbContextProvider<GalaxyDbContext> dbContextProvider) : base(dbContextProvider)
         {
-            db = dbContextProvider.GetDbContext();
+            provider = dbContextProvider;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Galaxy.EntityFrameworkCore.Repositories
         {
             string strQuerySql = "SELECT u.Id, u.Name, u.UserName FROM dbo.Users u LEFT JOIN dbo.UserRoles r ON r.UserId = u.Id WHERE NOT EXISTS(SELECT 1 FROM dbo.UserRoles WHERE RoleId = @RoleId)";
             SqlParameter[] param = new SqlParameter[] { new SqlParameter("@RoleId", RoleId) };
-            return await Task.Run(() => db.Set<User>().FromSql(strQuerySql, param).ToList());
+            return await Task.Run(() => provider.GetDbContext().Set<User>().FromSql(strQuerySql, param).ToList());
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Galaxy.EntityFrameworkCore.Repositories
             */
             string strQuerySql = "SELECT u.Id, u.Name, u.UserName FROM dbo.Users u LEFT JOIN dbo.UserRoles r ON r.UserId = u.Id WHERE r.RoleId = @RoleId ";
             SqlParameter[] param = new SqlParameter[] { new SqlParameter("@RoleId", RoleId) };
-            return await Task.Run(() => db.Set<User>().FromSql(strQuerySql, param).ToList());
+            return await Task.Run(() => provider.GetDbContext().Set<User>().FromSql(strQuerySql, param).ToList());
         }
     }
 }
