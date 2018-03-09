@@ -9,6 +9,7 @@ using Galaxy.Entities;
 using Galaxy.Web.Utils;
 using Abp.Web.Models;
 using Newtonsoft.Json;
+using Galaxy.UserRoles;
 
 namespace Galaxy.Web.Controllers
 {
@@ -16,10 +17,12 @@ namespace Galaxy.Web.Controllers
     {
         private readonly IRoleAppService roleService;
         private readonly IUserAppService userService;
-        public RolesController(IRoleAppService _roleService, IUserAppService _userService)
+        private readonly IUserRoleAppService userRoleAppService;
+        public RolesController(IRoleAppService _roleService, IUserAppService _userService, IUserRoleAppService _userRoleAppService)
         {
             roleService = _roleService;
             userService = _userService;
+            userRoleAppService = _userRoleAppService;
         }
 
         public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string strRoleKey = "", string strUserKey = "")
@@ -80,6 +83,24 @@ namespace Galaxy.Web.Controllers
                 }
                 
                 return Json(new AjaxResponse { Success = true, Result = "" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                return Json(new AjaxResponse { Success = false, Result = ex.Message });
+            }
+        }
+
+        public async Task<JsonResult> RoleSelect(int RoleId)
+        {
+            /* 界面中这样的设计，根据RoleId获取所有RoleId下的用户
+             * 打开选择页面，两个Table分割所有的用户，左边的Table是RoleId记录不包含的用户，右边的是RoleId记录包含的用户
+             * 部分更新的原理：先根据ID查出所有的数据，然后重新赋值后，用实体进行更新
+             */
+            try
+            {
+                List<User> excludeUserList = await userRoleAppService.GetExcludeUsersByRoleId(RoleId);
+                return Json(new AjaxResponse { Success = true, Result = JsonConvert.SerializeObject(excludeUserList) });
             }
             catch (Exception ex)
             {

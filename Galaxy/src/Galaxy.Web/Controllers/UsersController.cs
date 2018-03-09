@@ -44,8 +44,16 @@ namespace Galaxy.Web.Controllers
         [IgnoreAntiforgeryToken]
         public async Task<JsonResult> UsersAdd([FromBody]User entity)
         {
+            /*
+             * erp系统用户密码问题有两种
+             * 1、新增用户的时候提供一个输入框供输入密码，
+             * 2、新增用户时不提供密码输入框，随机生成一个密码，用户自己登录后修改密码
+             * 这两种方法各有所长，由于一般添加用户的不是用户本人，所以这里使用第二种方法
+             * 密码使用的是MD5加密生成32位字节，初始设定密码和用户名一样
+             */
             try
             {
+                entity.Password = Core.CommonFuns.Encrypt.Md5(entity.UserName);
                 await userAppService.PostUser(entity);
                 return Json(new AjaxResponse { Success = true, Result = "" });
             }

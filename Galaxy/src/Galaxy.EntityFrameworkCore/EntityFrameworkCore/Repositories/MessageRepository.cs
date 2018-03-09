@@ -86,7 +86,7 @@ namespace Galaxy.EntityFrameworkCore.Repositories
                 string strDropSql = "Drop Table dbo.Test";
                 int dropResult = db.Database.ExecuteSqlCommand(strDropSql);
 
-                //SqlQuery返回查询的结果，所以用在查询操作中, sorry SqlQuery在EFCore中没有，只能用FromSql, FromSql还能执行存储过程
+                //SqlQuery返回查询的结果，所以用在查询操作中, SqlQuery在EFCore中没有，只能用FromSql, FromSql还能执行存储过程
                 SqlParameter Id2 = new SqlParameter("@Id", 1);
                 string strSelectSql = "SELECT * FROM dbo.Test WHERE Id=@Id";
                 var selectResult = db.Set<Message>().FromSql(strSelectSql, new SqlParameter[] { Id2 });

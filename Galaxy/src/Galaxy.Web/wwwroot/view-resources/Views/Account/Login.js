@@ -79,7 +79,7 @@
                     console.log(data);
                     if (data.success) {
                         if (data.result == '0') {
-                            location.href = '../Home/Index';
+                            location.href = appPath + 'Home/Index';
                         }
                         else if (data.result == '1') {
                             modals.error("账号不存在");

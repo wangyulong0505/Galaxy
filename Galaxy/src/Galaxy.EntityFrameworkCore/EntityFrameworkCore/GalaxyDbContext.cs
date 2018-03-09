@@ -21,6 +21,10 @@ namespace Galaxy.EntityFrameworkCore
 
         public virtual DbSet<Permission> Permissions { get; set; }
 
+        public virtual DbSet<UserRole> UserRoles { get; set; }
+
+        public virtual DbSet<RolePermission> RolePermissions { get; set; }
+
         public GalaxyDbContext(DbContextOptions<GalaxyDbContext> options) 
             : base(options)
         {

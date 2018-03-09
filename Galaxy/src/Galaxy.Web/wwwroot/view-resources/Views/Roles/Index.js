@@ -28,6 +28,25 @@
             $(this).siblings().css('background-color', '#fff');
             $(this).addClass("trchange").siblings().removeClass("trchange");
             $(this).css('background-color', '#08C');
+            //根据选择的RoleId，执行ajax获取RoleId下对应的User
+            var roleId = $('#role_table tr.trchange').attr('id');
+            $.ajax({
+                type: 'Get',
+                url: appPath + 'Roles/GetUsers/' + roleId,
+                data:'null',
+                dataType: 'JSON',
+                success: function (data, textStatus) {
+                    if (data.success) {
+                        //根据获取的数据初始化Table
+                    }
+                    else {
+                        modals.warn(data.result);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    modals.error(errorThrown);
+                }
+            })
         });
         //UserTable tr选中样式
         $('#userRole_table tr').click(function () {
@@ -160,7 +179,7 @@
                         winId: 'userRoleWin',
                         width: 1000,
                         title: '角色【' + $('#role_table tr[class="trchange"] td').eq(1).text() + '】绑定用户',
-                        url: '/Role/select?roleId=' + rowId,
+                        url: '/Role/RoleSelect/' + rowId,
                         hideFunc: function () {
                             //
                         }

@@ -38,7 +38,7 @@ namespace Galaxy.EntityFrameworkCore.Repositories
                         return 1;
                     }
                     //密码Md5加密
-                    string encryptPassword = TouchScreen.Core.CommonFuns.Encrypt.Md5(password).ToUpper();
+                    string encryptPassword = Core.CommonFuns.Encrypt.Md5(password).ToUpper();
                     if (encryptPassword == entity.Password)
                     {
                         return 0;
@@ -53,7 +53,7 @@ namespace Galaxy.EntityFrameworkCore.Repositories
                         return 1;
                     }
                     //密码Md5加密
-                    string encryptPassword = TouchScreen.Core.CommonFuns.Encrypt.Md5(password).ToUpper();
+                    string encryptPassword = Core.CommonFuns.Encrypt.Md5(password).ToUpper();
                     if (encryptPassword == entity.Password)
                     {
                         return 0;

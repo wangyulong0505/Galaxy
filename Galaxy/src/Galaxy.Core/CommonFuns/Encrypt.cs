@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TouchScreen.Core.CommonFuns
+namespace Galaxy.Core.CommonFuns
 {
     /// <summary>
     /// 加密方法

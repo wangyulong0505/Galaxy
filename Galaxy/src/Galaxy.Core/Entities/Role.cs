@@ -36,10 +36,5 @@ namespace Galaxy.Entities
         /// 创建日期
         /// </summary>
         public virtual DateTime CreateDate { get; set; }
-
-        /// <summary>
-        /// 角色拥有权限Id, 一个角色可以有多个权限, 用逗号隔开 
-        /// </summary>
-        public virtual string PermissionIds { get; set; }
     }
 }

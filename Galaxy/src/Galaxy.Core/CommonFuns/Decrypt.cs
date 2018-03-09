@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TouchScreen.Core.CommonFuns
+namespace Galaxy.Core.CommonFuns
 {
     public class Decrypt
     {

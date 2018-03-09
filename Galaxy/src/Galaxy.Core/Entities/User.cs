@@ -86,10 +86,5 @@ namespace Galaxy.Entities
         /// 状态： 0：正常； 1：禁用； 2：已删除
         /// </summary>
         public virtual int Status { get; set; }
-
-        /// <summary>
-        /// 用户所属角色Id, 一个用户可以有多个角色, 用逗号隔开
-        /// </summary>
-        public virtual string RoleIds { get; set; }
     }
 }
