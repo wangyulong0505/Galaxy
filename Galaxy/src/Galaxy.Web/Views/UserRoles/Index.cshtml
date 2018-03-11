@@ -1,6 +1,6 @@
 ﻿@{
-    List<Galaxy.Entities.User> unbindUserList = ViewData["UnbindUserList"] as List<Galaxy.Entities.User>;
-    List<Galaxy.Entities.User> bindUserList = ViewData["BindUserList"] as List<Galaxy.Entities.User>;
+    List<Galaxy.Entities.User> unbindList = ViewData["UnbindList"]  as List<Galaxy.Entities.User>;
+    List<Galaxy.Entities.User> bindList = ViewData["BindList"] as List<Galaxy.Entities.User>;
 }
 @section styles{
     <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
@@ -48,7 +48,6 @@
                     </div>
                     <div class="box-body">
                         <div id="userRole_unselected_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            <div id="userRole_unselected_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
                             <div class="dataTables_scroll">
                                 <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
                                     <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 450px; padding-right: 0px;">
@@ -79,59 +78,29 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr id="402880e456223e8f015625231d8e0003" role="row" class="odd">
-                                                <td class="text-center sorting_1">1</td>
-                                                <td class=" text-center">billJiang-test</td>
-                                                <td class=" text-center">test</td>
-                                            </tr>
-                                            <tr id="8a991f876128add9016145d2366901f0" role="row" class="even">
-                                                <td class="text-center sorting_1">2</td>
-                                                <td class=" text-center">12</td>
-                                                <td class=" text-center">324</td>
-                                            </tr>
-                                            <tr id="8a991f876128add9016145cb792a01ee" role="row" class="odd">
-                                                <td class="text-center sorting_1">3</td>
-                                                <td class=" text-center">123</td>
-                                                <td class=" text-center">123@qq.com</td>
-                                            </tr>
-                                            <tr id="402880e95d0da971015d0dbd12da000b" role="row" class="even">
-                                                <td class="text-center sorting_1">4</td>
-                                                <td class=" text-center">C领导</td>
-                                                <td class=" text-center">leaderC</td>
-                                            </tr>
-                                            <tr id="8a8a80f05cc32020015cc32ab0f90003" role="row" class="odd">
-                                                <td class="text-center sorting_1">5</td>
-                                                <td class=" text-center">人事B</td>
-                                                <td class=" text-center">hrB</td>
-                                            </tr>
-                                            <tr id="8a8a80f05cc32020015cc32b70290004" role="row" class="even">
-                                                <td class="text-center sorting_1">6</td>
-                                                <td class=" text-center">人事A</td>
-                                                <td class=" text-center">hrA</td>
-                                            </tr>
-                                            <tr id="8a8a80f05cc32020015cc32cd3270006" role="row" class="odd">
-                                                <td class="text-center sorting_1">7</td>
-                                                <td class=" text-center">B领导</td>
-                                                <td class=" text-center">leaderB</td>
-                                            </tr>
-                                            <tr id="8a8a80f05cc32020015cc32c69ca0005" role="row" class="even">
-                                                <td class="text-center sorting_1">8</td>
-                                                <td class=" text-center">A领导</td>
-                                                <td class=" text-center">leaderA</td>
-                                            </tr>
+                                            @for (int i = 0; i < unbindList.Count; i++)
+                                            { 
+                                                <tr id='@unbindList[i].Id' role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
+                                                    <td class="text-center sorting_1">@i + 1</td>
+                                                    <td class=" text-center">@unbindList[i].Name</td>
+                                                    <td class=" text-center">@unbindList[i].UserName</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                            <input type="hidden" id="unbindTotalPage" value="@(unbindList.Count%10 == 0 ? unbindList.Count/10 : (unbindList.Count/10) + 1)" />
+                            <input type="hidden" id="unbindTotalCount" value="@unbindList.Count" />
                             <div class="row">
                                 <div class="col-sm-5">
-                                    <div class="dataTables_info" id="userRole_unselected_table_info" role="status" aria-live="polite">第 1 至 8 项记录，共 8 项</div>
+                                    <div class="dataTables_info" id="userRole_unselected_table_info" role="status" aria-live="polite">第 1 至 8 项记录，共 @unbindList.Count 项</div>
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="dataTables_paginate paging_simple_numbers" id="userRole_unselected_table_paginate">
                                         <ul class="pagination">
                                             <li class="paginate_button previous disabled" id="userRole_unselected_table_previous"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="0" tabindex="0">上页</a></li>
-                                            <li class="paginate_button active"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="1" tabindex="0">1</a></li>
+                                            <li class="paginate_button active" id="userRole_unselected_table_page"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="1" tabindex="0">1</a></li>
                                             <li class="paginate_button next disabled" id="userRole_unselected_table_next"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="2" tabindex="0">下页</a></li>
                                         </ul>
                                     </div>
@@ -191,60 +160,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr id="8a991f876128add9016150b5cc8d02a8" role="row" class="odd">
-                                                <td class="text-center sorting_1">1</td>
-                                                <td class=" text-center">test</td>
-                                                <td class=" text-center">zhujiang@agilesc.com</td>
-                                            </tr>
-                                            <tr id="8a991f876128add90161509eba7702a6" role="row" class="even">
-                                                <td class="text-center sorting_1">2</td>
-                                                <td class=" text-center">A小红</td>
-                                                <td class=" text-center">A小红</td>
-                                            </tr>
-                                            <tr id="8a991f876128add901615096a0dd02a4" role="row" class="odd">
-                                                <td class="text-center sorting_1">3</td>
-                                                <td class=" text-center">sealv</td>
-                                                <td class=" text-center">sealv@126.com</td>
-                                            </tr>
-                                            <tr id="8a991f876128add901615083871102a1" role="row" class="even">
-                                                <td class="text-center sorting_1">4</td>
-                                                <td class=" text-center">123123</td>
-                                                <td class=" text-center">123123</td>
-                                            </tr>
-                                            <tr id="8a991f876128add901615080fc1d029e" role="row" class="odd">
-                                                <td class="text-center sorting_1">5</td>
-                                                <td class=" text-center">Axiaoming</td>
-                                                <td class=" text-center">ABcsd</td>
-                                            </tr>
-                                            <tr id="8a991f876128add9016150805799029c" role="row" class="even">
-                                                <td class="text-center sorting_1">6</td>
-                                                <td class=" text-center">DEMO1</td>
-                                                <td class=" text-center">demos</td>
-                                            </tr>
-                                            <tr id="8a991f876128add90161507fce0f029a" role="row" class="odd">
-                                                <td class="text-center sorting_1">7</td>
-                                                <td class=" text-center">DEMO1</td>
-                                                <td class=" text-center">XIAO</td>
-                                            </tr>
-                                            <tr id="8a991f876128add901614ef2f31f0261" role="row" class="even">
-                                                <td class="text-center sorting_1">8</td>
-                                                <td class=" text-center">lixu</td>
-                                                <td class=" text-center">lixu84051543@qq.com</td>
-                                            </tr>
-                                            <tr id="8a991f876128add901614bd14554025c" role="row" class="odd">
-                                                <td class="text-center sorting_1">9</td>
-                                                <td class=" text-center">test_eric</td>
-                                                <td class=" text-center">test_eric</td>
-                                            </tr>
-                                            <tr id="8a991f876128add901614bcb2d92025a" role="row" class="even">
-                                                <td class="text-center sorting_1">10</td>
-                                                <td class=" text-center">simon</td>
-                                                <td class=" text-center">mfq666@126.com</td>
-                                            </tr>
+                                            @for (int i = 0; i < bindList.Count; i++)
+                    {
+                        <tr id='@bindList[i].Id' role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
+                            <td class="text-center sorting_1">@i + 1</td>
+                            <td class="text-center">@bindList[i].Name</td>
+                            <td class="text-center">@bindList[i].UserName</td>
+                        </tr>
+}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                            <input type="hidden" id="bindTotalPage" value="@(unbindList.Count%10 == 0 ? unbindList.Count/10 : (unbindList.Count/10) + 1)" />
+                            <input type="hidden" id="bindTotalCount" value="@unbindList.Count" />
                             <div class="row">
                                 <div class="col-sm-5">
                                     <div class="dataTables_info" id="userRole_selected_table_info" role="status" aria-live="polite">第 1 至 10 项记录，共 34 项</div>
@@ -253,10 +182,7 @@
                                     <div class="dataTables_paginate paging_simple_numbers" id="userRole_selected_table_paginate">
                                         <ul class="pagination">
                                             <li class="paginate_button previous disabled" id="userRole_selected_table_previous"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="0" tabindex="0">上页</a></li>
-                                            <li class="paginate_button active"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="1" tabindex="0">1</a></li>
-                                            <li class="paginate_button "><a href="#" aria-controls="userRole_selected_table" data-dt-idx="2" tabindex="0">2</a></li>
-                                            <li class="paginate_button "><a href="#" aria-controls="userRole_selected_table" data-dt-idx="3" tabindex="0">3</a></li>
-                                            <li class="paginate_button "><a href="#" aria-controls="userRole_selected_table" data-dt-idx="4" tabindex="0">4</a></li>
+                                            <li class="paginate_button active" id="userRole_selected_table_page"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="1" tabindex="0">1</a></li>
                                             <li class="paginate_button next" id="userRole_selected_table_next"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="5" tabindex="0">下页</a></li>
                                         </ul>
                                     </div>

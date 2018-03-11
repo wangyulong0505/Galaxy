@@ -1,7 +1,10 @@
-﻿using Galaxy.Roles;
+﻿using Galaxy.Entities;
+using Galaxy.Roles;
 using Galaxy.UserRoles;
 using Galaxy.Users;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Galaxy.Web.Controllers
 {
@@ -22,8 +25,14 @@ namespace Galaxy.Web.Controllers
         /// </summary>
         /// <param name="Id">RoleId</param>
         /// <returns></returns>
-        public IActionResult Index(int Id)
+        public async Task<IActionResult> Index(int Id)
         {
+            //获取所有的数据
+            List<User> bindList = await userRoleAppService.GetUsersByRoleId(Id);
+            List<User> unbindList = await userRoleAppService.GetExcludeUsersByRoleId(Id);
+
+            ViewData["BindList"] = bindList;
+            ViewData["UnbindList"] = unbindList;
             return View();
         }
     }

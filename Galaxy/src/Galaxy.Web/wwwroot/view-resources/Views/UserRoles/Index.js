@@ -1,27 +1,5 @@
 ﻿(function () {
     $(function () {
-        //隐藏的弹出框--数据校验
-        formValidate();
-        //如果Id不为0就ajax获取数据初始化Form
-        if (0 != "0") {
-            $.ajax({
-                url: appPath + 'Role/GetRole/' + id,
-                data: {},
-                type: 'GET',
-                dataType: 'JSON',
-                success: function (data, textStatus) {
-                    if (data.success) {
-                        //获取数据后初始化Form
-                    }
-                    else {
-                        modals.warn(data.result);
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    modals.error(errorThrown);
-                }
-            });
-        }
         //RoleTable tr选中样式
         $('#role_table tr').click(function () {
             //一次只能选中一行
@@ -39,151 +17,7 @@
             $(this).addClass("trchange").siblings().removeClass("trchange");
             $(this).css('background-color', '#08C');
         });
-        //
-        $('button[data-btn-type]').click(function () {
-            var action = $(this).attr('data-btn-type');
-            var rowId = $('#role_table tr.trchange').attr('id');
-            switch (action) {
-                case 'addRole':
-                    /*
-                    modals.openWin({
-                        winId: 'roleWin',
-                        title: '新增角色',
-                        width: '600px',
-                        url: appPath + "Roles/RoleEdit" //通过url获取后台传递的html填充模态窗口, 这种方式很恶心，所以
-                    });
-                    */
-                    //先清除validate状态
-                    $('#role-form').bootstrapValidator('resetForm')
-                    $('#roleWin').modal('show');
-                    break;
-                case 'editRole':
-                    if (!rowId) {
-                        modals.info('请选择要编辑的行');
-                        return false;
-                    }
-                    $.ajax({
-                        url: appPath + "Roles/RoleEdit/" + rowId,
-                        type: 'GET',
-                        data: {},
-                        dataType: 'JSON',
-                        success: function (data, textStatus) {
-                            if (data.success) {
-                                //获取数据，初始化roleWin里面的数据，然后打开窗口
-                                console.log(data.result);
-                                var role = JSON.parse(data.result);
-                                $('#id').val(role.Id);
-                                $('#name').val(role.Name);
-                                $('#code').val(role.Code);
-                                $('#sort').val(role.Sort);
-                                $('#remark').val(role.Remark);
-                                $("input[name='status'][value='" + role.Status + "']").prop("checked", "checked");
-                                $('#createDate').val(role.CreateDate);
-                                $('#permissionIds').val('');
-                                $('#roleWin').modal('show');
-                            }
-                            else {
-                                modals.warn(data.result);
-                            }
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            modals.error(errorThrown);
-                        }
-                    })
-                    break;
-                case 'deleteRole':
-                    if (!rowId) {
-                        modals.info('请选择要删除的行');
-                        return false;
-                    }
-                    modals.confirm("是否要删除该行数据？", function () {
-                        $.ajax({
-                            url: appPath + 'Roles/RoleDelete/' + rowId,
-                            type: 'POST',
-                            data: null,
-                            dataType: 'JSON',
-                            success: function (data, textStatus) {
-                                if (data.success) {
-                                    window.location.href = appPath + 'Role/Index';
-                                }
-                                else {
-                                    modals.warn(data.result);
-                                }
-                            },
-                            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                modals.error(errorThrown);
-                            }
-                        });
-                    })
-                    break;
-                case 'roleSave':
-                    var bootstrapValidator = $("#role-form").data('bootstrapValidator');
-                    bootstrapValidator.validate();
-                    if (bootstrapValidator.isValid()) {
-                        var param = {
-                            Id: $('#id').val() ? $('#id').val() : '0',
-                            Name: $('#name').val(),
-                            Code: $('#code').val(),
-                            Sort: $('#sort').val(),
-                            Remark: $('#remark').val(),
-                            Status: $('input[name="status"]:checked').val(),
-                            CreateDate: formatDate(new Date(), 'yyyy-mm-dd'),
-                            PermissionIds: $('#permissionIds').val() ? $('#permissionIds').val() : ''
-                        }
-                        modals.confirm('确认保存？', function () {
-                            $.ajax({
-                                contentType: 'application/json; charset=utf-8',
-                                url: appPath + 'Roles/RoleSave',
-                                data: JSON.stringify(param),
-                                type: 'POST',
-                                dataType: 'JSON',
-                                success: function (data, textStatus) {
-                                    if (data.success) {
-                                        //判断是新增还是更新
-                                        window.location.href = appPath + 'Roles/Index';
-                                        //modals.closeWin(winId);
-                                        //重新加载数据
-                                    }
-                                },
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    modals.error(errorThrown);
-                                }
-                            });
-                        });
-                    }
-                    break;
-                case 'selectUser':
-                    if (!rowId) {
-                        modals.info('请选择角色');
-                        return;
-                    }
-                    //根据RoleId获取两个Json，然后绑定到Table中，最后打开modals
-                    window.location.href = appPath + 'UserRoles/Index/' + rowId;
-                    break;
-                case 'deleteUser':
-                    var userRowId = $('#userRole_table tr[class="trchange"]').attr('id');
-                    if (!userRowId) {
-                        modals.info("请选择要删除的用户");
-                        return false;
-                    }
-                    modals.confirm("是否要删除该行数据", function () {
-                        $.ajax({
-                            url: appPath + 'Roles/Delete/' + userRowId,
-                            type: 'POST',
-                            data: {},
-                            dataType: 'JSON',
-                            success: function (data, textStatus) {
-                                userRoleTable.reloadData();
-                            },
-                            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                modals.info(errorThrown);
-                            }
-                        });
-                    });
-                    break;
-            }
-        });
-
+        
         //绑定角色到用户
         $("#btn_add_ur").click(function () {
             var rows = unselectedTable.getSelectedRowsData();
@@ -229,95 +63,128 @@
             })
         });
 
-        //页面加载后触发第一个tr的点击事件
-        $('#role_table tr').eq(1).click();
+        //静态Table分页
+        var unbindtable = $('#userRole_unselected_table');
+        var bindtable = $('#userRole_selected_table');
+        var unbindTotalPage = $('#unbindTotalPage');
+        var bindTotalPage = $('#bindTotalPage');
+        var unbindPageNum = $('#userRole_unselected_table_page');
+        var bindPageNum = $('#userRole_selected_table_page');
+        var unbindPre = $('#userRole_unselected_table_previous');
+        var unbindNext = $('#userRole_unselected_table_next');
+        var bindPre = $('#userRole_selected_table_previous');
+        var bindNext = $('#userRole_selected_table_next');
+
+        var unbindNumberRows = unbindtable.rows.length;
+        var bindNumberRows = bindtable.rows.length;
+        var pageSize = 10;
+        var page = 1;    
     });
 
-    function formValidate() {
-        $("#role-form").bootstrapValidator({
-            message: '请输入有效值',
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            excluded: [':disabled'],
-            fields: {
-                name: {
-                    validators: {
-                        notEmpty: {
-                            message: '请输入姓名'
-                        }
-                    }
-                },
-                code: {
-                    validators: {
-                        notEmpty: {
-                            message: '请输入编码'
-                        },
-                        /*
-                        remote: {
-                            url: appPath + "base/checkUnique",
-                            data: function (validator) {
-                                return {
-                                    className: 'com.cnpc.framework.base.entity.Role',
-                                    fieldName: 'code',
-                                    fieldValue: $('#code').val(),
-                                    id: $('#id').val()
-                                };
-                            },
-                            message: '该编码已被使用'
-                        }
-                        */
-                    }
-                },
-                sort: {
-                    validators: {
-                        notEmpty: {
-                            message: '请输入排序'
-                        }
-                    }
-                }
-            }
-        });
+    function next() {
+
+        hideTable();
+
+        currentRow = pageSize * page;
+        maxRow = currentRow + pageSize;
+        if (maxRow > numberRowsInTable) maxRow = numberRowsInTable;
+        for (var i = currentRow; i < maxRow; i++) {
+            unbindtable.rows[i].style.display = '';
+        }
+        page++;
+
+        if (maxRow == numberRowsInTable) { nextText(); lastText(); }
+        showPage();
+        preLink();
+        firstLink();
     }
 
-    function getRoleUsers(roleId) {
-        $.ajax({
-            type: 'Get',
-            url: appPath + 'Roles/GetUsers/' + roleId,
-            dataType: 'JSON',
-            success: function (data, textStatus) {
-                if (data.success) {
-                    //根据获取的数据初始化Table
-                    bindDataTable('userRole_table', data.result);
-                }
-                else {
-                    modals.warn(data.result);
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                modals.error(errorThrown);
-            }
-        })
-    }
+    //上一页    
+    function pre() {
 
-    /**
-     *
-     * @param {any} tableid绑定的table的id
-     * @param {any} json数组
-     */
-    function bindDataTable(tableid, json) {
-        var json = JSON.parse(json);
-        var str = '';
-        for (var i = 0; i < json.length; i++) {
-            str += '<tr id="' + json[i].Id + '" role="row" class=' + (i % 2 == 0 ? "even" : "odd") + '>';
-            str += '<td class="text-center sorting_1">' + (i + 1) + '</td>';
-            str += '<td class="text-center">' + json[i].Name + '</td>';
-            str += '<td class="text-center">' + json[i].UserName + '</td>';
-            str += '</tr>';
+        hideTable();
+
+        page--;
+
+        currentRow = pageSize * page;
+        maxRow = currentRow - pageSize;
+        if (currentRow > numberRowsInTable) currentRow = numberRowsInTable;
+        for (var i = maxRow; i < currentRow; i++) {
+            unbindtable.rows[i].style.display = '';
         }
 
-        $("#" + tableid).find('tbody').append(str);
+
+        if (maxRow == 0) { preText(); firstText(); }
+        showPage();
+        nextLink();
+        lastLink();
     }
+
+    //第一页    
+    function first() {
+        hideTable();
+        page = 1;
+        for (var i = 0; i < pageSize; i++) {
+            unbindtable.rows[i].style.display = '';
+        }
+        showPage();
+
+        preText();
+        nextLink();
+        lastLink();
+    }
+
+    //最后一页    
+    function last() {
+        hideTable();
+        page = pageCount();
+        currentRow = pageSize * (page - 1);
+        for (var i = currentRow; i < numberRowsInTable; i++) {
+            unbindtable.rows[i].style.display = '';
+        }
+        showPage();
+
+        preLink();
+        nextText();
+        firstLink();
+    }
+
+    function hideTable() {
+        for (var i = 0; i < numberRowsInTable; i++) {
+            unbindtable.rows[i].style.display = 'none';
+        }
+    }
+
+    function showPage() {
+        pageNum.innerHTML = page;
+    }
+
+    //总共页数    
+    function pageCount() {
+        var count = 0;
+        if (numberRowsInTable % pageSize != 0) count = 1;
+        return parseInt(numberRowsInTable / pageSize) + count;
+    }
+
+    //显示链接    
+    function preLink() { spanPre.innerHTML = "<a href='javascript:pre();'>上一页</a>"; }
+    function preText() { spanPre.innerHTML = "上一页"; }
+
+    function nextLink() { spanNext.innerHTML = "<a href='javascript:next();'>下一页</a>"; }
+    function nextText() { spanNext.innerHTML = "下一页"; }
+
+    //隐藏表格    
+    function hide() {
+        for (var i = pageSize; i < numberRowsInTable; i++) {
+            unbindtable.rows[i].style.display = 'none';
+        }
+
+        totalPage.innerHTML = pageCount();
+        pageNum.innerHTML = '1';
+
+        nextLink();
+        lastLink();
+    }
+
+    hide();    
 })()
