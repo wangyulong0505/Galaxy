@@ -38,6 +38,13 @@ namespace Galaxy.UserRoles
         Task DeleteUserRole(int Id);
 
         /// <summary>
+        /// 删除用户角色
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task RemoveUserRole(UserRole entity);
+
+        /// <summary>
         /// 根据RoleId获取所有的用户
         /// </summary>
         /// <param name="RoleId"></param>

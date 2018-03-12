@@ -1,9 +1,6 @@
-﻿@{
-    List<Galaxy.Entities.User> unbindList = ViewData["UnbindList"]  as List<Galaxy.Entities.User>;
-    List<Galaxy.Entities.User> bindList = ViewData["BindList"] as List<Galaxy.Entities.User>;
-}
-@section styles{
+﻿@section styles{
     <link href="~/lib/AdminLTE/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/base.css" rel="stylesheet" asp-append-version="true" />
     <style type="text/css">
         .trchange {
@@ -13,7 +10,8 @@
     </style>
 }
 @section scripts{
-    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-table/dist/bootstrap-table.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js" asp-append-version="true"></script>
     <script src="~/view-resources/Views/UserRoles/Index.js" asp-append-version="true"></script>
 }
 <div class="content-wrapper" id="mainDiv" style="min-height: 935px;">
@@ -26,6 +24,7 @@
         </ol>
     </section>
     <!--隐藏域 begin-->
+    <input type="hidden" id="roleId" value="@ViewData["RoleId"]" />
     <!--隐藏域 end-->
     <!-- Main content -->
     <section class="content">
@@ -41,72 +40,13 @@
                     </div>
                     <div class="dataTables_filter" id="searchDiv_unselected">
                         <input type="hidden" value="" name="roleId" iscondition="false">
-                        <input placeholder="请输入用户名" name="name" class="form-control form-control-sm" type="search" likeoption="true">
+                        <input placeholder="请输入用户名" id="txtName" name="name" class="form-control form-control-sm" type="search" likeoption="true">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary" data-btn-type="search">查询</button>
                         </div>
                     </div>
                     <div class="box-body">
-                        <div id="userRole_unselected_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            <div class="dataTables_scroll">
-                                <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
-                                    <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 450px; padding-right: 0px;">
-                                        <table class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 450px; margin-left: 0px;" role="grid">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号" style="width: 80px;">序号</th>
-                                                    <th class="text-center sorting" tabindex="0" aria-controls="userRole_unselected_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending" style="width: 124px;">用户名</th>
-                                                    <th class="text-center sorting" tabindex="0" aria-controls="userRole_unselected_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending" style="width: 125px;">登录名</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 370px; width: 100%;">
-                                    <table id="userRole_unselected_table" class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="userRole_unselected_table_info">
-                                        <thead>
-                                            <tr role="row" style="height: 0px;">
-                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 80px;">
-                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">序号</div>
-                                                </th>
-                                                <th class="text-center sorting" aria-controls="userRole_unselected_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 124px;">
-                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">用户名</div>
-                                                </th>
-                                                <th class="text-center sorting" aria-controls="userRole_unselected_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 125px;">
-                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">登录名</div>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @for (int i = 0; i < unbindList.Count; i++)
-                                            { 
-                                                <tr id='@unbindList[i].Id' role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
-                                                    <td class="text-center sorting_1">@i + 1</td>
-                                                    <td class=" text-center">@unbindList[i].Name</td>
-                                                    <td class=" text-center">@unbindList[i].UserName</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <input type="hidden" id="unbindTotalPage" value="@(unbindList.Count%10 == 0 ? unbindList.Count/10 : (unbindList.Count/10) + 1)" />
-                            <input type="hidden" id="unbindTotalCount" value="@unbindList.Count" />
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <div class="dataTables_info" id="userRole_unselected_table_info" role="status" aria-live="polite">第 1 至 8 项记录，共 @unbindList.Count 项</div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="dataTables_paginate paging_simple_numbers" id="userRole_unselected_table_paginate">
-                                        <ul class="pagination">
-                                            <li class="paginate_button previous disabled" id="userRole_unselected_table_previous"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="0" tabindex="0">上页</a></li>
-                                            <li class="paginate_button active" id="userRole_unselected_table_page"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="1" tabindex="0">1</a></li>
-                                            <li class="paginate_button next disabled" id="userRole_unselected_table_next"><a href="#" aria-controls="userRole_unselected_table" data-dt-idx="2" tabindex="0">下页</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <table id="userRole_unselected_table"></table>
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -121,74 +61,13 @@
                         </button>
                     </div>
                     <div class="dataTables_filter" id="searchDiv_selected">
-                        <input type="hidden" value="402880eb5c4ec2a4015c4ec591390000" name="roleId" />
-                        <input placeholder="请输入用户名" name="user.name" class="form-control" type="search" likeoption="true" />
+                        <input placeholder="请输入用户名" name="txtUsername" class="form-control" type="search" likeoption="true" />
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary" data-btn-type="search">查询</button>
                         </div>
                     </div>
                     <div class="box-body">
-                        <div id="userRole_selected_table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            <div id="userRole_selected_table_processing" class="dataTables_processing" style="display: none;">处理中...</div>
-                            <div class="dataTables_scroll">
-                                <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
-                                    <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 450px; padding-right: 0px;">
-                                        <table class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 450px; margin-left: 0px;" role="grid">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号" style="width: 59px;">序号</th>
-                                                    <th class="text-center sorting" tabindex="0" aria-controls="userRole_selected_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending" style="width: 79px;">用户名</th>
-                                                    <th class="text-center sorting" tabindex="0" aria-controls="userRole_selected_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending" style="width: 174px;">登录名</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 370px; width: 100%;">
-                                    <table id="userRole_selected_table" class="table table-bordered table-striped table-hover dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="userRole_selected_table_info">
-                                        <thead>
-                                            <tr role="row" style="height: 0px;">
-                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="序号" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 59px;">
-                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">序号</div>
-                                                </th>
-                                                <th class="text-center sorting" aria-controls="userRole_selected_table" rowspan="1" colspan="1" aria-label="用户名: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 79px;">
-                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">用户名</div>
-                                                </th>
-                                                <th class="text-center sorting" aria-controls="userRole_selected_table" rowspan="1" colspan="1" aria-label="登录名: activate to sort column ascending" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 174px;">
-                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">登录名</div>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @for (int i = 0; i < bindList.Count; i++)
-                    {
-                        <tr id='@bindList[i].Id' role="row" class='@(i % 2 == 0 ? "odd" : "even")'>
-                            <td class="text-center sorting_1">@i + 1</td>
-                            <td class="text-center">@bindList[i].Name</td>
-                            <td class="text-center">@bindList[i].UserName</td>
-                        </tr>
-}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <input type="hidden" id="bindTotalPage" value="@(unbindList.Count%10 == 0 ? unbindList.Count/10 : (unbindList.Count/10) + 1)" />
-                            <input type="hidden" id="bindTotalCount" value="@unbindList.Count" />
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <div class="dataTables_info" id="userRole_selected_table_info" role="status" aria-live="polite">第 1 至 10 项记录，共 34 项</div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="dataTables_paginate paging_simple_numbers" id="userRole_selected_table_paginate">
-                                        <ul class="pagination">
-                                            <li class="paginate_button previous disabled" id="userRole_selected_table_previous"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="0" tabindex="0">上页</a></li>
-                                            <li class="paginate_button active" id="userRole_selected_table_page"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="1" tabindex="0">1</a></li>
-                                            <li class="paginate_button next" id="userRole_selected_table_next"><a href="#" aria-controls="userRole_selected_table" data-dt-idx="5" tabindex="0">下页</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <table id="userRole_selected_table"></table>
                     </div>
                     <!-- /.box-body -->
                 </div>

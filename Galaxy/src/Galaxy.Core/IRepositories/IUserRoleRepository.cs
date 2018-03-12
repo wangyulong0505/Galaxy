@@ -12,5 +12,7 @@ namespace Galaxy.IRepositories
         Task<List<User>> GetExcludeUsersByRoleId(int RoleId);
 
         Task<List<User>> GetUsersByRoleId(int RoleId);
+
+        Task RemoveUserRole(UserRole entity);
     }
 }

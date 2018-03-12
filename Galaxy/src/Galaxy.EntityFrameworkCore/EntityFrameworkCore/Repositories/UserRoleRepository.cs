@@ -26,7 +26,7 @@ namespace Galaxy.EntityFrameworkCore.Repositories
         /// <returns></returns>
         public async Task<List<User>> GetExcludeUsersByRoleId(int RoleId)
         {
-            string strQuerySql = "SELECT u.Id, u.Name, u.UserName FROM dbo.Users u LEFT JOIN dbo.UserRoles r ON r.UserId = u.Id WHERE NOT EXISTS(SELECT 1 FROM dbo.UserRoles WHERE RoleId = @RoleId)";
+            string strQuerySql = "SELECT u.Id, u.Name, u.UserName FROM dbo.Users u LEFT JOIN dbo.UserRoles r ON r.UserId = u.Id WHERE ISNULL(r.RoleId, 0) <> @RoleId";
             SqlParameter[] param = new SqlParameter[] { new SqlParameter("@RoleId", RoleId) };
             return await Task.Run(() => provider.GetDbContext().Set<User>().Select(q => new User { Id = q.Id, Name = q.Name, UserName = q.UserName }).FromSql(strQuerySql, param).ToList());
         }
@@ -50,6 +50,12 @@ namespace Galaxy.EntityFrameworkCore.Repositories
             string strQuerySql = "SELECT u.Id, u.Name, u.UserName FROM dbo.Users u LEFT JOIN dbo.UserRoles r ON r.UserId = u.Id WHERE r.RoleId = @RoleId ";
             SqlParameter[] param = new SqlParameter[] { new SqlParameter("@RoleId", RoleId) };
             return await Task.Run(() => provider.GetDbContext().Set<User>().Select(q=> new User { Id = q.Id, Name = q.Name, UserName = q.UserName }).FromSql(strQuerySql, param).ToList());
+        }
+
+        public async Task RemoveUserRole(UserRole entity)
+        {
+            UserRole body = GetAll().FirstOrDefault(q => q.RoleId == entity.RoleId && q.UserId == entity.UserId);
+            await DeleteAsync(body);
         }
     }
 }

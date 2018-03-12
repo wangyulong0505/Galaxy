@@ -34,6 +34,16 @@ namespace Galaxy.UserRoles
         }
 
         /// <summary>
+        /// 删除用户角色
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task RemoveUserRole(UserRole entity)
+        {
+            await userRoleRepository.RemoveUserRole(entity);
+        }
+
+        /// <summary>
         /// 根据RoleId获取所有不属于此角色的用户
         /// </summary>
         /// <param name="RoleId"></param>
