@@ -24,6 +24,16 @@ namespace Galaxy.RolePermissions
         }
 
         /// <summary>
+        /// 检查数据库是否存在此角色
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public bool CheckExistsRole(int roleId)
+        {
+            return rolePermissionRepository.CheckExistsRole(roleId);
+        }
+
+        /// <summary>
         /// 删除角色权限
         /// </summary>
         /// <param name="Id"></param>
@@ -31,6 +41,16 @@ namespace Galaxy.RolePermissions
         public async Task DeleteRolePermission(int Id)
         {
             await rolePermissionRepository.DeleteAsync(Id);
+        }
+
+        /// <summary>
+        /// 根据RoleId获取PermissionIds
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public async Task<string> GetPermissions(int roleId)
+        {
+            return await rolePermissionRepository.GetPermissions(roleId);
         }
 
         /// <summary>

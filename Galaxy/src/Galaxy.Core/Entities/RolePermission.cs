@@ -16,8 +16,8 @@ namespace Galaxy.Entities
         public virtual int RoleId { get; set; }
 
         /// <summary>
-        /// 权限Id，这里应该对应Menu表的MenuId
+        /// 权限Id，这里应该对应Menu表的MenuId,字符串用逗号分隔
         /// </summary>
-        public virtual int PermissionId { get; set; }
+        public virtual string PermissionIds { get; set; }
     }
 }

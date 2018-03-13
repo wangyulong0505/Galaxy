@@ -8,6 +8,7 @@ using Galaxy.Menus;
 using Galaxy.Entities;
 using Abp.Web.Models;
 using Newtonsoft.Json;
+using Galaxy.RolePermissions;
 
 namespace Galaxy.Web.Controllers
 {
@@ -15,10 +16,12 @@ namespace Galaxy.Web.Controllers
     {
         private readonly IRoleAppService roleAppService;
         private readonly IMenuAppService menuAppService;
-        public PermissionController(IRoleAppService _roleAppService, IMenuAppService _menuAppService)
+        private readonly IRolePermissionAppService rolePermissionAppService;
+        public PermissionController(IRoleAppService _roleAppService, IMenuAppService _menuAppService, IRolePermissionAppService _rolePermissionAppService)
         {
             roleAppService = _roleAppService;
             menuAppService = _menuAppService;
+            rolePermissionAppService = _rolePermissionAppService;
         }
 
         public async Task<IActionResult> Index(string strKey = "")
@@ -143,5 +146,46 @@ namespace Galaxy.Web.Controllers
         }
 
         #endregion
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<JsonResult> Authorize([FromBody]RolePermission entity)
+        {
+            try
+            {
+                bool IsExists = rolePermissionAppService.CheckExistsRole(entity.RoleId);
+                if (IsExists)
+                {
+                    await rolePermissionAppService.PutRolePermission(entity);
+                }
+                else
+                {
+                    await rolePermissionAppService.PostRolePermission(entity);
+                }
+                return Json(new AjaxResponse { Success = true, Result = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new AjaxResponse { Success = false, Result = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// 根据RoleId获取Permission
+        /// </summary>
+        /// <param name="Id">RoleId</param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetPermissions(int Id)
+        {
+            try
+            {
+                string strPermissions = await rolePermissionAppService.GetPermissions(Id);
+                return Json(new AjaxResponse { Success = true, Result = string.IsNullOrEmpty(strPermissions) ? "" : strPermissions });
+            }
+            catch (Exception ex)
+            {
+                return Json(new AjaxResponse { Success = false, Result = ex.Message });
+            }
+        }
     }
 }

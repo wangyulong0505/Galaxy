@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using Galaxy.Web.Configuration;
@@ -88,6 +89,8 @@ namespace Galaxy.Web.Startup
                     options.AccessDeniedPath = "/Home/Forbidden";
                     options.LoginPath = "/Account/Login";
                 });
+            //添加WebApi跨域，第一种方式
+            services.AddCors();
             //添加Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>
             {
@@ -143,6 +146,11 @@ namespace Galaxy.Web.Startup
             //添加初始化自定义类DI，便于直接使用IHostEnvironment
             app.UseWkMvcDI();
             app.UseStaticFiles();
+            //添加Web Api跨越支持, 第一种方式
+            app.UseCors(option =>
+                option.WithOrigins("http://www.example.com")
+                .AllowAnyHeader()
+            );
             //添加Swagger
             app.UseSwagger();
             app.UseSwaggerUI(options =>

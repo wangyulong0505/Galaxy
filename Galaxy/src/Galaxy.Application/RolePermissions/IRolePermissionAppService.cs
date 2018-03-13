@@ -36,5 +36,19 @@ namespace Galaxy.RolePermissions
         /// <param name="Id"></param>
         /// <returns></returns>
         Task DeleteRolePermission(int Id);
+
+        /// <summary>
+        /// 检查是否存在此角色
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        bool CheckExistsRole(int roleId);
+
+        /// <summary>
+        /// 根据RoleId获取Permissions
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        Task<string> GetPermissions(int roleId);
     }
 }

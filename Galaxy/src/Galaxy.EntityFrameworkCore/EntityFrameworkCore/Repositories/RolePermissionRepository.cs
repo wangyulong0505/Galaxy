@@ -1,9 +1,8 @@
-﻿using Galaxy.Entities;
+﻿using Abp.EntityFrameworkCore;
+using Galaxy.Entities;
 using Galaxy.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Abp.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Galaxy.EntityFrameworkCore.Repositories
 {
@@ -11,6 +10,21 @@ namespace Galaxy.EntityFrameworkCore.Repositories
     {
         public RolePermissionRepository(IDbContextProvider<GalaxyDbContext> dbContextProvider) : base(dbContextProvider)
         {
+        }
+
+        public bool CheckExistsRole(int roleId)
+        {
+            return GetAll().SingleOrDefault(q => q.RoleId == roleId) != null; 
+        }
+
+        public async Task<string> GetPermissions(int roleId)
+        {
+            var result = await Task.Run(() => GetAll().SingleOrDefault(q => q.RoleId == roleId));
+            if (result != null)
+            {
+                return result.PermissionIds;
+            }
+            return "";
         }
     }
 }
