@@ -21,11 +21,11 @@ namespace Galaxy.Web.Controllers
     {
         #region 对象初始化和依赖注入
 
-        private readonly UserAppService appService;
+        private readonly IUserAppService appService;
         private readonly QQLoginSettings qq;
         private readonly WeiboLoginSettings weibo;
         private readonly WechatLoginSettings wechat;
-        public AccountController(UserAppService _appService, IOptions<QQLoginSettings> _qq, IOptions<WeiboLoginSettings> _weibo, IOptions<WechatLoginSettings> _wechat)
+        public AccountController(IUserAppService _appService, IOptions<QQLoginSettings> _qq, IOptions<WeiboLoginSettings> _weibo, IOptions<WechatLoginSettings> _wechat)
         {
             appService = _appService;
             qq = _qq.Value;
@@ -61,8 +61,7 @@ namespace Galaxy.Web.Controllers
                 //缓存用户名
                 ClaimsPrincipal user = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, loginModel.UsernameOrEmailAddress) }, CookieAuthenticationDefaults.AuthenticationScheme));
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user, new AuthenticationProperties { IsPersistent = loginModel.RememberMe });
-                //HttpContext.Session.SetString("UserName", AbpSession.GetUserName());
-                //HttpContext.Session.SetString("UserName", loginModel.UsernameOrEmailAddress);
+
             }
             return Json(new AjaxResponse { Result = loginStatus });
         }
@@ -179,5 +178,20 @@ namespace Galaxy.Web.Controllers
         }
 
         #endregion
+
+        public async Task<JsonResult> GetUserId()
+        {
+            try
+            {
+                string strUserName = User.Identity.Name;
+                int Id = await appService.GetUserId(strUserName);
+                return Json(new AjaxResponse { Success = true, Result = Id });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                return Json(new AjaxResponse { Success = false, Result = ex.Message });
+            }
+        }
     }
 }

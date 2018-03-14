@@ -53,6 +53,16 @@ namespace Galaxy.Menus
         }
 
         /// <summary>
+        /// 获取当前用户的所有权限
+        /// </summary>
+        /// <param name="Id">用户Id</param>
+        /// <returns></returns>
+        public async Task<List<Menu>> GetUserPermissions(int Id)
+        {
+            return await repository.GetUserPermissions(Id);
+        }
+
+        /// <summary>
         /// 新增菜单
         /// </summary>
         /// <param name="entity"></param>

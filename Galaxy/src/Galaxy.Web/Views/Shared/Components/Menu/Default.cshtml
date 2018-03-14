@@ -3,27 +3,30 @@
     List<Galaxy.Entities.Menu> folds = Model.Where(q => q.MenuType == 0).OrderBy(q => q.LevelCode).ToList();
 }
 <ul class="sidebar-menu" data-widget="tree">
-    @foreach (var menu in folds)
+    @if (folds != null && folds.Count > 0)
     {
-        var isActive = ViewBag.CurrentMenu == menu.Code; //判断当前功能是否处于激活
-        <li class="treeview">
-            <a href="#">
-                <i class='@menu.MenuIcon'></i>
-                <span>@menu.Name</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                @{ 
-                    List<Galaxy.Entities.Menu> files = Model.Where(q => q.MenuType == 1 && q.ParentNodeId == menu.Id).OrderBy(q => q.LevelCode).ToList();
-                }
-                @foreach (var file in files)
-                {
-                    <li><a href='@Url.Content(file.URL)'><i class='@file.MenuIcon'></i> @file.Name</a></li>
-                }
-            </ul>
-        </li>
+        foreach (var menu in folds)
+        {
+            var isActive = ViewBag.CurrentMenu == menu.Code; //判断当前功能是否处于激活
+            <li class="treeview">
+                <a href="#">
+                    <i class='@menu.MenuIcon'></i>
+                    <span>@menu.Name</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    @{ 
+                        List<Galaxy.Entities.Menu> files = Model.Where(q => q.MenuType == 1 && q.ParentNodeId == menu.Id).OrderBy(q => q.LevelCode).ToList();
+                    }
+                    @foreach (var file in files)
+                    {
+                        <li><a href='@Url.Content(file.URL)'><i class='@file.MenuIcon'></i> @file.Name</a></li>
+                    }
+                </ul>
+            </li>
+        }
     }
     <li class="treeview">
         <a href="#">

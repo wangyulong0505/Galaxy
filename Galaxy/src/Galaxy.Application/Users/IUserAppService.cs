@@ -71,5 +71,12 @@ namespace Galaxy.Users
         /// <param name="Id"></param>
         /// <returns></returns>
         Task<User> GetUserDetail(int Id);
+
+        /// <summary>
+        /// 根据用户名获取用户Id
+        /// </summary>
+        /// <param name="strUserName"></param>
+        /// <returns></returns>
+        Task<int> GetUserId(string strUserName);
     }
 }

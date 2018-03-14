@@ -111,5 +111,15 @@ namespace Galaxy.Users
         {
             return userReposiory.GetUsers();
         }
+
+        /// <summary>
+        /// 根据用户名获取用户Id
+        /// </summary>
+        /// <param name="strUserName"></param>
+        /// <returns></returns>
+        public Task<int> GetUserId(string strUserName)
+        {
+            return userReposiory.GetUserId(strUserName);
+        }
     }
 }

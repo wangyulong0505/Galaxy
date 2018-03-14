@@ -125,5 +125,25 @@ namespace Galaxy.EntityFrameworkCore.Repositories
                 return GetAll().Where(q => q.Status == 0 && q.UserName != "admin").OrderBy(q => q.Id);
             }
         }
+
+        /// <summary>
+        /// 根据登录名获取用户Id
+        /// </summary>
+        /// <param name="strUserName"></param>
+        /// <returns></returns>
+        public async Task<int> GetUserId(string strUserName)
+        {
+            Regex emailRegex = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+            if (emailRegex.IsMatch(strUserName))
+            {
+                //邮箱登录的
+                return await Task.Run(() => GetAll().SingleOrDefault(q => q.Email == strUserName).Id);
+            }
+            else
+            {
+                //用户名登录的
+                return await Task.Run(() => GetAll().SingleOrDefault(q => q.UserName == strUserName).Id);
+            }
+        }
     }
 }

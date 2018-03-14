@@ -122,7 +122,7 @@
                     <ul class="nav nav-tabs">
                         <li class=""><a href="#activity" data-toggle="tab" aria-expanded="false">工作经历</a></li>
                         <li class="active"><a href="#timeline" data-toggle="tab" aria-expanded="true">项目经历</a></li>
-                        <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Settings</a></li>
+                        <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">账号设置</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane" id="activity">
@@ -186,55 +186,64 @@
                                 <!-- /.timeline-label -->
                                 <!-- timeline item -->
                                 <li>
-                                    <i class="fa fa-envelope bg-blue"></i>
+                                    <i class="fa fa-camera bg-purple"></i>
 
                                     <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                                        <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
 
-                                        <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                                        <h3 class="timeline-header"><a href="#">Wangshibang</a> Galaxy</h3>
 
                                         <div class="timeline-body">
-                                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                            weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                            jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                            quora plaxo ideeli hulu weebly balihoo...
-                                        </div>
-                                        <div class="timeline-footer">
-                                            <a class="btn btn-primary btn-xs">Read more</a>
-                                            <a class="btn btn-danger btn-xs">Delete</a>
+                                            <img src="~/images/galaxy01.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/galaxy02.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/galaxy03.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/galaxy04.png" style="width:150px; height:100px;" alt="..." class="margin">
                                         </div>
                                     </div>
                                 </li>
                                 <!-- END timeline item -->
+                                <li class="time-label">
+                                    <span class="bg-green">
+                                        2017-10-20
+                                    </span>
+                                </li>
                                 <!-- timeline item -->
                                 <li>
-                                    <i class="fa fa-user bg-aqua"></i>
+                                    <i class="fa fa-camera bg-purple"></i>
 
                                     <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+                                        <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
 
-                                        <h3 class="timeline-header no-border">
-                                            <a href="#">Sarah Young</a> accepted your friend request
-                                        </h3>
+                                        <h3 class="timeline-header"><a href="#">Wangshibang</a>华强方特招聘测试系统</h3>
+
+                                        <div class="timeline-body">
+                                            <img src="~/images/fttp01.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/fttp02.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/fttp03.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/fttp04.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                        </div>
                                     </div>
                                 </li>
                                 <!-- END timeline item -->
+                                <li class="time-label">
+                                    <span class="bg-green">
+                                        2016-10-20
+                                    </span>
+                                </li>
                                 <!-- timeline item -->
                                 <li>
-                                    <i class="fa fa-comments bg-yellow"></i>
+                                    <i class="fa fa-camera bg-purple"></i>
 
                                     <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+                                        <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
 
-                                        <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
+                                        <h3 class="timeline-header"><a href="#">Wangshibang</a> 华强方特微信平台系统</h3>
 
                                         <div class="timeline-body">
-                                            Take me to your leader!
-                                            Switzerland is small and neutral!
-                                            We are more like Germany, ambitious and misunderstood!
-                                        </div>
-                                        <div class="timeline-footer">
-                                            <a class="btn btn-warning btn-flat btn-xs">View comment</a>
+                                            <img src="~/images/ftwx01.jpg" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/ftwx02.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/ftwx03.png" style="width:150px; height:100px;" alt="..." class="margin">
+                                            <img src="~/images/ftwx04.png" style="width:150px; height:100px;" alt="..." class="margin">
                                         </div>
                                     </div>
                                 </li>
@@ -273,41 +282,41 @@
                         <div class="tab-pane" id="settings">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                    <label for="inputName" class="col-sm-2 control-label">用户名</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        <input type="text" class="form-control" id="UserName" value="@User.Identity.Name" disabled="disabled"  placeholder="Name" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                    <label for="Email" class="col-sm-2 control-label">邮箱</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                        <input type="email" class="form-control" id="Email" disabled="disabled" placeholder="Email" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                    <label for="oldPassword" class="col-sm-2 control-label">旧密码</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName" placeholder="Name">
+                                        <input type="text" class="form-control" id="oldPassword" placeholder="旧密码" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+                                    <label for="newPassword" class="col-sm-2 control-label">新密码</label>
 
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                        <input type="text" class="form-control" id="newPassword" placeholder="新密码" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+                                    <label for="Repassword" class="col-sm-2 control-label">确认新密码</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                        <input type="text" class="form-control" id="Repassword" placeholder="确认新密码" />
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <div class="checkbox">
                                             <label>
@@ -315,10 +324,10 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                        <button type="submit" class="btn btn-danger">提交</button>
                                     </div>
                                 </div>
                             </form>

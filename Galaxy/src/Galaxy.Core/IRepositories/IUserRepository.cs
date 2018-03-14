@@ -14,5 +14,7 @@ namespace Galaxy.IRepositories
         List<User> GetPagingUsers(int pageIndex, int pageSize, string strKey, out int pageCount, out int itemCount);
 
         List<User> GetUsers();
+
+        Task<int> GetUserId(string strUserName);
     }
 }
