@@ -25,11 +25,13 @@ namespace Galaxy.Web.Controllers
         private readonly QQLoginSettings qq;
         private readonly WeiboLoginSettings weibo;
         private readonly WechatLoginSettings wechat;
-        public AccountController(IUserAppService _appService, IOptions<QQLoginSettings> _qq, IOptions<WeiboLoginSettings> _weibo, IOptions<WechatLoginSettings> _wechat)
+        private readonly SuperAdmin superadmin;
+        public AccountController(IUserAppService _appService, IOptions<QQLoginSettings> _qq, IOptions<WeiboLoginSettings> _weibo, IOptions<WechatLoginSettings> _wechat, IOptions<SuperAdmin> _superadmin)
         {
             appService = _appService;
             qq = _qq.Value;
             weibo = _weibo.Value;
+            superadmin = _superadmin.Value;
         }
 
         #endregion
@@ -46,7 +48,24 @@ namespace Galaxy.Web.Controllers
         [HttpPost]
         public virtual async Task<JsonResult> Login(LoginViewModel loginModel)
         {
-            int loginStatus = appService.GetLoginStatus(loginModel.UsernameOrEmailAddress, loginModel.Password);
+            int loginStatus = -1;
+            if (loginModel.UsernameOrEmailAddress == superadmin.UserName)
+            {
+                if (superadmin.Password == Galaxy.Core.CommonFuns.Encrypt.Md5(loginModel.Password))
+                {
+                    //正确
+                    loginStatus = 0;
+                }
+                else
+                {
+                    //密码错误
+                    loginStatus = 2;
+                }
+            }
+            else
+            {
+                loginStatus = appService.GetLoginStatus(loginModel.UsernameOrEmailAddress, loginModel.Password);
+            }
             if (loginStatus == 0)
             {
                 //_signInManager.SignInAsync(loginResult.Identity, loginModel.RememberMe);

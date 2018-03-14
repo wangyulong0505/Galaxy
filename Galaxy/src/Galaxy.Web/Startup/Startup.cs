@@ -1,26 +1,22 @@
-﻿using System;
-using Abp.AspNetCore;
+﻿using Abp.AspNetCore;
 using Abp.Castle.Logging.Log4Net;
 using Abp.EntityFrameworkCore;
-using Galaxy.EntityFrameworkCore;
 using Castle.Facilities.Logging;
+using Galaxy.EntityFrameworkCore;
+using Galaxy.Web.Configuration;
+using Galaxy.Web.Filters;
+using Galaxy.Web.Utils;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.Configuration;
-using Galaxy.Web.Configuration;
-using System.IO;
+using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
-using Galaxy.Web.Filters;
-using Galaxy.Web.Utils;
-using Galaxy.Cache;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 
 namespace Galaxy.Web.Startup
 {
@@ -82,6 +78,8 @@ namespace Galaxy.Web.Startup
             services.Configure<WechatLoginSettings>(Configuration.GetSection("WechatLoginSettings"));
             services.Configure<WeiboLoginSettings>(Configuration.GetSection("WeiboLoginSettings"));
             services.Configure<GithubLoginSettings>(Configuration.GetSection("GithubLoginSettings"));
+            //添加对超级管理员配置文件的读取
+            services.Configure<SuperAdmin>(Configuration.GetSection("SuperAdmin"));
             //添加登录权限验证
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
