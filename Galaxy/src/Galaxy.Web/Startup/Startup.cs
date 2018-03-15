@@ -5,8 +5,10 @@ using Castle.Facilities.Logging;
 using Galaxy.EntityFrameworkCore;
 using Galaxy.Web.Configuration;
 using Galaxy.Web.Filters;
+using Galaxy.Web.Models;
 using Galaxy.Web.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +19,8 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Galaxy.Web.Startup
 {
@@ -80,11 +84,31 @@ namespace Galaxy.Web.Startup
             services.Configure<GithubLoginSettings>(Configuration.GetSection("GithubLoginSettings"));
             //添加对超级管理员配置文件的读取
             services.Configure<SuperAdmin>(Configuration.GetSection("SuperAdmin"));
+            //添加jwt配置文件读取
+            /*
+            services.Configure<JwtSettings>(Configuration);
+            JwtSettings settings = new JwtSettings();
+            Configuration.Bind("JwtSettings", settings);
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = settings.Issuer,
+                    ValidAudience = settings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecretKey))
+                };
+            });
+            */
             //添加登录权限验证
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    options.AccessDeniedPath = "/Home/Forbidden";
+                    options.AccessDeniedPath = "/Error/SomethingWrong";
                     options.LoginPath = "/Account/Login";
                 });
             //添加WebApi跨域，第一种方式

@@ -51,7 +51,7 @@ namespace Galaxy.Web.Controllers
             int loginStatus = -1;
             if (loginModel.UsernameOrEmailAddress == superadmin.UserName)
             {
-                if (superadmin.Password == Galaxy.Core.CommonFuns.Encrypt.Md5(loginModel.Password))
+                if (superadmin.Password == Galaxy.Core.CommonFuns.Encrypt.Md5(loginModel.Password).ToUpper())
                 {
                     //正确
                     loginStatus = 0;
@@ -71,11 +71,14 @@ namespace Galaxy.Web.Controllers
                 //_signInManager.SignInAsync(loginResult.Identity, loginModel.RememberMe);
                 //Identity身份验证， 根据Authentcation生成Token，设置Cookie
                 /*
-                var user = _userService.Login(userName, password);
-                user.AuthenticationType = CookieAuthenticationDefaults.AuthenticationScheme;
-                var identity = new ClaimsIdentity(user);
-                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserID));
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                List<Claim> claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, "admin"),
+                    new Claim(ClaimTypes.Role, "admin")
+                };
+                ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                 */
                 //缓存用户名
                 ClaimsPrincipal user = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, loginModel.UsernameOrEmailAddress) }, CookieAuthenticationDefaults.AuthenticationScheme));
