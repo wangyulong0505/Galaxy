@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Galaxy.Web.Attributes;
 
 namespace Galaxy.Web.Controllers
 {
@@ -31,10 +32,7 @@ namespace Galaxy.Web.Controllers
             return View(userList);
         }
 
-        /// <summary>
-        /// 用户添加
-        /// </summary>
-        /// <returns></returns>
+        [Resource("用户管理", Action = "添加用户")]
         public IActionResult UsersAdd()
         {
             return View();

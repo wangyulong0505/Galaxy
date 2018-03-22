@@ -57,9 +57,9 @@ namespace Galaxy.Menus
         /// </summary>
         /// <param name="Id">用户Id</param>
         /// <returns></returns>
-        public async Task<List<Menu>> GetUserPermissions(int Id)
+        public async Task<List<Menu>> GetUserPermissions(string strUserName)
         {
-            return await repository.GetUserPermissions(Id);
+            return await repository.GetUserPermissions(strUserName);
         }
 
         /// <summary>

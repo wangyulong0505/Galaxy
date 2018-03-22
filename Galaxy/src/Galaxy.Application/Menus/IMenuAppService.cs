@@ -51,6 +51,6 @@ namespace Galaxy.Menus
         /// </summary>
         /// <param name="Id">用户Id</param>
         /// <returns></returns>
-        Task<List<Menu>> GetUserPermissions(int Id);
+        Task<List<Menu>> GetUserPermissions(string strUserName);
     }
 }

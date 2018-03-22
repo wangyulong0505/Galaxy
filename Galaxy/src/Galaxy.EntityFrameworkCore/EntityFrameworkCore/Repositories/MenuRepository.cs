@@ -24,11 +24,11 @@ namespace Galaxy.EntityFrameworkCore.Repositories
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<List<Menu>> GetUserPermissions(int Id)
+        public async Task<List<Menu>> GetUserPermissions(string strUserName)
         {
             //执行存储过程
-            string strSql = "EXEC [dbo].[SP_GetUserPermissions] @Id";
-            SqlParameter[] param = new SqlParameter[] { new SqlParameter("@Id", Id) };
+            string strSql = "EXEC [dbo].[SP_GetUserPermissions] @UserName";
+            SqlParameter[] param = new SqlParameter[] { new SqlParameter("@UserName", strUserName) };
             return await Task.Run(() => provider.GetDbContext().Set<Menu>().FromSql(strSql, param).ToList());
         }
     }

@@ -21,6 +21,10 @@ using System;
 using System.IO;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Galaxy.Web.Attributes;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Galaxy.Web.Startup
 {
@@ -51,9 +55,12 @@ namespace Galaxy.Web.Startup
             */
             #endregion
 
+            #region 添加对Session的支持
+
             services.AddSession();
-            services.AddOptions();
-            
+
+            #endregion
+
             #region 添加缓存
             /*
             services.AddMemoryCache();
@@ -77,13 +84,20 @@ namespace Galaxy.Web.Startup
             */
             #endregion
 
-            //添加对appsettings的配置文件的读取
+            #region 添加对配置文件的读取
+
+            services.AddOptions();
             services.Configure<QQLoginSettings>(Configuration.GetSection("QQLoginSettings"));
             services.Configure<WechatLoginSettings>(Configuration.GetSection("WechatLoginSettings"));
             services.Configure<WeiboLoginSettings>(Configuration.GetSection("WeiboLoginSettings"));
             services.Configure<GithubLoginSettings>(Configuration.GetSection("GithubLoginSettings"));
             //添加对超级管理员配置文件的读取
             services.Configure<SuperAdmin>(Configuration.GetSection("SuperAdmin"));
+
+            #endregion
+
+            #region 添加Jwt权限认证
+
             //添加jwt配置文件读取
             /*
             services.Configure<JwtSettings>(Configuration);
@@ -104,16 +118,28 @@ namespace Galaxy.Web.Startup
                 };
             });
             */
-            //添加登录权限验证
+
+            #endregion
+
+            #region 添加Cookie权限验证
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
                     options.AccessDeniedPath = "/Error/SomethingWrong";
                     options.LoginPath = "/Account/Login";
                 });
-            //添加WebApi跨域，第一种方式
+
+            #endregion
+
+            #region 添加WebApi跨域
+
             services.AddCors();
-            //添加Swagger - Enable this line and the related lines in Configure method to enable swagger UI
+
+            #endregion
+
+            #region  添加SwaggerUI
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info
@@ -129,18 +155,38 @@ namespace Galaxy.Web.Startup
                 options.DescribeAllEnumsAsStrings();
                 options.OperationFilter<HttpHeaderOperation>(); // 添加httpHeader参数
             });
+
+            #endregion
+
+            #region 注册IAuthorizationPolicyProvider和IApplicationModelProvider
+
+            services.TryAdd(ServiceDescriptor.Transient<IAuthorizationPolicyProvider, ResourceAuthorizationPolicyProvider>());
+            services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResourceApplicationModelProvider>());
+
+            #endregion
+
+            #region 添加页面安全验证
+
             services.AddAntiforgery(option =>
             {
                 option.Cookie.Name = "GALAXY-CSRF-COOKIE";
                 option.FormFieldName = "GalaxyFieldName";
                 option.HeaderName = "GALAXY-CSRF-HEADER";
             });
+
+            #endregion
+
+            #region 添加MVC支持
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
-            //Configure Abp and Dependency Injection
+            #endregion
+
+            #region 配置Abp和依赖注入
+
             return services.AddAbp<GalaxyWebModule>(options =>
             {
                 //Configure Log4Net logging
@@ -148,13 +194,32 @@ namespace Galaxy.Web.Startup
                     f => f.UseAbpLog4Net().WithConfig("log4net.config")
                 );
             });
+
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            #region 使用Abp
+
             app.UseAbp(); //Initializes ABP framework.
+            
+            #endregion
+
+            #region 使用Session
+
             app.UseSession();
+
+            #endregion
+
+            #region 使用授权
+
             app.UseAuthentication();
+
+            #endregion
+
+            #region 开发环境&生产环境
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -165,26 +230,49 @@ namespace Galaxy.Web.Startup
                 app.UseExceptionHandler("/Error");
             }
 
-            //添加初始化自定义类DI，便于直接使用IHostEnvironment
+            #endregion
+
+            #region 添加初始化自定义类DI，便于直接使用IHostEnvironment
+
             app.UseWkMvcDI();
+
+            #endregion
+
+            #region 使用静态文件
+
             app.UseStaticFiles();
-            //添加Web Api跨越支持, 第一种方式
+
+            #endregion
+
+            #region 使用CORS跨域API访问
+
             app.UseCors(option =>
                 option.WithOrigins("http://www.example.com")
                 .AllowAnyHeader()
             );
-            //添加Swagger
+
+            #endregion
+
+            #region 使用SwaggerUI
+
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Galaxy API V1");
             });
+
+            #endregion
+
+            #region 使用MVC路由
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            #endregion
         }
     }
 }

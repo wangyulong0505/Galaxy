@@ -9,6 +9,6 @@ namespace Galaxy.IRepositories
 {
     public interface IMenuRepository: IRepository<Menu>
     {
-        Task<List<Menu>> GetUserPermissions(int Id);
+        Task<List<Menu>> GetUserPermissions(string strUserName);
     }
 }

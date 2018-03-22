@@ -11,11 +11,13 @@ GO
 -- =============================================
 CREATE PROCEDURE dbo.SP_GetUserPermissions
 	-- Add the parameters for the stored procedure here
-	@UserId INT
+	@UserName NVARCHAR(500)
 AS
 BEGIN
 	DECLARE @PermissionIds NVARCHAR(MAX)
 	DECLARE @ParentIds NVARCHAR(MAX)
+	DECLARE @UserId INT
+	SELECT @UserId=Id FROM dbo.Users WHERE UserName=@UserName AND Status=0
 	SELECT @PermissionIds = STUFF(
 		(
 			SELECT PermissionIds + ',' FROM dbo.RolePermissions p 

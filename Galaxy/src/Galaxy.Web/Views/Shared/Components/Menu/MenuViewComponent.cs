@@ -15,12 +15,10 @@ namespace Galaxy.Web.Components
     public class MenuViewComponent : ViewComponent
     {
         private readonly IMenuAppService menuAppService;
-        private readonly IUserAppService userAppService;
         private readonly SuperAdmin super;
-        public MenuViewComponent(IMenuAppService _menuAppService, IUserAppService _userAppService, IOptions<SuperAdmin> options)
+        public MenuViewComponent(IMenuAppService _menuAppService, IOptions<SuperAdmin> options)
         {
             menuAppService = _menuAppService;
-            userAppService = _userAppService;
             super = options.Value;
         }
 
@@ -35,8 +33,7 @@ namespace Galaxy.Web.Components
             }
             else
             {
-                int Id = await userAppService.GetUserId(strUserName);
-                menus = await menuAppService.GetUserPermissions(Id);
+                menus = await menuAppService.GetUserPermissions(strUserName);
             }
 
             return View(menus);
