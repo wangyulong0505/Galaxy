@@ -32,7 +32,6 @@ namespace Galaxy.Web.Controllers
             return View(userList);
         }
 
-        [Resource("用户管理", Action = "添加用户")]
         public IActionResult UsersAdd()
         {
             return View();

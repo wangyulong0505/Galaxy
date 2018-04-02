@@ -25,6 +25,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Galaxy.Web.Attributes;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Galaxy.Web.Startup
 {
@@ -48,9 +49,9 @@ namespace Galaxy.Web.Startup
             });
             //添加对mysql的支持
             /*
-            services.AddDbContext<GalaxyDbContext>(options =>
+            services.AddAbpDbContext<GalaxyDbContext>(options =>
             {
-                options.UseMySQL(Configuration.GetConnectionString("MySqlConnection"));
+                DbContextOptionsConfigurer.ConfigureMySql(options.DbContextOptions, options.ConnectionString);
             });
             */
             #endregion
@@ -159,10 +160,10 @@ namespace Galaxy.Web.Startup
             #endregion
 
             #region 注册IAuthorizationPolicyProvider和IApplicationModelProvider
-
+            /*
             services.TryAdd(ServiceDescriptor.Transient<IAuthorizationPolicyProvider, ResourceAuthorizationPolicyProvider>());
             services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResourceApplicationModelProvider>());
-
+            */
             #endregion
 
             #region 添加页面安全验证

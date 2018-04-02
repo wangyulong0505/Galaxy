@@ -12,5 +12,14 @@ namespace Galaxy.EntityFrameworkCore
             /* This is the single point to configure DbContextOptions for GalaxyDbContext */
             dbContextOptions.UseSqlServer(connectionString);
         }
+
+        public static void ConfigureMySql(
+            DbContextOptionsBuilder<GalaxyDbContext> dbContextOptions,
+            string connectionString
+            )
+        {
+            /* This is the single point to configure DbContextOptions for GalaxyDbContext */
+            dbContextOptions.UseMySQL(connectionString);
+        }
     }
 }
